@@ -1,6 +1,6 @@
   view: issue_type {
 
-    sql_table_name: JIRA.ISSUE_TYPE ;;
+    sql_table_name: jira.issue_type;;
 
     dimension: id {
       primary_key: yes
@@ -19,22 +19,22 @@
         quarter,
         year
       ]
-      sql: ${TABLE}._FIVETRAN_SYNCED ;;
+      sql: ${TABLE}._fivetran_synced ;;
     }
 
     dimension: description {
       type: string
-      sql: ${TABLE}.DESCRIPTION ;;
+      sql: ${TABLE}.description ;;
     }
 
     dimension: name {
       type: string
-      sql: ${TABLE}.NAME ;;
+      sql: ${TABLE}.name ;;
     }
 
     dimension: subtask {
       type: yesno
-      sql: ${TABLE}.SUBTASK ;;
+      sql: ${TABLE}.subtask ;;
     }
 
     dimension: is_bug {

@@ -1,9 +1,9 @@
 view: issue_custom_single_user_history {
-  sql_table_name: JIRA.ISSUE_CUSTOM_SINGLE_USER_HISTORY ;;
+  sql_table_name: jira.issue_custom_single_user_history ;;
 
   dimension: _fivetran_synced {
     type: string
-    sql: ${TABLE}._FIVETRAN_SYNCED ;;
+    sql: ${TABLE}._fivetran_syned ;;
   }
 
   dimension: issue_id {

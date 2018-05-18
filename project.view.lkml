@@ -1,5 +1,5 @@
   view: project {
-    sql_table_name: JIRA.PROJECT ;;
+    sql_table_name: jira.project ;;
 
     dimension: id {
       primary_key: yes
@@ -7,7 +7,7 @@
       sql: ${TABLE}.ID ;;
     }
 
-    dimension_group: _FIVETRAN_SYNCED {
+    dimension_group: _fivetran_syned {
       type: time
       timeframes: [
         raw,
@@ -23,17 +23,17 @@
 
     dimension: description {
       type: string
-      sql: ${TABLE}.DESCRIPTION ;;
+      sql: ${TABLE}.description ;;
     }
 
     dimension: name {
       type: string
-      sql: ${TABLE}.NAME ;;
+      sql: ${TABLE}.name ;;
     }
 
     dimension: project_category_id {
       type: number
-      sql: ${TABLE}.PROJECT_CATEGORY_ID ;;
+      sql: ${TABLE}.project_category_id ;;
     }
 
     measure: count {

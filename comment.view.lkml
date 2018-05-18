@@ -1,5 +1,5 @@
   view: comment {
-    sql_table_name: JIRA.COMMENT ;;
+    sql_table_name: jira.comment ;;
 
     dimension: id {
       primary_key: yes
@@ -18,7 +18,7 @@
         quarter,
         year
       ]
-      sql: ${TABLE}._FIVETRAN_SYNCED ;;
+      sql: ${TABLE}._fivetran_syned ;;
     }
 
     dimension: author_id {

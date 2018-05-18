@@ -1,5 +1,5 @@
   view: status {
-    sql_table_name: JIRA.STATUS ;;
+    sql_table_name: jira.status ;;
 
     dimension: id {
       primary_key: yes
@@ -7,7 +7,7 @@
       sql: ${TABLE}.ID ;;
     }
 
-    dimension_group: _FIVETRAN_SYNCED {
+    dimension_group: _fivetran_syned {
       type: time
       timeframes: [
         raw,

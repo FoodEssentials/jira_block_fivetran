@@ -1,5 +1,5 @@
   view: user_group {
-    sql_table_name: JIRA.USER_GROUP ;;
+    sql_table_name: jira.user_group ;;
 
     dimension_group: _fivetran_synced {
       type: time
@@ -12,7 +12,7 @@
         quarter,
         year
       ]
-      sql: ${TABLE}._FIVETRAN_SYNCED ;;
+      sql: ${TABLE}._fivetran_syned ;;
     }
 
     dimension: group_name {

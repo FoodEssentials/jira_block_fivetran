@@ -1,5 +1,5 @@
   view: resolution {
-    sql_table_name: JIRA.RESOLUTION ;;
+    sql_table_name: jira.resolution ;;
 
     dimension: id {
       primary_key: yes
@@ -18,7 +18,7 @@
         quarter,
         year
       ]
-      sql: ${TABLE}._FIVETRAN_SYNCED ;;
+      sql: ${TABLE}._fivetran_syned ;;
     }
 
     dimension: description {

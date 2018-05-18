@@ -1,9 +1,9 @@
 view: issue_labels {
-  sql_table_name: JIRA.ISSUE_LABELS ;;
+  sql_table_name: jira.issue_labels ;;
 
   dimension: _fivetran_synced {
     type: string
-    sql: ${TABLE}._FIVETRAN_SYNCED ;;
+    sql: ${TABLE}._fivetran_syned ;;
   }
 
   dimension: issue_id {

@@ -1,5 +1,5 @@
   view: issue_sprint_history {
-    sql_table_name: JIRA.ISSUE_SPRINT_HISTORY ;;
+    sql_table_name: jira.issue_sprint_history;;
 
     dimension_group: _fivetran_synced {
       type: time
@@ -12,7 +12,7 @@
         quarter,
         year
       ]
-      sql: ${TABLE}._FIVETRAN_SYNCED ;;
+      sql: ${TABLE}._fivetran_syned ;;
     }
 
     dimension: issue_id {

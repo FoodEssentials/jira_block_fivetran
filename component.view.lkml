@@ -1,5 +1,5 @@
   view: component {
-    sql_table_name: JIRA.COMPONENT ;;
+    sql_table_name: jira.component;;
 
     dimension: id {
       primary_key: yes
@@ -18,7 +18,7 @@
         quarter,
         year
       ]
-      sql: ${TABLE}._FIVETRAN_SYNCED ;;
+      sql: ${TABLE}._fivetran_syned ;;
     }
 
     dimension: description {

@@ -1,5 +1,5 @@
   view: board {
-    sql_table_name: JIRA.BOARD ;;
+    sql_table_name: jira.board ;;
 
     dimension: id {
       primary_key: yes
@@ -18,12 +18,12 @@
         quarter,
         year
       ]
-      sql: ${TABLE}._FIVETRAN_SYNCED ;;
+      sql: ${TABLE}._fivetran_synced ;;
     }
 
     dimension: name {
       type: string
-      sql: ${TABLE}.NAME ;;
+      sql: ${TABLE}.name ;;
     }
 
     dimension: type {

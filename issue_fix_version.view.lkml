@@ -1,9 +1,9 @@
 view: issue_fix_version {
-  sql_table_name: JIRA.ISSUE_FIX_VERSION ;;
+  sql_table_name: jira.issue_fix_version ;;
 
   dimension: _fivetran_synced {
     type: string
-    sql: ${TABLE}._FIVETRAN_SYNCED ;;
+    sql: ${TABLE}._fivetran_syned ;;
   }
 
   dimension: issue_id {
