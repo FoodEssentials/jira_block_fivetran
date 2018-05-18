@@ -1,4 +1,4 @@
-connection: "connection_name"
+connection: "bigquery"
 
 # include all the views
 include: "*.view"
@@ -38,6 +38,11 @@ explore: version {
     type: left_outer
     relationship: one_to_one
     sql_on: ${issue_fix_version.issue_id} = ${issue.id} ;;
+  }
+  join: issue_extended {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${issue_fix_version.issue_id} = ${issue_extended.id} ;;
   }
 }
 

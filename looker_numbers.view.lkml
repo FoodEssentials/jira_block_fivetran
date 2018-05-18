@@ -1,11 +1,11 @@
 explore: looker_numbers {}
 
 view: looker_numbers {
-#   Numbers table used for sprint burndown
+#  Numbers table used for sprint burndown
 derived_table: {
   sql: SELECT
-        p0.n
-        + p1.n*2
+       p0.n
+       + p1.n*2
         + p2.n * POWER(2,2)
         + p3.n * POWER(2,3)
         + p4.n * POWER(2,4)
@@ -27,13 +27,12 @@ derived_table: {
         (SELECT 0 as n UNION SELECT 1) p7,
         (SELECT 0 as n UNION SELECT 1) p8,
         (SELECT 0 as n UNION SELECT 1) p9,
-        (SELECT 0 as n UNION SELECT 1) p10
+        (SELECT 0 as n UNION SELECT 1) p10 ;;
 
- ;;
-  indexes: ["number"]
+
+
   persist_for: "24 hours"
-  # For Redshift only
-  #distribution_style: all
+
 }
 
 measure: count {
