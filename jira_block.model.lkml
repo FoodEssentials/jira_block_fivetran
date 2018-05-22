@@ -84,7 +84,7 @@ explore: project {
     relationship: many_to_one
   }
   join: sprint {
-    from: sprint_details
+    from: sprint
     type: left_outer
     sql_on: ${issue_sprint.sprint_id} = ${sprint.id} ;;
     relationship: many_to_one

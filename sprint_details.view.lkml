@@ -1,10 +1,15 @@
+# Yisi - used sprint instead of sprint_details, don't think we have information embedded in the sprint name
 view: sprint_details {
 # If you have information embedded in the Sprint Name, extract that data into
 # separate columns in this derived table
 # Otherwise, it's identical to the Sprint table
 derived_table: {
-    sql: select *, trim(split_part(name,'-',1)) as release, trim(split_part(name,'-',2)) as sprint, trim(split_part(name,'-',3)) as team
-    from jira.sprint where name ~ 'R[0-9]+\s*-\s*S[0-9]+\s*-\s*.*'
+    sql:SELECT
+          *,
+          trim(split_part(name,'-',1)) as release, trim(split_part(name,'-',2)) as sprint,
+          trim(split_part(name,'-',3)) as team
+        FROM jira.sprint
+        WHERE REGEXP_CONTAINS(name, r'[0-9]+\s*-\s*S[0-9]+\s*-\s*.*')
       ;;
   }
 
