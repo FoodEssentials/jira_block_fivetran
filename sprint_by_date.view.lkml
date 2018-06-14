@@ -4,12 +4,14 @@ view: sprint_by_date {
     # For Redshift only
     #sortkeys: ["sprint_id","issue_id"]
     #distribution_style: all
-    sql: SELECT "issue_id",
-       "time" as start_time,
-       (select NVL(min(time), '9999-01-01') as end_time from jira.issue_sprint_history ish2
+    sql:
+        SELECT
+          "issue_id",
+          "time" as start_time,
+          (select NVL(min(time), '9999-01-01') as end_time from jira.issue_sprint_history ish2
           where ish2.issue_id = ish.issue_id and ish2.time > ish.time) as end_time,
-       "value",
-       "sprint_id"
+          "value",
+          "sprint_id"
         FROM jira.issue_sprint_history ish
         UNION
         SELECT ist.issue_id as issue_id,

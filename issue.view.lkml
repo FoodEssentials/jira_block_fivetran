@@ -151,7 +151,7 @@ view: issue {
     group_label: "Resolution"
     label: "Time to Resolve (Hours)"
     type: number
-    sql: DATEDIFF(h,${created_raw},${resolved_raw}) ;;
+    sql: TIMESTAMP_DIFF(${resolved_raw}, ${created_raw}, HOUR) ;;
     value_format_name: decimal_0
   }
 
@@ -159,7 +159,7 @@ view: issue {
     group_label: "Resolution"
     label: "Time to Resolve (Minutes)"
     type: number
-    sql: DATEDIFF(m,${created_raw},${resolved_raw}) ;;
+    sql: DATE_DIFF(DATE(${resolved_raw}), DATE(${created_raw}), MONTH) ;;
     value_format_name: decimal_0
   }
 
@@ -167,7 +167,7 @@ view: issue {
     group_label: "Resolution"
     label: "Time to Resolve (Days)"
     type: number
-    sql: DATEDIFF(d,${created_raw},${resolved_raw}) ;;
+    sql: DATE_DIFF(DATE(${resolved_raw}), DATE(${created_raw}), DAY) ;;
     value_format_name: decimal_0
   }
 
