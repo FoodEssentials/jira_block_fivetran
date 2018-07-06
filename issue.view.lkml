@@ -221,6 +221,15 @@ view: issue {
     sql: ${story_points} ;;
   }
 
+  measure: total_story_points_closed_within_sprint {
+    type: sum
+    sql:
+      CASE WHEN ${resolved_date} >= ${sprint.start_date} AND ${resolved_date} <= ${sprint.complete_date}
+      THEN ${story_points}
+      ELSE NULL
+      END;;
+  }
+
 # # measure: total_open_story_points {
 #    type: sum
 #    sql: ${story_points} ;;
