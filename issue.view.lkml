@@ -41,6 +41,11 @@ view: issue {
     sql: ${TABLE}._time_spent ;;
   }
 
+  measure: total_time_spent {
+    type: sum
+    sql: ${_time_spent} ;;
+  }
+
   dimension: assignee {
     type: string
     sql: ${TABLE}.assignee ;;
