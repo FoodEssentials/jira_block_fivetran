@@ -30,7 +30,7 @@ view: issue_extended {
                -- department_name is used as an example of a custom single
                -- value select field.  Use it as a template for your single
                -- select fields
-               ,department.name as department_name
+               -- ,department.name as department_name
 
                ,project.name as project_name
                ,resolution.name as resolution_name
@@ -52,7 +52,7 @@ view: issue_extended {
                -- supported_browsers is used as an example of a multi value
                -- select field.  Use it as a template for your multi-value
                -- select fields
-               ,LISTAGG(issue_supported_browsers.value, ', ') as browser_list
+               -- ,LISTAGG(issue_supported_browsers.value, ', ') as browser_list
 
                ,LISTAGG(component.name, ', ') as component_list
                ,LISTAGG(version.name, ', ') as fix_version_list
@@ -65,8 +65,8 @@ view: issue_extended {
          -- be in the field_option table.  The
          -- field_option table must have a unique alias
          -- each time it is referenced
-         LEFT OUTER JOIN jira.field_option department -- unique alias
-            ON issue.department = department.id
+         -- LEFT OUTER JOIN jira.field_option department -- unique alias
+            -- ON issue.department = department.id
          LEFT OUTER JOIN jira.project
             ON issue.project = project.id
          LEFT OUTER JOIN jira.field_option severity -- unique alias
@@ -77,19 +77,19 @@ view: issue_extended {
             ON issue.issue_type = issue_type.id
 
          -- Multi-value fields
-         LEFT OUTER JOIN jira.issue_supported_browsers
-            ON issue.id = issue_supported_browsers.issue_id
+         -- LEFT OUTER JOIN jira.issue_supported_browsers
+            -- ON issue.id = issue_supported_browsers.issue_id
 
          -- Multi vlaue field that stores ids.  In this example
          -- the issue_component table stores component_id's
          -- which are looked up in the component table
-         LEFT OUTER JOIN jira.issue_component
-            ON issue.id = issue_component.issue_id
+         LEFT OUTER JOIN jira.issue_component_s
+            ON issue.id = issue_component_s.issue_id
          LEFT OUTER JOIN jira.component
-            ON issue_component.component_id = component.id
+            ON issue_component_s.component_id = component.id
 
-         LEFT OUTER JOIN jira.issue_fix_version
-            ON issue.id = issue_fix_version.issue_id
+         LEFT OUTER JOIN jira.issue_fix_version_s
+            ON issue.id = issue_fix_version_s.issue_id
          LEFT OUTER JOIN jira.version
             ON issue_fix_version_s.version_id = version.id
 
@@ -168,17 +168,17 @@ view: issue_extended {
     sql: ${TABLE}.created ;;
   }
 
-  dimension: department {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.op_department ;;
-  }
+#  dimension: department {
+#    hidden: yes
+#    type: number
+#    sql: ${TABLE}.op_department ;;
+#  }
 
   # Additional dimension for the denormailzed department_name
-  dimension: department_name {
-    type: string
-    sql: ${TABLE}.op_department_name ;;
-  }
+#  dimension: department_name {
+#    type: string
+#    sql: ${TABLE}.op_department_name ;;
+#  }
 
   dimension: description {
     type: string

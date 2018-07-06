@@ -71,11 +71,11 @@ view: issue {
     sql: ${TABLE}.created ;;
   }
 
-  dimension: department {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.op_department ;;
-  }
+#  dimension: department {
+#    hidden: yes
+#    type: number
+#   sql: ${TABLE}.op_department ;;
+#  }
 
   dimension: description {
     type: string
