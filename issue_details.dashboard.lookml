@@ -229,7 +229,7 @@
     - issue.project
     - issue.due_date
     - issue.environment
-    - issue.external_issue_id
+    # - issue.external_issue_id
     - issue._original_estimate
     - issue.original_estimate
     limit: 500

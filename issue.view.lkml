@@ -21,9 +21,14 @@ view: issue {
     sql: ${TABLE}._fivetran_synced ;;
   }
 
-  dimension: external_issue_id {
+#  dimension: external_issue_id {
+#    type: string
+#    sql: ${TABLE}.external_issue_id ;;
+#  }
+
+   dimension: key {
     type: string
-    sql: ${TABLE}.external_issue_id ;;
+    sql: ${TABLE}.key ;;
   }
 
   dimension: _original_estimate {
