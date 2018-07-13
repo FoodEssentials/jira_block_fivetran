@@ -4,7 +4,7 @@ view: sprint {
   dimension: id {
     primary_key: yes
     type: number
-    sql: ${TABLE}.ID ;;
+    sql: ${TABLE}.id ;;
   }
 
   dimension_group: _fivetran_synced {
@@ -52,7 +52,7 @@ view: sprint {
       quarter,
       year
     ]
-    sql: ${TABLE}.END_DATE ;;
+    sql: ${TABLE}.end_date ;;
   }
 
   dimension: name {
@@ -71,7 +71,7 @@ view: sprint {
       quarter,
       year
     ]
-    sql: ${TABLE}.START_DATE  ;;
+    sql: ${TABLE}.start_date  ;;
   }
 
   measure: count {

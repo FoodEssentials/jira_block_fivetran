@@ -194,15 +194,8 @@ explore: sprint_by_date {
 
 
 explore: sprint_burndown {
-  view_name: looker_calendar
-  join: issue {
-    type: left_outer
-    sql_on:
-    ${looker_calendar.series_date_raw} >= ${issue.created_raw}
-    AND ${looker_calendar.series_date_raw} <= NVL(${issue.resolved_raw},current_date)
-    ;;
-    relationship: one_to_many
-  }
+  view_name: issue
+
   join: issue_sprint {
     type: left_outer
     sql_on: ${issue.id} = ${issue_sprint.issue_id} ;;
@@ -225,10 +218,6 @@ explore: sprint_burndown {
     relationship: many_to_one
   }
 
-  sql_always_where:
-   ${looker_calendar.series_date_raw} >= ${sprint.start_raw}
-  AND ${looker_calendar.series_date_raw} <= ${sprint.end_raw}
-  ;;
   #always_filter: {
   #  filters: {
   #    field: sprint.name

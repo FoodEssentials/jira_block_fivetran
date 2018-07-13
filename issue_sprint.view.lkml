@@ -25,13 +25,13 @@
     dimension: issue_id {
       type: number
       # hidden: yes
-      sql: ${TABLE}.ISSUE_ID ;;
+      sql: ${TABLE}.issue_id ;;
     }
 
     dimension: sprint_id {
       type: number
       # hidden: yes
-      sql: ${TABLE}.SPRINT_ID ;;
+      sql: ${TABLE}.sprint_id ;;
     }
 
     measure: count {

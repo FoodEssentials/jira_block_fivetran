@@ -3,7 +3,8 @@ view: sprint_start_points {
 #   for burndown.  This calculation isn't entirely accurate as it's possible that an
 #   existing issue could be assigned to this sprint after the first day
   derived_table: {
-    sql: SELECT sprint.id, sprint.name, sum(issue.story_points) as start_points
+    sql:
+    SELECT sprint.id, sprint.name, sum(issue.story_points) as start_points
       FROM jira.sprint AS sprint
       JOIN jira.issue_sprint AS issue_sprint
          ON sprint.id = issue_sprint.sprint_id

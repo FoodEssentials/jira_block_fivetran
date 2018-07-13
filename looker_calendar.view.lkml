@@ -10,15 +10,14 @@ derived_table: {
 
   sql:
       SELECT
-          DATEADD(day,CAST(numbers.number AS INT), '2013-01-01') as series_date
-      FROM ${looker_numbers.SQL_TABLE_NAME} AS numbers ;;
-
+          (DATE_ADD(DATE(CURRENT_TIMESTAMP()), INTERVAL -1* number DAY)) as series_date
+      FROM UNNEST(GENERATE_ARRAY(0, 2047)) AS number ;;
 
   }
 
   dimension_group: series_date {
     type: time
-    timeframes: [raw,date,month,quarter,year]
+    timeframes: [raw, date, month, quarter, year]
     sql: ${TABLE}.series_date ;;
   }
 
