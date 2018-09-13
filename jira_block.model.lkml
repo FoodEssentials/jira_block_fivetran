@@ -74,11 +74,13 @@ explore: issue_history_2 {
     sql_on: ${issue.id} = ${issue_history_all.issue_id} ;;
     relationship: many_to_one
   }
+
   join: issue_sprint {
     type: left_outer
     sql_on: ${issue_sprint.issue_id} = ${issue.id} ;;
     relationship: many_to_one
   }
+
   join: sprint {
     from: sprint
     type: left_outer

@@ -1,5 +1,5 @@
-view: issue_status_history {
-  sql_table_name: jira.issue_status_history ;;
+view: issue_epic_status_history {
+  sql_table_name: jira.issue_epic_status_history ;;
 
   dimension: _fivetran_id {
     type: string
@@ -20,14 +20,14 @@ view: issue_status_history {
     sql: ${TABLE}._fivetran_synced ;;
   }
 
+  dimension: field_option_id {
+    type: number
+    sql: ${TABLE}.field_option_id ;;
+  }
+
   dimension: issue_id {
     type: number
     sql: ${TABLE}.issue_id ;;
-  }
-
-  dimension: status_id {
-    type: number
-    sql: ${TABLE}.status_id ;;
   }
 
   dimension_group: time {
