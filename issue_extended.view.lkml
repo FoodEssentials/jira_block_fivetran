@@ -19,7 +19,9 @@ explore: issue_extended {}
 view: issue_extended {
   derived_table: {
     datagroup_trigger: fivetran_datagroup
-    sql: SELECT issue.*
+    sql:
+        SELECT
+              issue.*,
                -- Include the values associated with foreign keys
                -- in the issue table
                -- if you add a field in this section, you will
@@ -31,12 +33,12 @@ view: issue_extended {
                -- value select field.  Use it as a template for your single
                -- select fields
                -- ,department.name as department_name
-
-               ,project.name as project_name
-               ,resolution.name as resolution_name
-               ,severity.name as severity_name
-               ,status.name as status_name
-               ,issue_type.name as issue_type_name
+              _field.name as name,
+              project.name as project_name,
+              resolution.name as resolution_name,
+              severity.name as severity_name,
+              status.name as status_name,
+              issue_type.name as issue_type_name,
 
                -- Include all of the values for multi-value fields associated
                -- with the issue. Each of these fields is stored in its
@@ -54,19 +56,20 @@ view: issue_extended {
                -- select fields
                -- ,LISTAGG(issue_supported_browsers.value, ', ') as browser_list
 
-               ,LISTAGG(component.name, ', ') as component_list
-               ,LISTAGG(version.name, ', ') as fix_version_list
-               ,LISTAGG(issue_link.related_issue_id, ', ') as related_issues_list
+               LISTAGG(component.name, ', ') as component_list,
+               LISTAGG(version.name, ', ') as fix_version_list,
+               LISTAGG(issue_link.related_issue_id, ', ') as related_issues_list
 
-         FROM jira.issue issue
+        FROM jira.issue issue
          -- Single value fields.
          -- If the field contains an id, look it up
          -- in the appropriate table.  Many of them will
          -- be in the field_option table.  The
          -- field_option table must have a unique alias
          -- each time it is referenced
-         -- LEFT OUTER JOIN jira.field_option department -- unique alias
-            -- ON issue.department = department.id
+        LEFT JOIN jira.field_option _field
+          ON issue.bug_pain = _field.id
+
          LEFT OUTER JOIN jira.project
             ON issue.project = project.id
          LEFT OUTER JOIN jira.field_option severity -- unique alias
@@ -126,11 +129,7 @@ view: issue_extended {
       year
     ]
     sql: ${TABLE}._fivetran_synced ;;
-  }
-
-  dimension: external_issue_id {
-    type: string
-    sql: ${TABLE}.external_issue_id ;;
+    hidden: yes
   }
 
   dimension: _original_estimate {
@@ -148,9 +147,86 @@ view: issue_extended {
     sql: ${TABLE}._time_spent ;;
   }
 
+  dimension: asana_link {
+    type: string
+    sql: ${TABLE}.asana_link ;;
+  }
+
   dimension: assignee {
     type: string
     sql: ${TABLE}.assignee ;;
+  }
+
+  dimension: bug_cost {
+    type: number
+    sql: ${TABLE}.bug_cost ;;
+  }
+
+  dimension: bug_pain {
+    type: number
+    sql: ${TABLE}.bug_pain ;;
+    hidden: yes
+  }
+
+  #Extended dimension
+  dimension: bug_pain_name {
+    type: string
+    sql: ${TABLE}.bug_pain_name ;;
+  }
+
+  dimension: bug_priority {
+    type: number
+    sql: ${TABLE}.bug_priority ;;
+  }
+
+  dimension: bug_severity {
+    type: number
+    sql: ${TABLE}.bug_severity ;;
+  }
+
+  dimension: bug_spread {
+    type: number
+    sql: ${TABLE}.bug_spread ;;
+  }
+
+  dimension: business_value {
+    type: string
+    sql: ${TABLE}.business_value ;;
+  }
+
+  dimension: change_risk {
+    type: number
+    sql: ${TABLE}.change_risk ;;
+  }
+
+  dimension_group: change_start {
+    group_label: "Dates"
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.change_start_date ;;
+  }
+
+  dimension: change_type {
+    type: number
+    sql: ${TABLE}.change_type ;;
+  }
+
+  dimension: characteristic {
+    type: string
+    sql: ${TABLE}.characteristic ;;
+  }
+
+  dimension: client {
+    type: number
+    sql: ${TABLE}.client ;;
   }
 
   dimension_group: created {
@@ -168,17 +244,25 @@ view: issue_extended {
     sql: ${TABLE}.created ;;
   }
 
-#  dimension: department {
-#    hidden: yes
-#    type: number
-#    sql: ${TABLE}.op_department ;;
-#  }
+  dimension: creator {
+    type: string
+    sql: ${TABLE}.creator ;;
+  }
 
-  # Additional dimension for the denormailzed department_name
-#  dimension: department_name {
-#    type: string
-#    sql: ${TABLE}.op_department_name ;;
-#  }
+  dimension: cs_priority {
+    type: number
+    sql: ${TABLE}.cs_priority ;;
+  }
+
+  dimension: current_value {
+    type: string
+    sql: ${TABLE}.current_value ;;
+  }
+
+  dimension: customer {
+    type: number
+    sql: ${TABLE}.customer ;;
+  }
 
   dimension: description {
     type: string
@@ -190,14 +274,19 @@ view: issue_extended {
     type: time
     timeframes: [
       raw,
+      time,
       date,
       week,
       month,
       quarter,
       year
     ]
-    convert_tz: no
     sql: ${TABLE}.due_date ;;
+  }
+
+  dimension: end_users {
+    type: string
+    sql: ${TABLE}.end_users ;;
   }
 
   dimension: environment {
@@ -205,46 +294,214 @@ view: issue_extended {
     sql: ${TABLE}.environment ;;
   }
 
-  dimension: issue_type {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.issue_type ;;
+  dimension: epic_color {
+    type: string
+    sql: ${TABLE}.epic_color ;;
   }
 
-  # Additional dimension for the denormailzed issue_type_name
+  dimension: epic_link {
+    type: number
+    sql: ${TABLE}.epic_link ;;
+  }
+
+  dimension: epic_name {
+    type: string
+    sql: ${TABLE}.epic_name ;;
+  }
+
+  dimension: epic_status {
+    type: number
+    sql: ${TABLE}.epic_status ;;
+  }
+
+  dimension: epic_theme {
+    type: string
+    sql: ${TABLE}.epic_theme ;;
+  }
+
+  dimension: flagged {
+    type: number
+    sql: ${TABLE}.flagged ;;
+  }
+
+  dimension: freshdesk_tickets {
+    type: string
+    sql: ${TABLE}.freshdesk_tickets ;;
+  }
+
+  dimension: impact {
+    type: number
+    sql: ${TABLE}.impact ;;
+  }
+
+  dimension: initiative {
+    type: number
+    sql: ${TABLE}.initiative ;;
+  }
+
+  dimension: issue_type {
+    type: number
+    sql: ${TABLE}.issue_type ;;
+    hidden: yes
+  }
+
+  #Exteneded dimension
   dimension: issue_type_name {
     type: string
     sql: ${TABLE}.issue_type_name ;;
   }
 
+  dimension: jira_capture_browser {
+    type: string
+    sql: ${TABLE}.jira_capture_browser ;;
+  }
+
+  dimension: jira_capture_document_mode {
+    type: string
+    sql: ${TABLE}.jira_capture_document_mode ;;
+  }
+
+  dimension: jira_capture_j_query_version {
+    type: string
+    sql: ${TABLE}.jira_capture_j_query_version ;;
+  }
+
+  dimension: jira_capture_operating_system {
+    type: string
+    sql: ${TABLE}.jira_capture_operating_system ;;
+  }
+
+  dimension: jira_capture_screen_resolution {
+    type: string
+    sql: ${TABLE}.jira_capture_screen_resolution ;;
+  }
+
+  dimension: jira_capture_url {
+    type: string
+    sql: ${TABLE}.jira_capture_url ;;
+  }
+
+  dimension: jira_capture_user_agent {
+    type: string
+    sql: ${TABLE}.jira_capture_user_agent ;;
+  }
+
+  dimension: key {
+    type: string
+    sql: ${TABLE}.key ;;
+  }
+
+  dimension_group: last_viewed {
+    group_label: "Dates"
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.last_viewed ;;
+  }
+
+  dimension: manual_work {
+    type: number
+    sql: ${TABLE}.manual_work ;;
+  }
+
+  dimension: manufacturer {
+    type: number
+    sql: ${TABLE}.manufacturer ;;
+  }
+
+  dimension: model_type {
+    type: string
+    sql: ${TABLE}.model_type ;;
+  }
 
   dimension: original_estimate {
     type: number
     sql: ${TABLE}.original_estimate ;;
   }
 
-  dimension: project_id {
-    label: "Current Project"
-    hidden: yes
+  dimension: parent_id {
     type: number
-    sql: ${TABLE}.project ;;
+    sql: ${TABLE}.parent_id ;;
   }
 
-  # Additional dimension for the denormailzed project_name
+  dimension: parent_link {
+    type: number
+    sql: ${TABLE}.parent_link ;;
+  }
+
+  dimension: priority {
+    type: number
+    sql: ${TABLE}.priority ;;
+  }
+
+  dimension: product_description {
+    type: string
+    sql: ${TABLE}.product_description ;;
+  }
+
+  dimension: product_id {
+    type: string
+    sql: ${TABLE}.product_id ;;
+  }
+
+  dimension: products {
+    type: number
+    sql: ${TABLE}.products ;;
+  }
+
+  dimension: project {
+    type: number
+    sql: ${TABLE}.project ;;
+    hidden: yes
+  }
+
+  #Extended dimension
   dimension: project_name {
     label: "Current Project"
     type: string
     sql: ${TABLE}.project_name ;;
   }
 
-  dimension: resolution {
-    group_label: "Resolution"
-    hidden: yes
-    type: number
-    sql: ${TABLE}.resolution ;;
+  dimension: prospect {
+    type: string
+    sql: ${TABLE}.prospect ;;
   }
 
-  # Additional dimension for the denormailzed resolution_name
+  dimension: purpose {
+    type: number
+    sql: ${TABLE}.purpose ;;
+  }
+
+  dimension: raised_during {
+    type: string
+    sql: ${TABLE}.raised_during ;;
+  }
+
+  dimension: remaining_estimate {
+    type: number
+    sql: ${TABLE}.remaining_estimate ;;
+  }
+
+  dimension: reporter {
+    type: string
+    sql: ${TABLE}.reporter ;;
+  }
+
+  dimension: resolution {
+    group_label: "Resolution"
+    type: number
+    sql: ${TABLE}.resolution ;;
+    hidden: yes
+  }
+
+  #Extended dimension
   dimension: resolution_name {
     group_label: "Resolution"
     type: string
@@ -266,8 +523,184 @@ view: issue_extended {
     sql: ${TABLE}.resolved ;;
   }
 
-  # Additional field for a simple way to determine
-  # if an issue is resolved
+  dimension: response_type {
+    type: number
+    sql: ${TABLE}.response_type ;;
+  }
+
+  dimension: sales_lead {
+    type: string
+    sql: ${TABLE}.sales_lead ;;
+  }
+
+  dimension: sales_request {
+    type: number
+    sql: ${TABLE}.sales_request ;;
+  }
+
+  dimension: salesforce_opportunity_link {
+    type: string
+    sql: ${TABLE}.salesforce_opportunity_link ;;
+  }
+
+  dimension_group: satisfaction {
+    group_label: "Dates"
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.satisfaction_date ;;
+  }
+
+  dimension: serial_number {
+    type: string
+    sql: ${TABLE}.serial_number ;;
+  }
+
+  dimension: severity {
+    type: number
+    sql: ${TABLE}.severity ;;
+    hidden: yes
+  }
+
+  #Extended dimension
+  dimension: severity_name {
+    type: string
+    sql: ${TABLE}.severity_name ;;
+  }
+
+  dimension_group: start {
+    group_label: "Dates"
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.start_date ;;
+  }
+
+  dimension: status {
+    type: number
+    sql: ${TABLE}.status ;;
+    hidden: yes
+  }
+
+  #Extended dimension
+  dimension: status_name {
+    type: string
+    sql: ${TABLE}.status_name ;;
+  }
+
+  dimension: status_comment {
+    type: string
+    sql: ${TABLE}.status_comment ;;
+  }
+
+  dimension: story_points {
+    type: number
+    sql: ${TABLE}.story_points ;;
+  }
+
+  dimension: strategic_initiative {
+    type: number
+    sql: ${TABLE}.strategic_initiative ;;
+  }
+
+  dimension: summary {
+    type: string
+    sql: ${TABLE}.summary ;;
+  }
+
+  dimension: target {
+    type: string
+    sql: ${TABLE}.target ;;
+  }
+
+  dimension: test_sessions {
+    type: string
+    sql: ${TABLE}.test_sessions ;;
+  }
+
+  dimension: testing_status {
+    type: string
+    sql: ${TABLE}.testing_status ;;
+  }
+
+  dimension: time_spent {
+    type: number
+    sql: ${TABLE}.time_spent ;;
+  }
+
+  dimension: upc {
+    type: string
+    sql: ${TABLE}.upc ;;
+  }
+
+  dimension_group: updated {
+    group_label: "Dates"
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.updated ;;
+  }
+
+  dimension: user_email_address {
+    type: string
+    sql: ${TABLE}.user_email_address ;;
+  }
+
+  dimension: value {
+    type: number
+    sql: ${TABLE}.value ;;
+  }
+
+  dimension: work_ratio {
+    type: number
+    sql: ${TABLE}.work_ratio ;;
+  }
+
+  ## Additional dimensions for the LISTAGGS defined
+  ## in the query
+
+  dimension: browser_list {
+    type: string
+    sql: ${TABLE}.browser_list ;;
+  }
+
+  dimension: component_list {
+    type: string
+    sql: ${TABLE}.component_list ;;
+  }
+
+  dimension: fix_version_list {
+    type: string
+    sql: ${TABLE}.fix_version_list ;;
+  }
+
+  dimension: related_issues_list {
+    type: string
+    sql: ${TABLE}.related_issues_list ;;
+  }
+
+  # ----- Added Dimensions ------
   dimension: is_issue_resolved {
     group_label: "Resolution"
     type: yesno
@@ -299,6 +732,8 @@ view: issue_extended {
     value_format_name: decimal_0
   }
 
+
+  # ----- Measures ------
   measure: total_time_to_resolve_issues_hours {
     group_label: "Resolution"
     label: "Total Time to Resolve Issues per Grouping"
@@ -317,39 +752,12 @@ view: issue_extended {
     value_format_name: decimal_0
   }
 
-  dimension: severity {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.severity ;;
-  }
-
-  dimension: severity_name {
-    type: string
-    sql: ${TABLE}.severity_name ;;
-  }
-
-  dimension: status {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.status ;;
-  }
-
-  dimension: status_name {
-    type: string
-    sql: ${TABLE}.status_name ;;
-  }
-
-  dimension: story_points {
-    type: number
-    sql: ${TABLE}.story_points ;;
-  }
-
   measure: total_story_points {
     type: sum
     sql: ${story_points} ;;
   }
 
-# # measure: total_open_story_points {
+  # # measure: total_open_story_points {
 #    type: sum
 #    sql: ${story_points} ;;
 ##    filters: {
@@ -367,44 +775,6 @@ view: issue_extended {
 #    }
 #  }
 
-  dimension_group: updated {
-    group_label: "Dates"
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.updated ;;
-  }
-
-
-  ## Additional dimensions for the LISTAGGS defined
-  ## in the query
-
-  dimension: browser_list {
-    type: string
-    sql: ${TABLE}.browser_list ;;
-  }
-
-  dimension: component_list {
-    type: string
-    sql: ${TABLE}.component_list ;;
-  }
-
-  dimension: fix_version_list {
-    type: string
-    sql: ${TABLE}.fix_version_list ;;
-  }
-
-  dimension: related_issues_list {
-    type: string
-    sql: ${TABLE}.related_issues_list ;;
-  }
 
   measure: count {
     type: count
