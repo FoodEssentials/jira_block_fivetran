@@ -1,5 +1,10 @@
-view: issue_department_history {
-  sql_table_name: jira.issue_department_history ;;
+view: issue_story_points_history {
+  sql_table_name: jira.issue_story_points_history ;;
+
+  dimension: _fivetran_id {
+    type: string
+    sql: ${TABLE}._fivetran_id ;;
+  }
 
   dimension_group: _fivetran_synced {
     type: time
@@ -15,15 +20,8 @@ view: issue_department_history {
     sql: ${TABLE}._fivetran_synced ;;
   }
 
-  dimension: field_option_id {
-    type: number
-    # hidden: yes
-    sql: ${TABLE}.field_option_id ;;
-  }
-
   dimension: issue_id {
     type: number
-    # hidden: yes
     sql: ${TABLE}.issue_id ;;
   }
 
@@ -41,8 +39,13 @@ view: issue_department_history {
     sql: ${TABLE}.time ;;
   }
 
+  dimension: value {
+    type: number
+    sql: ${TABLE}.value ;;
+  }
+
   measure: count {
     type: count
-    #drill_fields: [issue.op_employee_name, issue.epic_name, issue.external_issue_id, field_option.id, field_option.name]
+    drill_fields: []
   }
 }

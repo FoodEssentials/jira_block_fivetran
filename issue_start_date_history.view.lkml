@@ -1,5 +1,5 @@
-view: issue_status_history {
-  sql_table_name: jira.issue_status_history ;;
+view: issue_start_date_history {
+  sql_table_name: jira.issue_start_date_history ;;
 
   dimension: _fivetran_id {
     type: string
@@ -25,11 +25,6 @@ view: issue_status_history {
     sql: ${TABLE}.issue_id ;;
   }
 
-  dimension: status_id {
-    type: number
-    sql: ${TABLE}.status_id ;;
-  }
-
   dimension_group: time {
     type: time
     timeframes: [
@@ -42,6 +37,20 @@ view: issue_status_history {
       year
     ]
     sql: ${TABLE}.time ;;
+  }
+
+  dimension_group: value {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.value ;;
   }
 
   measure: count {
