@@ -62,23 +62,18 @@ explore: issue_history_2 {
 #  fields: [ALL_FIELDS*, -issue.total_open_story_points,-issue.total_closed_story_points]
   view_name: issue
 
-# #  always_filter: {
-#     filters: {
-#       field: issue.id
-#       value: ""
-#     }
-#   }
-
   join: issue_history_all {
     type:  left_outer
     sql_on: ${issue.id} = ${issue_history_all.issue_id} ;;
     relationship: many_to_one
   }
+
   join: issue_sprint {
     type: left_outer
-    sql_on: ${issue_sprint.issue_id} = ${issue.id} ;;
+    sql_on: ${issue_sprint.issue_id} = ${issue_history_all.issue_id} ;;
     relationship: many_to_one
   }
+
   join: sprint {
     from: sprint
     type: left_outer
