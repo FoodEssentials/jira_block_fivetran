@@ -1,7 +1,6 @@
 view: issue {
   sql_table_name: jira.issue ;;
 
-# ----- Dimensions -----
   dimension: id {
     primary_key: yes
     type: number
@@ -112,7 +111,6 @@ view: issue {
   }
 
   dimension_group: created {
-    group_label: "Dates"
     type: time
     timeframes: [
       raw,
@@ -152,7 +150,6 @@ view: issue {
   }
 
   dimension_group: due {
-    group_label: "Dates"
     type: time
     timeframes: [
       raw,
@@ -216,6 +213,11 @@ view: issue {
     sql: ${TABLE}.impact ;;
   }
 
+  dimension: initiative {
+    type: number
+    sql: ${TABLE}.initiative ;;
+  }
+
   dimension: issue_type {
     type: number
     sql: ${TABLE}.issue_type ;;
@@ -275,6 +277,11 @@ view: issue {
     sql: ${TABLE}.last_viewed ;;
   }
 
+  dimension: manual_work {
+    type: number
+    sql: ${TABLE}.manual_work ;;
+  }
+
   dimension: manufacturer {
     type: number
     sql: ${TABLE}.manufacturer ;;
@@ -315,9 +322,24 @@ view: issue {
     sql: ${TABLE}.product_id ;;
   }
 
+  dimension: products {
+    type: number
+    sql: ${TABLE}.products ;;
+  }
+
   dimension: project {
     type: number
     sql: ${TABLE}.project ;;
+  }
+
+  dimension: prospect {
+    type: string
+    sql: ${TABLE}.prospect ;;
+  }
+
+  dimension: purpose {
+    type: number
+    sql: ${TABLE}.purpose ;;
   }
 
   dimension: raised_during {
@@ -336,13 +358,11 @@ view: issue {
   }
 
   dimension: resolution {
-    group_label: "Resolution"
     type: number
     sql: ${TABLE}.resolution ;;
   }
 
   dimension_group: resolved {
-    group_label: "Resolution"
     type: time
     timeframes: [
       raw,
@@ -361,9 +381,19 @@ view: issue {
     sql: ${TABLE}.response_type ;;
   }
 
+  dimension: sales_lead {
+    type: string
+    sql: ${TABLE}.sales_lead ;;
+  }
+
   dimension: sales_request {
     type: number
     sql: ${TABLE}.sales_request ;;
+  }
+
+  dimension: salesforce_opportunity_link {
+    type: string
+    sql: ${TABLE}.salesforce_opportunity_link ;;
   }
 
   dimension_group: satisfaction {
@@ -419,6 +449,11 @@ view: issue {
     sql: ${TABLE}.story_points ;;
   }
 
+  dimension: strategic_initiative {
+    type: number
+    sql: ${TABLE}.strategic_initiative ;;
+  }
+
   dimension: summary {
     type: string
     sql: ${TABLE}.summary ;;
@@ -450,7 +485,6 @@ view: issue {
   }
 
   dimension_group: updated {
-    group_label: "Dates"
     type: time
     timeframes: [
       raw,
@@ -469,12 +503,17 @@ view: issue {
     sql: ${TABLE}.user_email_address ;;
   }
 
+  dimension: value {
+    type: number
+    sql: ${TABLE}.value ;;
+  }
+
   dimension: work_ratio {
     type: number
     sql: ${TABLE}.work_ratio ;;
   }
 
-  # ----- Added Dimension ------
+# ----- Added Dimension ------
   dimension: is_issue_resolved {
     group_label: "Resolution"
     type: yesno
