@@ -18,7 +18,6 @@ explore: issue_extended {}
 
 view: issue_extended {
   derived_table: {
-    datagroup_trigger: fivetran_datagroup
     sql:
         SELECT
               issue.*,
@@ -33,12 +32,31 @@ view: issue_extended {
                -- value select field.  Use it as a template for your single
                -- select fields
                -- ,department.name as department_name
-              _field.name as name,
+              _assignee.name as assignee_name,
+              _bugcost.name as bug_cost_name,
+              _bugpain.name as bug_pain_name,
+              _bugspread.name as bug_spread_name,
+              _client.name as client_name,
+              _creator.name as creator_name,
+              _cs_priority.name as cs_priority_name,
+              _epic_link.name as epic_link_name,
+              _epic_status.name as epic_status_name,
+              _issue_type.name as _issue_type_name,
+              _priority.name as priority_name,
               project.name as project_name,
+              _reporter.name as reporter_name,
               resolution.name as resolution_name,
+              _sales_request.name as sales_request_name,
               severity.name as severity_name,
               status.name as status_name,
-              issue_type.name as issue_type_name,
+              _bugpriority.name as bug_priority_name,
+              _bugseverity.name as bug_severity_name,
+              _customer.name as customer_name,
+              _initiative.name as initiative_name,
+              _manual_work.name as manual_work_name,
+              _strategic_initiative.name as strategic_initiative_name,
+              _purpose.name as purpose_name,
+              _sales_lead.name as sales_lead_name,
 
                -- Include all of the values for multi-value fields associated
                -- with the issue. Each of these fields is stored in its
@@ -56,58 +74,118 @@ view: issue_extended {
                -- select fields
                -- ,LISTAGG(issue_supported_browsers.value, ', ') as browser_list
 
-               LISTAGG(component.name, ', ') as component_list,
-               LISTAGG(version.name, ', ') as fix_version_list,
-               LISTAGG(issue_link.related_issue_id, ', ') as related_issues_list
+               STRING_AGG(component.name, ', ') as component_list,
+               STRING_AGG(version.name, ', ') as fix_version_list,
+               STRING_AGG(CAST(issue_link.related_issue_id AS STRING), ', ') as related_issues_list
 
         FROM jira.issue issue
          -- Single value fields.
-         -- If the field contains an id, look it up
-         -- in the appropriate table.  Many of them will
-         -- be in the field_option table.  The
-         -- field_option table must have a unique alias
-         -- each time it is referenced
-        LEFT JOIN jira.field_option _field
-          ON issue.bug_pain = _field.id
+         -- If the field contains an id, look it up in the appropriate table.  Many of them will be in the field_option table.  The
+         -- field_option table must have a unique alias each time it is referenced
+        LEFT JOIN jira.user _assignee
+          ON issue.assignee = _assignee.id
 
-         LEFT OUTER JOIN jira.project
-            ON issue.project = project.id
-         LEFT OUTER JOIN jira.field_option severity -- unique alias
+        LEFT JOIN jira.field_option _bugcost
+          ON issue.bug_cost = _bugcost.id
+
+        LEFT JOIN jira.field_option _bugpain
+          ON issue.bug_pain = _bugpain.id
+
+        LEFT JOIN jira.field_option _bugspread
+          ON issue.bug_spread = _bugspread.id
+
+        LEFT JOIN jira.field_option _client
+          ON issue.client = _client.id
+
+        LEFT JOIN jira.user _creator
+          ON issue.creator = _creator.id
+
+        LEFT JOIN jira.field_option _cs_priority
+          ON issue.cs_priority = _cs_priority.id
+
+        LEFT JOIN jira.epic _epic_link
+          ON issue.epic_link = _epic_link.id
+
+        LEFT JOIN jira.field_option _epic_status
+          ON issue.epic_status = _epic_status.id
+
+        LEFT JOIN jira.issue_type _issue_type
+          ON issue.issue_type = _issue_type.id
+
+        LEFT JOIN jira.priority _priority
+          ON issue.priority = _priority.id
+
+        LEFT JOIN jira.project
+          ON issue.project = project.id
+
+        LEFT JOIN jira.user _reporter
+          ON issue.reporter = _reporter.id
+
+        LEFT JOIN jira.resolution resolution
+          ON issue.resolution = resolution.id
+
+        LEFT JOIN jira.field_option _sales_request
+          ON issue.sales_request = _sales_request.id
+
+        LEFT JOIN jira.field_option severity
             ON issue.severity = severity.id
-         LEFT OUTER JOIN jira.status
+
+        LEFT JOIN jira.status
             ON issue.status = status.id
-         LEFT OUTER JOIN jira.issue_type
-            ON issue.issue_type = issue_type.id
+
+        LEFT JOIN jira.field_option _bugpriority
+            ON issue.bug_priority = _bugpriority.id
+
+        LEFT JOIN jira.field_option _bugseverity
+            ON issue.bug_severity = _bugseverity.id
+
+        LEFT JOIN jira.field_option _customer
+            ON issue.customer = _customer.id
+
+        LEFT JOIN jira.field_option _initiative
+            ON issue.initiative = _initiative.id
+
+        LEFT JOIN jira.field_option _manual_work
+            ON issue.manual_work = _manual_work.id
+
+        LEFT JOIN jira.field_option _strategic_initiative
+            ON issue.strategic_initiative = _strategic_initiative.id
+
+        LEFT JOIN jira.field_option _purpose
+            ON issue.purpose = _purpose.id
+
+        LEFT JOIN jira.user _sales_lead
+          ON issue.sales_lead = _sales_lead.id
+
 
          -- Multi-value fields
-         -- LEFT OUTER JOIN jira.issue_supported_browsers
-            -- ON issue.id = issue_supported_browsers.issue_id
-
-         -- Multi vlaue field that stores ids.  In this example
-         -- the issue_component table stores component_id's
-         -- which are looked up in the component table
-         LEFT OUTER JOIN jira.issue_component_s
+         -- Multi vlaue field that stores ids.  In this example the issue_component table stores component_id's which are looked up in the component table
+        LEFT JOIN jira.issue_component_s
             ON issue.id = issue_component_s.issue_id
-         LEFT OUTER JOIN jira.component
+
+        LEFT JOIN jira.component
             ON issue_component_s.component_id = component.id
 
-         LEFT OUTER JOIN jira.issue_fix_version_s
+        LEFT JOIN jira.issue_fix_version_s
             ON issue.id = issue_fix_version_s.issue_id
-         LEFT OUTER JOIN jira.version
+
+        LEFT JOIN jira.version
             ON issue_fix_version_s.version_id = version.id
 
-         LEFT OUTER JOIN jira.issue_link
+        LEFT JOIN jira.issue_link
             ON issue.id = issue_link.issue_id
 
          -- Each non-aggregated field (not included in a LISTAGG) needs to
-         -- be included i the GROUP BY clause, so that's every field in the
+         -- be included in the GROUP BY clause, so that's every field in the
          -- issue table along with each additional single value field.
 
-         GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
-                ,21,22,23,24,25,26,27
+         GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,
+        24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,
+        49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,
+        74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,
+        102,103,104,105,106,107,108,109,110,111;;
 
-        ;;
-
+    datagroup_trigger: fivetran_datagroup
     # indexes: ["id"]
   }
 
@@ -155,11 +233,25 @@ view: issue_extended {
   dimension: assignee {
     type: string
     sql: ${TABLE}.assignee ;;
+    hidden: yes
+  }
+
+  #Exteneded dimension
+  dimension: assignee_name {
+    type: string
+    sql: ${TABLE}.assignee_name ;;
   }
 
   dimension: bug_cost {
     type: number
     sql: ${TABLE}.bug_cost ;;
+    hidden: yes
+  }
+
+  #Exteneded dimension
+  dimension: bug_cost_name {
+    type: string
+    sql: ${TABLE}.bug_cost_name ;;
   }
 
   dimension: bug_pain {
@@ -177,16 +269,37 @@ view: issue_extended {
   dimension: bug_priority {
     type: number
     sql: ${TABLE}.bug_priority ;;
+    hidden: yes
+  }
+
+  #Exteneded dimension
+  dimension: bug_priority_name {
+    type: string
+    sql: ${TABLE}.bug_priority_name ;;
   }
 
   dimension: bug_severity {
     type: number
     sql: ${TABLE}.bug_severity ;;
+    hidden: yes
+  }
+
+  #Exteneded dimension
+  dimension: bug_severity_name {
+    type: string
+    sql: ${TABLE}.bug_severity_name ;;
   }
 
   dimension: bug_spread {
     type: number
     sql: ${TABLE}.bug_spread ;;
+    hidden: yes
+  }
+
+  #Exteneded dimension
+  dimension: bug_spread_name {
+    type: string
+    sql: ${TABLE}.bug_spread_name ;;
   }
 
   dimension: business_value {
@@ -200,7 +313,7 @@ view: issue_extended {
   }
 
   dimension_group: change_start {
-    group_label: "Dates"
+    group_label: "Change"
     type: time
     timeframes: [
       raw,
@@ -215,6 +328,7 @@ view: issue_extended {
   }
 
   dimension: change_type {
+    group_label: "Change"
     type: number
     sql: ${TABLE}.change_type ;;
   }
@@ -227,6 +341,13 @@ view: issue_extended {
   dimension: client {
     type: number
     sql: ${TABLE}.client ;;
+    hidden: yes
+  }
+
+  #Exteneded dimension
+  dimension: client_name {
+    type: string
+    sql: ${TABLE}.client_name ;;
   }
 
   dimension_group: created {
@@ -247,11 +368,25 @@ view: issue_extended {
   dimension: creator {
     type: string
     sql: ${TABLE}.creator ;;
+    hidden: yes
+  }
+
+  #Exteneded dimension
+  dimension: creator_name {
+    type: string
+    sql: ${TABLE}.creator_name ;;
   }
 
   dimension: cs_priority {
     type: number
     sql: ${TABLE}.cs_priority ;;
+    hidden: yes
+  }
+
+  #Exteneded dimension
+  dimension: cs_priority_name {
+    type: string
+    sql: ${TABLE}.cs_priority_name ;;
   }
 
   dimension: current_value {
@@ -262,6 +397,13 @@ view: issue_extended {
   dimension: customer {
     type: number
     sql: ${TABLE}.customer ;;
+    hidden: yes
+  }
+
+  #Exteneded dimension
+  dimension: customer_name {
+    type: string
+    sql: ${TABLE}.customer_name ;;
   }
 
   dimension: description {
@@ -302,6 +444,13 @@ view: issue_extended {
   dimension: epic_link {
     type: number
     sql: ${TABLE}.epic_link ;;
+    hidden: yes
+  }
+
+  #Exteneded dimension
+  dimension: epic_link_name {
+    type: string
+    sql: ${TABLE}.epic_link_name ;;
   }
 
   dimension: epic_name {
@@ -312,6 +461,13 @@ view: issue_extended {
   dimension: epic_status {
     type: number
     sql: ${TABLE}.epic_status ;;
+    hidden: yes
+  }
+
+  #Exteneded dimension
+  dimension: epic_status_name {
+    type: string
+    sql: ${TABLE}.epic_status_name ;;
   }
 
   dimension: epic_theme {
@@ -337,6 +493,13 @@ view: issue_extended {
   dimension: initiative {
     type: number
     sql: ${TABLE}.initiative ;;
+    hidden: yes
+  }
+
+  #Exteneded dimension
+  dimension: initiative_name {
+    type: string
+    sql: ${TABLE}.initiative_name ;;
   }
 
   dimension: issue_type {
@@ -409,6 +572,13 @@ view: issue_extended {
   dimension: manual_work {
     type: number
     sql: ${TABLE}.manual_work ;;
+    hidden: yes
+  }
+
+  #Extended dimension
+  dimension: manual_work_name {
+    type: string
+    sql: ${TABLE}.manual_work_name ;;
   }
 
   dimension: manufacturer {
@@ -439,6 +609,11 @@ view: issue_extended {
   dimension: priority {
     type: number
     sql: ${TABLE}.priority ;;
+  }
+
+  dimension: priority_name {
+    type: string
+    sql: ${TABLE}.priority_name ;;
   }
 
   dimension: product_description {
@@ -477,6 +652,13 @@ view: issue_extended {
   dimension: purpose {
     type: number
     sql: ${TABLE}.purpose ;;
+    hidden: yes
+  }
+
+  #Extended dimension
+  dimension: purpose_name {
+    type: string
+    sql: ${TABLE}.purpose_name ;;
   }
 
   dimension: raised_during {
@@ -492,6 +674,12 @@ view: issue_extended {
   dimension: reporter {
     type: string
     sql: ${TABLE}.reporter ;;
+    hidden: yes
+  }
+
+  dimension: reporter_name {
+    type: string
+    sql: ${TABLE}.reporter_name ;;
   }
 
   dimension: resolution {
@@ -531,11 +719,25 @@ view: issue_extended {
   dimension: sales_lead {
     type: string
     sql: ${TABLE}.sales_lead ;;
+    hidden: yes
+  }
+
+  #Extended dimension
+  dimension: sales_lead_name {
+    type: string
+    sql: ${TABLE}.sales_lead_name ;;
   }
 
   dimension: sales_request {
     type: number
     sql: ${TABLE}.sales_request ;;
+    hidden: yes
+  }
+
+  #Extended dimension
+  dimension: sales_request_name {
+    type: string
+    sql: ${TABLE}.sales_request_name ;;
   }
 
   dimension: salesforce_opportunity_link {
@@ -615,6 +817,13 @@ view: issue_extended {
   dimension: strategic_initiative {
     type: number
     sql: ${TABLE}.strategic_initiative ;;
+    hidden: yes
+  }
+
+  #Extended dimension
+  dimension: strategic_initiative_name {
+    type: string
+    sql: ${TABLE}.strategic_initiative_name ;;
   }
 
   dimension: summary {
@@ -757,24 +966,25 @@ view: issue_extended {
     sql: ${story_points} ;;
   }
 
-  # # measure: total_open_story_points {
-#    type: sum
-#    sql: ${story_points} ;;
-##    filters: {
-#      field: status.name
-#      value:"Open, In Progress, In Development, In QA, In Review"
-#    }
-#  }
+  measure: total_open_story_points {
+    description: "To Do, Backlog, Parking Lot, In Progress, Code Review, Review. Excluding Duplicate, Rejected."
+    type: sum
+    sql: ${story_points} ;;
+    filters: {
+      field: status_name
+      value:"To Do, Backlog, Parking Lot, In Progress, Code Review, Review"
+    }
+  }
 
-#  measure: total_closed_story_points {
-#    type: sum
-#    sql: ${story_points} ;;
-#    filters: {
-#      field: status.name
-#      value:"Closed, Done, Ready for Production"
-#    }
-#  }
-
+  measure: total_closed_story_points {
+    description: "Done, Sign Off. Excluding Duplicate, Rejected."
+    type: sum
+    sql: ${story_points} ;;
+    filters: {
+      field: status_name
+      value:"Done, Sign Off"
+    }
+  }
 
   measure: count {
     type: count
