@@ -82,7 +82,7 @@ view: sprint {
   # Custom Fields
   dimension: duration_days {
     type: number
-    sql: DATEDIFF(day, ${start_raw}, ${end_raw}) ;;
+    sql: DATE_DIFF(${start_raw}, ${end_raw}, DAY) ;;
   }
 
   # ----- Sets of fields for drilling ------
