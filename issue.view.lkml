@@ -557,8 +557,8 @@ view: issue {
 
   measure: total_time_to_resolve_issues_days {
     group_label: "Resolution"
-    label: "Total Days to Resolve Issues per Grouping"
-    description: "The total days required to resolve all issues in the chosen dimension grouping"
+    label: "Total Days to Resolve Issues"
+    description: "The total days required to resolve issues (from date created to date resolved)"
     type: sum
     sql: ${days_to_resolve_issue} ;;
     value_format_name: decimal_0
@@ -566,8 +566,8 @@ view: issue {
 
   measure: avg_time_to_resolve_issues_days {
     group_label: "Resolution"
-    label: "Avg Days to Resolve Issues per Grouping"
-    description: "The average days required to resolve all issues in the chosen dimension grouping"
+    label: "Avg Days to Resolve Issues"
+    description: "The average days required to resolve issues (from date created to date resolved)"
     type: average
     sql: ${days_to_resolve_issue} ;;
     value_format_name: decimal_0
@@ -575,8 +575,8 @@ view: issue {
 
   measure: total_time_to_resolve_issues_hours {
     group_label: "Resolution"
-    label: "Total Hours to Resolve Issues per Grouping"
-    description: "The total hours required to resolve all issues in the chosen dimension grouping"
+    label: "Total Hours to Resolve Issues"
+    description: "The total hours required to resolve issues (from date created to date resolved)"
     type: sum
     sql: ${hours_to_resolve_issue} ;;
     value_format_name: decimal_0
@@ -584,8 +584,8 @@ view: issue {
 
   measure: avg_time_to_resolve_issues_hours {
     group_label: "Resolution"
-    label: "Avg Hours to Resolve Issues per Grouping"
-    description: "The average hours required to resolve all issues in the chosen dimension grouping"
+    label: "Avg Hours to Resolve Issues"
+    description: "The average hours required to resolve issues (from date created to date resolved)"
     type: average
     sql: ${hours_to_resolve_issue} ;;
     value_format_name: decimal_0
