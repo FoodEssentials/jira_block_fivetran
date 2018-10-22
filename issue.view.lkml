@@ -555,21 +555,39 @@ view: issue {
     sql: ${_time_spent} / 3600 ;;
   }
 
-  measure: total_time_to_resolve_issues_hours {
+  measure: total_time_to_resolve_issues_days {
     group_label: "Resolution"
-    label: "Total Time to Resolve Issues per Grouping"
-    description: "The total hours required to resolve all issues in the chosen dimension grouping"
+    label: "Total Days to Resolve Issues per Grouping"
+    description: "The total days required to resolve all issues in the chosen dimension grouping"
     type: sum
     sql: ${days_to_resolve_issue} ;;
     value_format_name: decimal_0
   }
 
-  measure: avg_time_to_resolve_issues_hours {
+  measure: avg_time_to_resolve_issues_days {
     group_label: "Resolution"
-    label: "Avg Time to Resolve Issues per Grouping"
-    description: "The average hours required to resolve all issues in the chosen dimension grouping"
+    label: "Avg Days to Resolve Issues per Grouping"
+    description: "The average days required to resolve all issues in the chosen dimension grouping"
     type: average
     sql: ${days_to_resolve_issue} ;;
+    value_format_name: decimal_0
+  }
+
+  measure: total_time_to_resolve_issues_hours {
+    group_label: "Resolution"
+    label: "Total Hours to Resolve Issues per Grouping"
+    description: "The total hours required to resolve all issues in the chosen dimension grouping"
+    type: sum
+    sql: ${hours_to_resolve_issue} ;;
+    value_format_name: decimal_0
+  }
+
+  measure: avg_time_to_resolve_issues_hours {
+    group_label: "Resolution"
+    label: "Avg Hours to Resolve Issues per Grouping"
+    description: "The average hours required to resolve all issues in the chosen dimension grouping"
+    type: average
+    sql: ${hours_to_resolve_issue} ;;
     value_format_name: decimal_0
   }
 
