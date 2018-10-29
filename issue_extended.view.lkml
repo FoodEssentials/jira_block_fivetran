@@ -221,6 +221,7 @@ view: issue_extended {
   }
 
   dimension: _time_spent {
+    description: "Manually entered estimate of how much time was spent on the issue. Normally used for bugs and tasks."
     type: number
     sql: ${TABLE}._time_spent ;;
   }
@@ -849,6 +850,7 @@ view: issue_extended {
   dimension: time_spent {
     type: number
     sql: ${TABLE}.time_spent ;;
+    hidden: yes
   }
 
   dimension: upc {
