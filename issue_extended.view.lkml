@@ -993,6 +993,13 @@ view: issue_extended {
     drill_fields: [detail*]
   }
 
+  measure: total_time_spent {
+    description: "Estimated total time spent. Typically only entered for 'Bug' and 'Task' type issues."
+    type: sum
+    sql: ${_time_spent} ;;
+    drill_fields: [detail*]
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
