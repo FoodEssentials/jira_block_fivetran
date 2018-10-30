@@ -51,12 +51,13 @@ view: issue_extended {
               status.name as status_name,
               _bugpriority.name as bug_priority_name,
               _bugseverity.name as bug_severity_name,
-              _customer.name as customer_name,
+              _customer2.name as customer_name,
               _initiative.name as initiative_name,
               _manual_work.name as manual_work_name,
               _strategic_initiative.name as strategic_initiative_name,
               _purpose.name as purpose_name,
               _sales_lead.name as sales_lead_name,
+              _label.value as label,
 
                -- Include all of the values for multi-value fields associated
                -- with the issue. Each of these fields is stored in its
@@ -139,9 +140,6 @@ view: issue_extended {
         LEFT JOIN jira.field_option _bugseverity
             ON issue.bug_severity = _bugseverity.id
 
-        LEFT JOIN jira.field_option _customer
-            ON issue.customer = _customer.id
-
         LEFT JOIN jira.field_option _initiative
             ON issue.initiative = _initiative.id
 
@@ -175,6 +173,15 @@ view: issue_extended {
         LEFT JOIN jira.issue_link
             ON issue.id = issue_link.issue_id
 
+        LEFT JOIN jira.issue_customer _customer
+            ON issue.id = _customer.issue_id
+
+        LEFT JOIN jira.field_option _customer2
+            ON _customer.field_option_id = _customer2.id
+
+        LEFT JOIN jira.issue_labels _label
+            ON issue.id = _label.issue_id
+
          -- Each non-aggregated field (not included in a LISTAGG) needs to
          -- be included in the GROUP BY clause, so that's every field in the
          -- issue table along with each additional single value field.
@@ -183,7 +190,7 @@ view: issue_extended {
         24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,
         49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,
         74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,
-        102,103,104,105,106,107,108,109,110,111,112,113, 114;;
+        102,103,104,105,106,107,108,109,110,111,112,113,114,115;;
 
     datagroup_trigger: fivetran_datagroup
     # indexes: ["id"]
@@ -567,6 +574,11 @@ view: issue_extended {
       year
     ]
     sql: ${TABLE}.last_viewed ;;
+  }
+
+  dimension: label {
+    type: string
+    sql: ${TABLE}.label ;;
   }
 
   dimension: manual_work {
