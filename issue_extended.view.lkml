@@ -228,6 +228,7 @@ view: issue_extended {
   }
 
   dimension: _time_spent {
+    description: "Manually logged estimate of how many seconds were spent on the issue. Normally used for bugs and tasks."
     type: number
     sql: ${TABLE}._time_spent ;;
   }
@@ -861,6 +862,7 @@ view: issue_extended {
   dimension: time_spent {
     type: number
     sql: ${TABLE}.time_spent ;;
+    hidden: yes
   }
 
   dimension: upc {
@@ -1000,6 +1002,13 @@ view: issue_extended {
 
   measure: count {
     type: count
+    drill_fields: [detail*]
+  }
+
+  measure: total_time_spent {
+    description: "Estimated total seconds spent on an issue. Typically only entered for 'Bug' and 'Task' type issues."
+    type: sum
+    sql: ${_time_spent} ;;
     drill_fields: [detail*]
   }
 
