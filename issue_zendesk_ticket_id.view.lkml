@@ -20,7 +20,7 @@ view: issue_zendesk_ticket_id {
   }
 
   dimension: jira_issue_id {
-    type: number
+    type: string
     sql: ${TABLE}.jira_issue_id ;;
     hidden: yes
   }
