@@ -33,6 +33,7 @@ view: issue_zendesk_ticket_id {
 
 #----- Measure ------
   measure: count_zendesk_tickets {
+    description: "Number of Zendesk Tickets liked to the Jira Issue."
     type: count
     drill_fields: [detail*]
   }
