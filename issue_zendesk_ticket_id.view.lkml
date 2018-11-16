@@ -15,7 +15,7 @@ view: issue_zendesk_ticket_id {
 #----- Dimensions ------
   dimension: pkey {
     primary_key: yes
-    sql: CONCAT(${jira_issue_id}, ${zendesk_ticket_id}) ;;
+    sql: CONCAT(CAST(${jira_issue_id} AS string), ${zendesk_ticket_id}) ;;
     hidden: yes
   }
 
