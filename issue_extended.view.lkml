@@ -14,7 +14,16 @@
 # that is meaningful for your users.  There can be lots of columns
 # so make them as easy to work woth as possible.
 
-explore: issue_extended {}
+include: "issue_zendesk_ticket_id.view"
+
+explore: issue_extended {
+  join: issue_zendesk_ticket_id {
+    view_label: "Issue Extended"
+    type: left_outer
+    sql_on: ${issue_extended.id} = ${issue_zendesk_ticket_id.jira_issue_id} ;;
+    relationship: one_to_many
+  }
+}
 
 view: issue_extended {
   derived_table: {

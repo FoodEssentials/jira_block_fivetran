@@ -25,6 +25,13 @@ explore: sprint {
     relationship: one_to_many
   }
 
+  join: issue_zendesk_ticket_id {
+    view_label: "Issue"
+    type: left_outer
+    sql_on: ${issue.id} = ${issue_zendesk_ticket_id.jira_issue_id} ;;
+    relationship: one_to_many
+  }
+
 }
 
 # Update based on how you are associating versions to
@@ -55,6 +62,12 @@ explore: version {
     sql_on: ${issue_sprint.sprint_id} = ${sprint.id} ;;
     relationship: many_to_one
   }
+  join: issue_zendesk_ticket_id {
+    view_label: "Issue"
+    type: left_outer
+    sql_on: ${issue.id} = ${issue_zendesk_ticket_id.jira_issue_id} ;;
+    relationship: one_to_many
+  }
 }
 
 explore: issue_history_2 {
@@ -79,6 +92,12 @@ explore: issue_history_2 {
     type: left_outer
     sql_on: ${issue_sprint.sprint_id} = ${sprint.id} ;;
     relationship: many_to_one
+  }
+  join: issue_zendesk_ticket_id {
+    view_label: "Issue"
+    type: left_outer
+    sql_on: ${issue.id} = ${issue_zendesk_ticket_id.jira_issue_id} ;;
+    relationship: one_to_many
   }
 }
 
@@ -136,6 +155,12 @@ explore: project {
     sql_on: ${sprint.id} = ${sprint_start_points.id} ;;
     relationship: one_to_one
   }
+  join: issue_zendesk_ticket_id {
+    view_label: "Issue"
+    type: left_outer
+    sql_on: ${issue.id} = ${issue_zendesk_ticket_id.jira_issue_id} ;;
+    relationship: one_to_many
+  }
 }
 
 
@@ -191,6 +216,12 @@ explore: sprint_by_date {
     sql_on: ${status.status_category_id} = ${status_category.id} ;;
     relationship: many_to_one
   }
+  join: issue_zendesk_ticket_id {
+    view_label: "Issue"
+    type: left_outer
+    sql_on: ${issue.id} = ${issue_zendesk_ticket_id.jira_issue_id} ;;
+    relationship: one_to_many
+  }
 }
 
 
@@ -217,6 +248,12 @@ explore: sprint_burndown {
     type:  left_outer
     sql_on: ${issue.status} = ${status.id} ;;
     relationship: many_to_one
+  }
+  join: issue_zendesk_ticket_id {
+    view_label: "Issue"
+    type: left_outer
+    sql_on: ${issue.id} = ${issue_zendesk_ticket_id.jira_issue_id} ;;
+    relationship: one_to_many
   }
 
   #always_filter: {
