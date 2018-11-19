@@ -21,7 +21,7 @@ explore: issue_extended {
     view_label: "Issue Extended"
     type: left_outer
     sql_on: ${issue_extended.id} = ${issue_zendesk_ticket_id.jira_issue_id} ;;
-    relationship: one_to_many
+    relationship: many_to_many
   }
 }
 

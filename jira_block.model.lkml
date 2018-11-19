@@ -29,7 +29,7 @@ explore: sprint {
     view_label: "Issue"
     type: left_outer
     sql_on: ${issue.id} = ${issue_zendesk_ticket_id.jira_issue_id} ;;
-    relationship: one_to_many
+    relationship: many_to_many
   }
 
 }
@@ -66,7 +66,7 @@ explore: version {
     view_label: "Issue"
     type: left_outer
     sql_on: ${issue.id} = ${issue_zendesk_ticket_id.jira_issue_id} ;;
-    relationship: one_to_many
+    relationship: many_to_many
   }
 }
 
@@ -97,7 +97,7 @@ explore: issue_history_2 {
     view_label: "Issue"
     type: left_outer
     sql_on: ${issue.id} = ${issue_zendesk_ticket_id.jira_issue_id} ;;
-    relationship: one_to_many
+    relationship: many_to_many
   }
 }
 
@@ -159,7 +159,7 @@ explore: project {
     view_label: "Issue"
     type: left_outer
     sql_on: ${issue.id} = ${issue_zendesk_ticket_id.jira_issue_id} ;;
-    relationship: one_to_many
+    relationship: many_to_many
   }
 }
 
@@ -220,7 +220,7 @@ explore: sprint_by_date {
     view_label: "Issue"
     type: left_outer
     sql_on: ${issue.id} = ${issue_zendesk_ticket_id.jira_issue_id} ;;
-    relationship: one_to_many
+    relationship: many_to_many
   }
 }
 
@@ -253,7 +253,7 @@ explore: sprint_burndown {
     view_label: "Issue"
     type: left_outer
     sql_on: ${issue.id} = ${issue_zendesk_ticket_id.jira_issue_id} ;;
-    relationship: one_to_many
+    relationship: many_to_many
   }
 
   #always_filter: {
