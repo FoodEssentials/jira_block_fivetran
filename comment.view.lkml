@@ -5,6 +5,7 @@
       primary_key: yes
       type: number
       sql: ${TABLE}.ID ;;
+      hidden: yes
     }
 
     dimension_group: _fivetran_synced {
@@ -19,6 +20,7 @@
         year
       ]
       sql: ${TABLE}._fivetran_syned ;;
+      hidden: yes
     }
 
     dimension: author_id {
@@ -27,6 +29,7 @@
     }
 
     dimension: body {
+      label: "Comment"
       type: string
       sql: ${TABLE}.BODY ;;
     }
@@ -49,6 +52,7 @@
       type: number
       # hidden: yes
       sql: ${TABLE}.ISSUE_ID ;;
+      hidden: yes
     }
 
     dimension: update_author_id {
@@ -70,8 +74,26 @@
       sql: ${TABLE}.UPDATED ;;
     }
 
-    measure: count {
+    measure: count_distinct_comment {
       type: count
       drill_fields: [id, issue.id, issue.epic_name]
     }
   }
+
+view: most_recent_comment {
+  derived_table: {
+    sql: SELECT issue_id, body, MAX(updated) FROM jira.comment GROUP BY 1, 2;;
+  }
+
+  dimension: issue_id {
+    type: number
+    # hidden: yes
+    sql: ${TABLE}.ISSUE_ID ;;
+    hidden: yes
+  }
+
+  dimension: most_recent_comment {
+    type: string
+    sql: ${TABLE}.body;;
+  }
+}
