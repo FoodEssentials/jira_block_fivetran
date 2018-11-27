@@ -15,12 +15,27 @@
 # so make them as easy to work woth as possible.
 
 include: "issue_zendesk_ticket_id.view"
+include: "comment.view"
 
 explore: issue_extended {
   join: issue_zendesk_ticket_id {
     view_label: "Issue Extended"
     type: left_outer
     sql_on: ${issue_extended.id} = ${issue_zendesk_ticket_id.jira_issue_id} ;;
+    relationship: many_to_many
+  }
+
+  join: comment {
+    view_label: "Comment"
+    type: left_outer
+    sql_on: ${issue_extended.id} = ${comment.issue_id} ;;
+    relationship: many_to_many
+  }
+
+  join: most_recent_comment {
+    view_label: "Comment"
+    type: left_outer
+    sql_on: ${issue_extended.id} = ${most_recent_comment.issue_id} ;;
     relationship: many_to_many
   }
 }
@@ -1019,6 +1034,13 @@ view: issue_extended {
     type: sum
     sql: ${_time_spent} ;;
     drill_fields: [detail*]
+  }
+
+  measure: avg_issue_age {
+    label: "Average Issue Age (Days)"
+    type: average
+    value_format: "0"
+    sql: DATE_DIFF(CURRENT_DATE(), ${created_date}, DAY) ;;
   }
 
   # ----- Sets of fields for drilling ------
