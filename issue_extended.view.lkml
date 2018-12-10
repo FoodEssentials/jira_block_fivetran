@@ -417,6 +417,7 @@ view: issue_extended {
 
   #Exteneded dimension
   dimension: cs_priority_name {
+    label: "CS Priority Name"
     type: string
     sql: ${TABLE}.cs_priority_name ;;
   }
@@ -1036,9 +1037,9 @@ view: issue_extended {
     drill_fields: [detail*]
   }
 
-  measure: avg_issue_age {
-    label: "Average Issue Age (Days)"
-    type: average
+  measure: median_issue_age {
+    label: "Median Issue Age (Days)"
+    type: median
     value_format: "0"
     sql: DATE_DIFF(CURRENT_DATE(), ${created_date}, DAY) ;;
   }
@@ -1046,7 +1047,7 @@ view: issue_extended {
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-      key, summary, description, status_name
+      key, summary, status_name, priority_name, bug_priority_name, bug_severity_name, customer_name, updated_date
     ]
   }
 }
