@@ -1044,6 +1044,27 @@ view: issue_extended {
     sql: DATE_DIFF(CURRENT_DATE(), ${created_date}, DAY) ;;
   }
 
+  dimension: issue_age_group {
+    case: {
+      when: {
+        sql: DATE_DIFF(CURRENT_DATE(), ${created_date}, DAY)  <= 14 ;;
+        label: "0-14 days"
+      }
+      when: {
+        sql: DATE_DIFF(CURRENT_DATE(), ${created_date}, DAY)  >= 15 AND DATE_DIFF(CURRENT_DATE(), ${created_date}, DAY)  <= 30;;
+        label: "15-30 days"
+      }
+      when: {
+        sql: DATE_DIFF(CURRENT_DATE(), ${created_date}, DAY)  >= 31 AND DATE_DIFF(CURRENT_DATE(), ${created_date}, DAY)  <= 60;;
+        label: "31-60 days"
+      }
+      when: {
+        sql: DATE_DIFF(CURRENT_DATE(), ${created_date}, DAY)  > 60 ;;
+        label: ">60 days"
+      }
+    }
+  }
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
