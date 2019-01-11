@@ -261,6 +261,10 @@ view: issue {
   dimension: key {
     type: string
     sql: ${TABLE}.key ;;
+    link: {
+      label: "See in Jira"
+      url: "https://labelinsight.atlassian.net/browse/{{value}}"
+    }
   }
 
   dimension_group: last_viewed {
