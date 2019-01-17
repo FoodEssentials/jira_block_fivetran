@@ -980,7 +980,7 @@ view: issue_extended {
     group_label: "Resolution"
     label: "Time to Resolve (Days)"
     type: number
-    sql: DATE_DIFF(${created_raw},${resolved_raw}, DAY) ;;
+    sql: DATE_DIFF(${created_date},${resolved_date}, DAY) ;;
     value_format_name: decimal_0
   }
 
