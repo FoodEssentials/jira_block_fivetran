@@ -955,8 +955,16 @@ view: issue_extended {
   # ----- Added Dimensions ------
   dimension: is_issue_resolved {
     group_label: "Resolution"
+    description: "The issues that is resolved (resolved date is not NULL)"
     type: yesno
-    sql: ${resolved_date} IS NOT NULL ;;
+    sql: ${resolved_date} IS NOT NULL;;
+  }
+
+  dimension: is_issue_done_complete {
+    group_label: "Resolution"
+    description: "The issues that is resolved (resolved date is not NULL) and have a status as 'Done' or 'Ticket Closed'. This is to differentiate resolved issues that is truely done, and resolved issues that are user error, duplicate, rejected, imcomplete, cannot reproduce, etc."
+    type: yesno
+    sql: ${resolved_date} IS NOT NULL AND (${status_name} = 'Done' OR ${status_name} = 'Ticket Closed');;
   }
 
   # Custom dimensions for time to resolve issue
