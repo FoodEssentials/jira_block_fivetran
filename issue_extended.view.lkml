@@ -962,7 +962,7 @@ view: issue_extended {
 
   dimension: is_issue_done_complete {
     group_label: "Resolution"
-    description: "The issues that is resolved (resolved date is not NULL) and have a status as 'Done' or 'Ticket Closed'. This is to differentiate resolved issues that is truely done, and resolved issues that are user error, duplicate, rejected, imcomplete, cannot reproduce, etc."
+    description: "The issues that is resolved (resolved date is not NULL) and have a status as 'Done' or 'Ticket Closed'. This is to differentiate resolved issues that is truly done, and resolved issues that are user error, duplicate, rejected, incomplete, cannot reproduce, etc."
     type: yesno
     sql: ${resolved_date} IS NOT NULL AND (${status_name} = 'Done' OR ${status_name} = 'Ticket Closed');;
   }
