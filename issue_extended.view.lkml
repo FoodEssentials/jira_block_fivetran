@@ -82,6 +82,7 @@ view: issue_extended {
               _purpose.name as purpose_name,
               _sales_lead.name as sales_lead_name,
               _label.value as label,
+              _sprint.name as sprint_name,
 
                -- Include all of the values for multi-value fields associated
                -- with the issue. Each of these fields is stored in its
@@ -205,6 +206,12 @@ view: issue_extended {
 
         LEFT JOIN jira.issue_labels _label
             ON issue.id = _label.issue_id
+
+        LEFT JOIN jira.issue_sprint _issue_sprint
+            ON issue.id = _issue_sprint.issue_id
+
+        LEFT JOIN jira.sprint _sprint
+            ON _issue_sprint.sprint_id = _sprint.id
 
         WHERE issue.key NOT IN ('AD-429',
               'AD-105',
@@ -542,7 +549,7 @@ view: issue_extended {
         24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,
         49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,
         74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,
-        102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118;;
+        102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120;;
 
     datagroup_trigger: fivetran_datagroup
     # indexes: ["id"]
@@ -1278,6 +1285,11 @@ view: issue_extended {
   dimension: related_issues_list {
     type: string
     sql: ${TABLE}.related_issues_list ;;
+  }
+
+  dimension: sprint_name {
+    type: string
+    sql: ${TABLE}.sprint_name ;;
   }
 
   # ----- Added Dimensions ------
