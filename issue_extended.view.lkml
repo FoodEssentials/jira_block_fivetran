@@ -1383,9 +1383,11 @@ view: issue_extended {
   }
 
   measure: total_time_spent {
+    label: "Total time spent in hour"
     description: "Estimated total seconds spent on an issue. Typically only entered for 'Bug' and 'Task' type issues."
     type: sum
-    sql: ${_time_spent} ;;
+    sql: ${_time_spent}/3600 ;;
+    value_format_name: decimal_0
     drill_fields: [detail*]
   }
 
