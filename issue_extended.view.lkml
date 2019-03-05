@@ -1378,7 +1378,8 @@ view: issue_extended {
   }
 
   measure: count {
-    type: count
+    type: count_distinct
+    sql: ${key} ;;
     drill_fields: [detail*]
   }
 
