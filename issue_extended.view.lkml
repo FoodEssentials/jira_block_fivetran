@@ -14,17 +14,9 @@
 # that is meaningful for your users.  There can be lots of columns
 # so make them as easy to work woth as possible.
 
-include: "issue_zendesk_ticket_id.view"
 include: "comment.view"
 
 explore: issue_extended {
-  join: issue_zendesk_ticket_id {
-    view_label: "Issue Extended"
-    type: left_outer
-    sql_on: ${issue_extended.id} = ${issue_zendesk_ticket_id.jira_issue_id} ;;
-    relationship: many_to_many
-  }
-
   join: comment {
     view_label: "Comment"
     type: left_outer
@@ -83,6 +75,11 @@ view: issue_extended {
               _sales_lead.name as sales_lead_name,
               _label.value as label,
               _sprint.name as sprint_name,
+              _product_type_name.name as product_type_name,
+              _solution_name.name as solution_name,
+              _potential_hic_name.name as potential_hic_name,
+              _ongoing_hic_name.name as ongoing_hic_or_commitment_name,
+              _hic_type.name as hic_or_commitment_type_name,
 
                -- Include all of the values for multi-value fields associated
                -- with the issue. Each of these fields is stored in its
@@ -212,6 +209,33 @@ view: issue_extended {
 
         LEFT JOIN jira.sprint _sprint
             ON _issue_sprint.sprint_id = _sprint.id
+
+        LEFT JOIN jira.issue_product_type _product_type
+            ON issue.id = _product_type.issue_id
+
+        LEFT JOIN jira.field_option _product_type_name
+            ON _product_type.field_option_id = _product_type_name.id
+
+        LEFT JOIN jira.issue_solution _solution
+            ON issue.id = _solution.issue_id
+
+        LEFT JOIN jira.field_option _solution_name
+            ON _solution.field_option_id = _solution_name.id
+
+        LEFT JOIN jira.issue_potential_hic _potential_hic
+            ON issue.id = _potential_hic.issue_id
+
+        LEFT JOIN jira.field_option _potential_hic_name
+            ON _potential_hic.field_option_id = _potential_hic_name.id
+
+        LEFT JOIN jira.issue_ongoing_hic_or_commitment _ongoing_hic
+            ON issue.id = _ongoing_hic.issue_id
+
+        LEFT JOIN jira.field_option _ongoing_hic_name
+            ON _ongoing_hic.field_option_id = _ongoing_hic_name.id
+
+        LEFT JOIN jira.field_option _hic_type
+            ON issue.hic_or_commitment_type = _hic_type.id
 
         WHERE issue.key NOT IN ('AD-429',
               'AD-105',
@@ -549,7 +573,7 @@ view: issue_extended {
         24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,
         49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,
         74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,
-        102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124;;
+        102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129;;
 
     datagroup_trigger: fivetran_datagroup
     # indexes: ["id"]
@@ -631,30 +655,6 @@ view: issue_extended {
   dimension: bug_pain_name {
     type: string
     sql: ${TABLE}.bug_pain_name ;;
-  }
-
-  dimension: bug_priority {
-    type: number
-    sql: ${TABLE}.bug_priority ;;
-    hidden: yes
-  }
-
-  #Exteneded dimension
-  dimension: bug_priority_name {
-    type: string
-    sql: ${TABLE}.bug_priority_name ;;
-  }
-
-  dimension: bug_severity {
-    type: number
-    sql: ${TABLE}.bug_severity ;;
-    hidden: yes
-  }
-
-  #Exteneded dimension
-  dimension: bug_severity_name {
-    type: string
-    sql: ${TABLE}.bug_severity_name ;;
   }
 
   dimension: bug_spread {
@@ -762,36 +762,9 @@ view: issue_extended {
     sql: ${TABLE}.current_value ;;
   }
 
-  dimension: customer {
-    type: number
-    sql: ${TABLE}.customer ;;
-    hidden: yes
-  }
-
-  #Exteneded dimension
-  dimension: customer_name {
-    type: string
-    sql: ${TABLE}.customer_name ;;
-  }
-
   dimension: description {
     type: string
     sql: ${TABLE}.description ;;
-  }
-
-  dimension_group: due {
-    group_label: "Dates"
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.due_date ;;
   }
 
   dimension: end_users {
@@ -856,18 +829,6 @@ view: issue_extended {
   dimension: impact {
     type: number
     sql: ${TABLE}.impact ;;
-  }
-
-  dimension: initiative {
-    type: number
-    sql: ${TABLE}.initiative ;;
-    hidden: yes
-  }
-
-  #Exteneded dimension
-  dimension: initiative_name {
-    type: string
-    sql: ${TABLE}.initiative_name ;;
   }
 
   dimension: issue_type {
@@ -941,23 +902,6 @@ view: issue_extended {
     sql: ${TABLE}.last_viewed ;;
   }
 
-  dimension: label {
-    type: string
-    sql: ${TABLE}.label ;;
-  }
-
-  dimension: manual_work {
-    type: number
-    sql: ${TABLE}.manual_work ;;
-    hidden: yes
-  }
-
-  #Extended dimension
-  dimension: manual_work_name {
-    type: string
-    sql: ${TABLE}.manual_work_name ;;
-  }
-
   dimension: manufacturer {
     type: number
     sql: ${TABLE}.manufacturer ;;
@@ -988,6 +932,7 @@ view: issue_extended {
     sql: ${TABLE}.priority ;;
   }
 
+  #Exteneded dimension
   dimension: priority_name {
     type: string
     sql: ${TABLE}.priority_name ;;
@@ -1003,11 +948,6 @@ view: issue_extended {
     sql: ${TABLE}.product_id ;;
   }
 
-  dimension: products {
-    type: number
-    sql: ${TABLE}.products ;;
-  }
-
   dimension: project {
     type: number
     sql: ${TABLE}.project ;;
@@ -1019,23 +959,6 @@ view: issue_extended {
     label: "Current Project"
     type: string
     sql: ${TABLE}.project_name ;;
-  }
-
-  dimension: prospect {
-    type: string
-    sql: ${TABLE}.prospect ;;
-  }
-
-  dimension: purpose {
-    type: number
-    sql: ${TABLE}.purpose ;;
-    hidden: yes
-  }
-
-  #Extended dimension
-  dimension: purpose_name {
-    type: string
-    sql: ${TABLE}.purpose_name ;;
   }
 
   dimension: raised_during {
@@ -1054,6 +977,7 @@ view: issue_extended {
     hidden: yes
   }
 
+  #Extended dimension
   dimension: reporter_name {
     type: string
     sql: ${TABLE}.reporter_name ;;
@@ -1093,18 +1017,6 @@ view: issue_extended {
     sql: ${TABLE}.response_type ;;
   }
 
-  dimension: sales_lead {
-    type: string
-    sql: ${TABLE}.sales_lead ;;
-    hidden: yes
-  }
-
-  #Extended dimension
-  dimension: sales_lead_name {
-    type: string
-    sql: ${TABLE}.sales_lead_name ;;
-  }
-
   dimension: sales_request {
     type: number
     sql: ${TABLE}.sales_request ;;
@@ -1115,11 +1027,6 @@ view: issue_extended {
   dimension: sales_request_name {
     type: string
     sql: ${TABLE}.sales_request_name ;;
-  }
-
-  dimension: salesforce_opportunity_link {
-    type: string
-    sql: ${TABLE}.salesforce_opportunity_link ;;
   }
 
   dimension_group: satisfaction {
@@ -1154,21 +1061,6 @@ view: issue_extended {
     sql: ${TABLE}.severity_name ;;
   }
 
-  dimension_group: start {
-    group_label: "Dates"
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.start_date ;;
-  }
-
   dimension: status {
     type: number
     sql: ${TABLE}.status ;;
@@ -1189,18 +1081,6 @@ view: issue_extended {
   dimension: story_points {
     type: number
     sql: ${TABLE}.story_points ;;
-  }
-
-  dimension: strategic_initiative {
-    type: number
-    sql: ${TABLE}.strategic_initiative ;;
-    hidden: yes
-  }
-
-  #Extended dimension
-  dimension: strategic_initiative_name {
-    type: string
-    sql: ${TABLE}.strategic_initiative_name ;;
   }
 
   dimension: summary {
@@ -1254,14 +1134,258 @@ view: issue_extended {
     sql: ${TABLE}.user_email_address ;;
   }
 
+  dimension: work_ratio {
+    type: number
+    sql: ${TABLE}.work_ratio ;;
+  }
+
+  dimension: bug_priority {
+    type: number
+    sql: ${TABLE}.bug_priority ;;
+    hidden: yes
+  }
+
+  #Exteneded dimension
+  dimension: bug_priority_name {
+    type: string
+    sql: ${TABLE}.bug_priority_name ;;
+  }
+
+  dimension: bug_severity {
+    type: number
+    sql: ${TABLE}.bug_severity ;;
+    hidden: yes
+  }
+
+  #Exteneded dimension
+  dimension: bug_severity_name {
+    type: string
+    sql: ${TABLE}.bug_severity_name ;;
+  }
+
+  dimension_group: due {
+    group_label: "Dates"
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.due_date ;;
+  }
+
+  dimension_group: start {
+    group_label: "Dates"
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.start_date ;;
+  }
+
+  dimension: customer {
+    type: number
+    sql: ${TABLE}.customer ;;
+    hidden: yes
+  }
+
+  #Exteneded dimension
+  dimension: customer_name {
+    type: string
+    sql: ${TABLE}.customer_name ;;
+  }
+
+  dimension: initiative {
+    type: number
+    sql: ${TABLE}.initiative ;;
+    hidden: yes
+  }
+
+  #Exteneded dimension
+  dimension: initiative_name {
+    type: string
+    sql: ${TABLE}.initiative_name ;;
+  }
+
   dimension: value {
     type: number
     sql: ${TABLE}.value ;;
   }
 
-  dimension: work_ratio {
+  dimension: manual_work {
     type: number
-    sql: ${TABLE}.work_ratio ;;
+    sql: ${TABLE}.manual_work ;;
+    hidden: yes
+  }
+
+  #Extended dimension
+  dimension: manual_work_name {
+    type: string
+    sql: ${TABLE}.manual_work_name ;;
+  }
+
+  dimension: products {
+    type: number
+    sql: ${TABLE}.products ;;
+  }
+
+  dimension: strategic_initiative {
+    type: number
+    sql: ${TABLE}.strategic_initiative ;;
+    hidden: yes
+  }
+
+  #Extended dimension
+  dimension: strategic_initiative_name {
+    type: string
+    sql: ${TABLE}.strategic_initiative_name ;;
+  }
+
+  dimension: purpose {
+    type: number
+    sql: ${TABLE}.purpose ;;
+    hidden: yes
+  }
+
+  #Extended dimension
+  dimension: purpose_name {
+    type: string
+    sql: ${TABLE}.purpose_name ;;
+  }
+
+  dimension: prospect {
+    type: string
+    sql: ${TABLE}.prospect ;;
+  }
+
+  dimension: sales_lead {
+    type: string
+    sql: ${TABLE}.sales_lead ;;
+    hidden: yes
+  }
+
+  #Extended dimension
+  dimension: sales_lead_name {
+    type: string
+    sql: ${TABLE}.sales_lead_name ;;
+  }
+
+  dimension: salesforce_opportunity_link {
+    type: string
+    sql: ${TABLE}.salesforce_opportunity_link ;;
+  }
+
+  dimension: story_point_estimate {
+    type: number
+    sql: ${TABLE}.story_point_estimate ;;
+  }
+
+  dimension: development {
+    type: string
+    sql: ${TABLE}.development ;;
+    hidden: yes
+  }
+
+  dimension_group: projected_date {
+    group_label: "Dates"
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.projected_date ;;
+  }
+
+  dimension: zendesk_ticket_ids {
+    type: string
+    sql: ${TABLE}.zendesk_ticket_ids ;;
+  }
+
+  dimension: solutions_consultant {
+    type: string
+    sql: ${TABLE}.solutions_consultant ;;
+  }
+
+  dimension: issue_color {
+    type: string
+    sql: ${TABLE}.issue_color ;;
+  }
+
+  dimension: product_type {
+    type: number
+    sql: ${TABLE}.product_type ;;
+    hidden: yes
+  }
+
+  #Extended dimension
+  dimension: product_type_name {
+    type: string
+    sql: ${TABLE}.product_type_name ;;
+  }
+
+  dimension: solution {
+    type: number
+    sql: ${TABLE}.solution ;;
+    hidden: yes
+  }
+
+  #Extended dimension
+  dimension: solution_name {
+    type: string
+    sql: ${TABLE}.solution_name ;;
+  }
+
+  dimension: potential_hic {
+    type: number
+    sql: ${TABLE}.potential_hic ;;
+    hidden: yes
+  }
+
+  #Extended dimension
+  dimension: potential_hic_name {
+    type: number
+    sql: ${TABLE}.potential_hic_name ;;
+  }
+
+  dimension: ongoing_hic_or_commitment {
+    type: number
+    sql: ${TABLE}.ongoing_hic_or_commitment ;;
+    hidden: yes
+  }
+
+  #Extended dimension
+  dimension: ongoing_hic_or_commitment_name {
+    label: "Ongoing HIC or Commitment Name"
+    type: number
+    sql: ${TABLE}.ongoing_hic_or_commitment_name ;;
+  }
+
+  dimension: hic_or_commitment_type {
+    type: number
+    sql: ${TABLE}.hic_or_commitment_type ;;
+    hidden: yes
+  }
+
+  #Extended dimension
+  dimension: hic_or_commitment_type_name {
+    label: "HIC or Commitment Type Name"
+    type: number
+    sql: ${TABLE}.hic_or_commitment_type_name ;;
   }
 
   ## Additional dimensions for the LISTAGGS defined
