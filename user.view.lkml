@@ -4,7 +4,8 @@
   dimension: id {
     primary_key: yes
     type: string
-    sql: ${TABLE}.ID ;;
+    sql: ${TABLE}.id ;;
+    hidden: yes
   }
 
   dimension_group: _fivetran_synced {
@@ -19,31 +20,32 @@
       year
     ]
     sql: ${TABLE}._fivetran_syned ;;
+    hidden: yes
   }
 
   dimension: email {
     type: string
-    sql: ${TABLE}.EMAIL ;;
+    sql: ${TABLE}.email ;;
   }
 
   dimension: locale {
     type: string
-    sql: ${TABLE}.LOCALE ;;
+    sql: ${TABLE}.locale ;;
   }
 
   dimension: name {
     type: string
-    sql: ${TABLE}.NAME ;;
+    sql: ${TABLE}.name ;;
   }
 
   dimension: time_zone {
     type: string
-    sql: ${TABLE}.TIME_ZONE ;;
+    sql: ${TABLE}.time_zone ;;
   }
 
   dimension: username {
     type: string
-    sql: ${TABLE}.USERNAME ;;
+    sql: ${TABLE}.user_name ;;
   }
 
 

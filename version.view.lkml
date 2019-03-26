@@ -4,7 +4,8 @@
     dimension: id {
       primary_key: yes
       type: number
-      sql: ${TABLE}.ID ;;
+      sql: ${TABLE}.id ;;
+      hidden: yes
     }
 
     dimension_group: _fivetran_synced {
@@ -19,32 +20,33 @@
         year
       ]
       sql: ${TABLE}._fivetran_syned ;;
+      hidden: yes
     }
 
     dimension: archived {
       type: yesno
-      sql: ${TABLE}.ARCHIVED ;;
+      sql: ${TABLE}.archived ;;
     }
 
     dimension: description {
       type: string
-      sql: ${TABLE}.DESCRIPTION ;;
+      sql: ${TABLE}.description ;;
     }
 
     dimension: name {
       type: string
-      sql: ${TABLE}.NAME ;;
+      sql: ${TABLE}.name ;;
     }
 
     dimension: overdue {
       type: yesno
-      sql: ${TABLE}.OVERDUE ;;
+      sql: ${TABLE}.overdue ;;
     }
 
     dimension: project_id {
       type: number
       # hidden: yes
-      sql: ${TABLE}.PROJECT_ID ;;
+      sql: ${TABLE}.project_id ;;
     }
 
     dimension_group: release {
@@ -59,12 +61,12 @@
       ]
       convert_tz: no
       datatype: date
-      sql: ${TABLE}.RELEASE_DATE ;;
+      sql: ${TABLE}.release_date ;;
     }
 
     dimension: released {
       type: yesno
-      sql: ${TABLE}.RELEASED ;;
+      sql: ${TABLE}.released ;;
     }
 
     dimension_group: start {
@@ -79,7 +81,7 @@
       ]
       convert_tz: no
       datatype: date
-      sql: ${TABLE}.START_DATE ;;
+      sql: ${TABLE}.start_date ;;
     }
 
     measure: count {

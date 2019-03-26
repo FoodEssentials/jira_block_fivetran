@@ -5,6 +5,7 @@ view: issue {
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
+    hidden: yes
   }
 
   dimension_group: _fivetran_synced {
@@ -19,6 +20,7 @@ view: issue {
       year
     ]
     sql: ${TABLE}._fivetran_synced ;;
+    hidden: yes
   }
 
   dimension: _original_estimate {
@@ -44,31 +46,25 @@ view: issue {
   dimension: assignee {
     type: string
     sql: ${TABLE}.assignee ;;
+    hidden: yes
   }
 
   dimension: bug_cost {
     type: number
     sql: ${TABLE}.bug_cost ;;
+    hidden: yes
   }
 
   dimension: bug_pain {
     type: number
     sql: ${TABLE}.bug_pain ;;
-  }
-
-  dimension: bug_priority {
-    type: number
-    sql: ${TABLE}.bug_priority ;;
-  }
-
-  dimension: bug_severity {
-    type: number
-    sql: ${TABLE}.bug_severity ;;
+    hidden: yes
   }
 
   dimension: bug_spread {
     type: number
     sql: ${TABLE}.bug_spread ;;
+    hidden: yes
   }
 
   dimension: business_value {
@@ -108,6 +104,7 @@ view: issue {
   dimension: client {
     type: number
     sql: ${TABLE}.client ;;
+    hidden: yes
   }
 
   dimension_group: created {
@@ -127,11 +124,13 @@ view: issue {
   dimension: creator {
     type: string
     sql: ${TABLE}.creator ;;
+    hidden: yes
   }
 
   dimension: cs_priority {
     type: number
     sql: ${TABLE}.cs_priority ;;
+    hidden: yes
   }
 
   dimension: current_value {
@@ -139,28 +138,9 @@ view: issue {
     sql: ${TABLE}.current_value ;;
   }
 
-  dimension: customer {
-    type: number
-    sql: ${TABLE}.customer ;;
-  }
-
   dimension: description {
     type: string
     sql: ${TABLE}.description ;;
-  }
-
-  dimension_group: due {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.due_date ;;
   }
 
   dimension: end_users {
@@ -181,6 +161,7 @@ view: issue {
   dimension: epic_link {
     type: number
     sql: ${TABLE}.epic_link ;;
+    hidden: yes
   }
 
   dimension: epic_name {
@@ -191,6 +172,7 @@ view: issue {
   dimension: epic_status {
     type: number
     sql: ${TABLE}.epic_status ;;
+    hidden: yes
   }
 
   dimension: epic_theme {
@@ -213,14 +195,10 @@ view: issue {
     sql: ${TABLE}.impact ;;
   }
 
-  dimension: initiative {
-    type: number
-    sql: ${TABLE}.initiative ;;
-  }
-
   dimension: issue_type {
     type: number
     sql: ${TABLE}.issue_type ;;
+    hidden: yes
   }
 
   dimension: jira_capture_browser {
@@ -281,11 +259,6 @@ view: issue {
     sql: ${TABLE}.last_viewed ;;
   }
 
-  dimension: manual_work {
-    type: number
-    sql: ${TABLE}.manual_work ;;
-  }
-
   dimension: manufacturer {
     type: number
     sql: ${TABLE}.manufacturer ;;
@@ -314,6 +287,7 @@ view: issue {
   dimension: priority {
     type: number
     sql: ${TABLE}.priority ;;
+    hidden: yes
   }
 
   dimension: product_description {
@@ -326,24 +300,10 @@ view: issue {
     sql: ${TABLE}.product_id ;;
   }
 
-  dimension: products {
-    type: number
-    sql: ${TABLE}.products ;;
-  }
-
   dimension: project {
     type: number
     sql: ${TABLE}.project ;;
-  }
-
-  dimension: prospect {
-    type: string
-    sql: ${TABLE}.prospect ;;
-  }
-
-  dimension: purpose {
-    type: number
-    sql: ${TABLE}.purpose ;;
+    hidden: yes
   }
 
   dimension: raised_during {
@@ -359,11 +319,13 @@ view: issue {
   dimension: reporter {
     type: string
     sql: ${TABLE}.reporter ;;
+    hidden: yes
   }
 
   dimension: resolution {
     type: number
     sql: ${TABLE}.resolution ;;
+    hidden: yes
   }
 
   dimension_group: resolved {
@@ -385,19 +347,10 @@ view: issue {
     sql: ${TABLE}.response_type ;;
   }
 
-  dimension: sales_lead {
-    type: string
-    sql: ${TABLE}.sales_lead ;;
-  }
-
   dimension: sales_request {
     type: number
     sql: ${TABLE}.sales_request ;;
-  }
-
-  dimension: salesforce_opportunity_link {
-    type: string
-    sql: ${TABLE}.salesforce_opportunity_link ;;
+    hidden: yes
   }
 
   dimension_group: satisfaction {
@@ -422,25 +375,13 @@ view: issue {
   dimension: severity {
     type: number
     sql: ${TABLE}.severity ;;
-  }
-
-  dimension_group: start {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.start_date ;;
+    hidden: yes
   }
 
   dimension: status {
     type: number
     sql: ${TABLE}.status ;;
+    hidden: yes
   }
 
   dimension: status_comment {
@@ -451,11 +392,6 @@ view: issue {
   dimension: story_points {
     type: number
     sql: ${TABLE}.story_points ;;
-  }
-
-  dimension: strategic_initiative {
-    type: number
-    sql: ${TABLE}.strategic_initiative ;;
   }
 
   dimension: summary {
@@ -484,6 +420,7 @@ view: issue {
   }
 
   dimension: upc {
+    label: "UPC"
     type: string
     sql: ${TABLE}.upc ;;
   }
@@ -507,14 +444,175 @@ view: issue {
     sql: ${TABLE}.user_email_address ;;
   }
 
+  dimension: work_ratio {
+    type: number
+    sql: ${TABLE}.work_ratio ;;
+  }
+
+  dimension: bug_priority {
+    type: number
+    sql: ${TABLE}.bug_priority ;;
+    hidden: yes
+  }
+
+  dimension: bug_severity {
+    type: number
+    sql: ${TABLE}.bug_severity ;;
+    hidden: yes
+  }
+
+  dimension_group: due {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.due_date ;;
+  }
+
+  dimension_group: start {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.start_date ;;
+  }
+
+  dimension: customer {
+    type: number
+    sql: ${TABLE}.customer ;;
+    hidden: yes
+  }
+
+  dimension: initiative {
+    type: number
+    sql: ${TABLE}.initiative ;;
+    hidden: yes
+  }
+
   dimension: value {
     type: number
     sql: ${TABLE}.value ;;
   }
 
-  dimension: work_ratio {
+  dimension: manual_work {
     type: number
-    sql: ${TABLE}.work_ratio ;;
+    sql: ${TABLE}.manual_work ;;
+    hidden: yes
+  }
+
+  dimension: products {
+    type: number
+    sql: ${TABLE}.products ;;
+  }
+
+  dimension: strategic_initiative {
+    type: number
+    sql: ${TABLE}.strategic_initiative ;;
+    hidden: yes
+  }
+
+  dimension: purpose {
+    type: number
+    sql: ${TABLE}.purpose ;;
+    hidden: yes
+  }
+
+  dimension: prospect {
+    type: string
+    sql: ${TABLE}.prospect ;;
+  }
+
+  dimension: sales_lead {
+    type: string
+    sql: ${TABLE}.sales_lead ;;
+    hidden: yes
+  }
+
+  dimension: salesforce_opportunity_link {
+    type: string
+    sql: ${TABLE}.salesforce_opportunity_link ;;
+  }
+
+  dimension: story_point_estimate {
+    type: number
+    sql: ${TABLE}.story_point_estimate ;;
+  }
+
+  dimension: development {
+    type: string
+    sql: ${TABLE}.development ;;
+    hidden: yes
+  }
+
+  dimension_group: projected_date {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.projected_date ;;
+  }
+
+  dimension: zendesk_ticket_ids {
+    type: string
+    sql: ${TABLE}.zendesk_ticket_ids ;;
+  }
+
+  dimension: solutions_consultant {
+    type: string
+    sql: ${TABLE}.solutions_consultant ;;
+  }
+
+  dimension: issue_color {
+    type: string
+    sql: ${TABLE}.issue_color ;;
+  }
+
+  dimension: product_type {
+    type: number
+    sql: ${TABLE}.product_type ;;
+    hidden: yes
+  }
+
+  dimension: solution {
+    type: number
+    sql: ${TABLE}.solution ;;
+    hidden: yes
+  }
+
+  dimension: potential_hic {
+    type: number
+    sql: ${TABLE}.potential_hic ;;
+    hidden: yes
+  }
+
+  dimension: ongoing_hic_or_commitment {
+    type: number
+    sql: ${TABLE}.ongoing_hic_or_commitment ;;
+    hidden: yes
+  }
+
+  dimension: hic_or_commitment_type {
+    type: number
+    sql: ${TABLE}.hic_or_commitment_type ;;
+    hidden: yes
   }
 
 # ----- Added Dimension ------

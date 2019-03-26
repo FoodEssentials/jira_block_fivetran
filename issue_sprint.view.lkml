@@ -13,29 +13,26 @@
         year
       ]
       sql: ${TABLE}._fivetran_syned ;;
+      hidden: yes
     }
 
     dimension: pk {
       type: number
-      hidden: yes
       primary_key: yes
       sql: CONCAT(${TABLE}.ISSUE_ID,' ',${TABLE}.SPRINT_ID) ;;
+      hidden: yes
     }
 
     dimension: issue_id {
       type: number
-      # hidden: yes
       sql: ${TABLE}.issue_id ;;
+      hidden: yes
     }
 
     dimension: sprint_id {
       type: number
-      # hidden: yes
       sql: ${TABLE}.sprint_id ;;
+      hidden: yes
     }
 
-    measure: count {
-      type: count
-      drill_fields: [issue.id, issue.epic_name, sprint.id, sprint.name]
-    }
   }
