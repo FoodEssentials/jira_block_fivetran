@@ -19,6 +19,7 @@ explore: issue {
   }
 
   join: bug_cost {
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one
@@ -26,6 +27,7 @@ explore: issue {
   }
 
   join: bug_pain {
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one
@@ -33,6 +35,7 @@ explore: issue {
   }
 
   join: bug_spread {
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one
@@ -40,6 +43,7 @@ explore: issue {
   }
 
   join: client {
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one
@@ -54,7 +58,7 @@ explore: issue {
   }
 
   join: cs_priority {
-    view_label: "CS Priority"
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one
@@ -68,6 +72,7 @@ explore: issue {
   }
 
   join: epic_status {
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one
@@ -106,6 +111,7 @@ explore: issue {
   }
 
   join: sales_request {
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one
@@ -113,6 +119,7 @@ explore: issue {
   }
 
   join: severity {
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one
@@ -126,6 +133,7 @@ explore: issue {
   }
 
   join: bug_priority {
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one
@@ -133,6 +141,7 @@ explore: issue {
   }
 
   join: bug_severity {
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one
@@ -140,6 +149,7 @@ explore: issue {
   }
 
   join: initiative {
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one
@@ -147,6 +157,7 @@ explore: issue {
   }
 
   join: manual_work {
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one
@@ -154,6 +165,7 @@ explore: issue {
   }
 
   join: strategic_initiative {
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one
@@ -161,6 +173,7 @@ explore: issue {
   }
 
   join: purpose {
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one
@@ -176,7 +189,7 @@ explore: issue {
 
   join: issue_component_s {
     type: left_outer
-    relationship: many_to_one
+    relationship: many_to_many
     sql_on: ${issue.id} = ${issue_component_s.issue_id} ;;
   }
 
@@ -211,6 +224,7 @@ explore: issue {
   }
 
   join: customer {
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one
@@ -242,6 +256,7 @@ explore: issue {
   }
 
   join: product_type {
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one
@@ -255,6 +270,7 @@ explore: issue {
   }
 
   join: solution {
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one
@@ -269,7 +285,7 @@ explore: issue {
   }
 
   join: potential_hic {
-    view_label: "Potential HIC"
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one
@@ -277,14 +293,14 @@ explore: issue {
   }
 
   join: issue_ongoing_hic_or_commitment {
-    view_label: "Issue Ongoing HIC or Commitment"
+    view_label: "Issue"
     type: left_outer
     relationship: many_to_one
     sql_on: ${issue.id} = ${issue_ongoing_hic_or_commitment.issue_id} ;;
   }
 
   join: ongoing_hic_or_commitment {
-    view_label: "Ongoing HIC or Commitment"
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one
@@ -292,7 +308,7 @@ explore: issue {
   }
 
   join: hic_or_commitment_type {
-    view_label: "HIC or Commitment Type"
+    view_label: "Issue"
     from: field_option
     type: left_outer
     relationship: many_to_one

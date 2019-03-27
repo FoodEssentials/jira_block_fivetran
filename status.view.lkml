@@ -29,6 +29,8 @@
     }
 
     dimension: name {
+      label: "Status Name"
+      group_label: "Issue"
       type: string
       sql: ${TABLE}.name ;;
     }

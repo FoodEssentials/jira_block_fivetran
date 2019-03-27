@@ -25,14 +25,29 @@ view: field_option {
 
   dimension: name {
     type: string
+    label: "{% if _view._name == 'bug_cost' %} Bug Cost
+    {% elsif _view._name == 'bug_pain' %} Bug Pain
+    {% elsif _view._name == 'bug_spread' %} Bug Spread
+    {% elsif _view._name == 'client' %} Client
+    {% elsif _view._name == 'cs_priority' %} CS Priority
+    {% elsif _view._name == 'epic_status' %} Epic Status
+    {% elsif _view._name == 'sales_request' %} Sales Request
+    {% elsif _view._name == 'severity' %} Severity
+    {% elsif _view._name == 'bug_priority' %} Bug Priority
+    {% elsif _view._name == 'bug_severity' %} Bug Severity
+    {% elsif _view._name == 'initiative' %} Initiative
+    {% elsif _view._name == 'manual_work' %} Manual Work
+    {% elsif _view._name == 'strategic_initiative' %} Strategic Initiative
+    {% elsif _view._name == 'purpose' %} Purpose
+    {% elsif _view._name == 'customer' %} Customer
+    {% elsif _view._name == 'product_type' %} Product Type
+    {% elsif _view._name == 'solution' %} Solution
+    {% elsif _view._name == 'potential_hic' %} Potential HIC
+    {% elsif _view._name == 'ongoing_hic_or_commitment' %} Ongoing HIC or Commitment
+    {% elsif _view._name == 'hic_or_commitment_type' %} HIC or Commitment Type
+    {% else %} The label in field_option view file needs an update
+    {% endif %}"
     sql: ${TABLE}.name ;;
   }
 
-  # ----- Sets of fields for drilling ------
-  set: detail {
-    fields: [
-      id,
-      name,
-    ]
-  }
 }
