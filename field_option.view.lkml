@@ -25,15 +25,15 @@ view: field_option {
 
   dimension: name {
     type: string
-    label: "{% if _view._name == 'bug_cost' %} Bug Cost
-    {% elsif _view._name == 'bug_pain' %} Bug Pain
-    {% elsif _view._name == 'bug_spread' %} Bug Spread
+    label: "{% if _view._name == 'bug_cost' %} Bug Cost (Old)
+    {% elsif _view._name == 'bug_pain' %} Bug Pain (Old)
+    {% elsif _view._name == 'bug_spread' %} Bug Spread (Old)
     {% elsif _view._name == 'client' %} Client
     {% elsif _view._name == 'cs_priority' %} CS Priority
     {% elsif _view._name == 'epic_status' %} Epic Status
     {% elsif _view._name == 'sales_request' %} Sales Request
     {% elsif _view._name == 'severity' %} Severity
-    {% elsif _view._name == 'bug_priority' %} Bug Priority
+    {% elsif _view._name == 'bug_priority' %} Bug Priority (Old)
     {% elsif _view._name == 'bug_severity' %} Bug Severity
     {% elsif _view._name == 'initiative' %} Initiative
     {% elsif _view._name == 'manual_work' %} Manual Work
