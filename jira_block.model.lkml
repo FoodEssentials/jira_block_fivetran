@@ -3,6 +3,8 @@ connection: "bigquery"
 # include all the views
 include: "*.view"
 
+label: "Jira"
+
 datagroup: fivetran_datagroup {
   sql_trigger: SELECT MAX(TIMESTAMP_TRUNC(done, MINUTE)) FROM jira.fivetran_audit ;;
   max_cache_age: "24 hours"
