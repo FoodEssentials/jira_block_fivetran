@@ -4,7 +4,8 @@
     dimension: id {
       primary_key: yes
       type: number
-      sql: ${TABLE}.ID ;;
+      sql: ${TABLE}.id ;;
+      hidden: yes
     }
 
     dimension_group: _fivetran_syned {
@@ -19,22 +20,25 @@
         year
       ]
       sql: ${TABLE}._fivetran_synced ;;
+      hidden: yes
     }
 
     dimension: description {
       type: string
-      sql: ${TABLE}.DESCRIPTION ;;
+      sql: ${TABLE}.description ;;
     }
 
     dimension: name {
+      label: "Status Name"
+      group_label: "Issue"
       type: string
-      sql: ${TABLE}.NAME ;;
+      sql: ${TABLE}.name ;;
     }
 
     dimension: status_category_id {
       type: number
       # hidden: yes
-      sql: ${TABLE}.STATUS_CATEGORY_ID ;;
+      sql: ${TABLE}.status_category_id ;;
     }
 
     measure: count {

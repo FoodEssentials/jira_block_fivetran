@@ -5,6 +5,7 @@ view: sprint {
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
+    hidden: yes
   }
 
   dimension_group: _fivetran_synced {
@@ -19,12 +20,13 @@ view: sprint {
       year
     ]
     sql: ${TABLE}._fivetran_syned ;;
+    hidden: yes
   }
 
   dimension: board_id {
     type: number
-    # hidden: yes
-    sql: ${TABLE}.BOARD_ID ;;
+    sql: ${TABLE}.board_id ;;
+    hidden: yes
   }
 
   dimension_group: complete {
@@ -38,7 +40,7 @@ view: sprint {
       quarter,
       year
     ]
-    sql: ${TABLE}.COMPLETE_DATE ;;
+    sql: ${TABLE}.complete_date ;;
   }
 
   dimension_group: end {
@@ -57,7 +59,7 @@ view: sprint {
 
   dimension: name {
     type: string
-    sql: ${TABLE}.NAME ;;
+    sql: ${TABLE}.name ;;
   }
 
   dimension_group: start {

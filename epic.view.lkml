@@ -5,6 +5,7 @@ view: epic {
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
+    hidden: yes
   }
 
   dimension_group: _fivetran_synced {
@@ -19,6 +20,7 @@ view: epic {
       year
     ]
     sql: ${TABLE}._fivetran_synced ;;
+    hidden: yes
   }
 
   dimension: done {

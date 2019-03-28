@@ -4,7 +4,8 @@
     dimension: id {
       primary_key: yes
       type: number
-      sql: ${TABLE}.ID ;;
+      sql: ${TABLE}.id ;;
+      hidden: yes
     }
 
     dimension_group: _fivetran_synced {
@@ -19,11 +20,12 @@
         year
       ]
       sql: ${TABLE}._fivetran_syned ;;
+      hidden: yes
     }
 
     dimension: name {
       type: string
-      sql: ${TABLE}.NAME ;;
+      sql: ${TABLE}.name ;;
     }
 
     measure: count {

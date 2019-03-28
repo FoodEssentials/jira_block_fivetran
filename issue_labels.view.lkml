@@ -4,17 +4,18 @@ view: issue_labels {
   dimension: _fivetran_synced {
     type: string
     sql: ${TABLE}._fivetran_syned ;;
+    hidden: yes
   }
 
   dimension: issue_id {
     type: number
-    # hidden: yes
-    sql: ${TABLE}.ISSUE_ID ;;
+    sql: ${TABLE}.issue_id ;;
+    hidden: yes
   }
 
   dimension: value {
     type: string
-    sql: ${TABLE}.VALUE ;;
+    sql: ${TABLE}.value ;;
   }
 
   measure: count {
