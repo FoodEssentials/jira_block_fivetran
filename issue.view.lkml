@@ -759,6 +759,7 @@ view: issue {
   dimension: time_spent {
     type: number
     sql: ${TABLE}.time_spent ;;
+    hidden: yes
   }
 
   dimension: upc {
@@ -1047,12 +1048,15 @@ view: issue {
   }
 
   measure: total_time_spent {
+    label: "Time Spent in Seconds"
     type: sum
     sql: ${_time_spent} ;;
   }
 
   measure: total_hours_spent {
+    label: "Time Spent in Hours"
     type: sum
+    value_format_name: decimal_0
     sql: ${_time_spent} / 3600 ;;
   }
 
@@ -1071,7 +1075,8 @@ view: issue {
   }
 
   measure: count {
-    type: count
+    type: count_distinct
+    sql: ${key} ;;
     drill_fields: [detail*]
   }
 }
