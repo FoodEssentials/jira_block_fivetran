@@ -736,6 +736,11 @@ view: issue {
     sql: ${TABLE}.story_points ;;
   }
 
+  dimension: story_point_is_null {
+    type: yesno
+    sql: ${story_points} IS NULL ;;
+  }
+
   dimension: summary {
     type: string
     sql: ${TABLE}.summary ;;
