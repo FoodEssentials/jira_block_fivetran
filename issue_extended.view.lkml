@@ -1281,6 +1281,11 @@ view: issue_extended {
     sql: ${TABLE}.sales_lead_name ;;
   }
 
+  dimension: label {
+    type: string
+    sql: ${TABLE}.label ;;
+  }
+
   dimension: salesforce_opportunity_link {
     type: string
     sql: ${TABLE}.salesforce_opportunity_link ;;
