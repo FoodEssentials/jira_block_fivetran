@@ -1015,6 +1015,12 @@ view: issue {
     }
   }
 
+  dimension: resolved_within_sprint {
+    description: "Whether or not the issue was resolved during the sprint."
+    sql: ${resolved_date} >= ${sprint.start_date} AND ${resolved_date} <= ${sprint.complete_date} ;;
+    type: yesno
+  }
+
   # ----- Measures ------
   measure: total_time_to_resolve_issues_hours {
     group_label: "Resolution"
@@ -1022,6 +1028,7 @@ view: issue {
     description: "The total hours required to resolve issues (from date created to date resolved)"
     type: sum
     sql: ${hours_to_resolve_issue} ;;
+    drill_fields: [detail*, hours_to_resolve_issue]
     value_format_name: decimal_0
   }
 
@@ -1031,6 +1038,7 @@ view: issue {
     description: "The average hours required to resolve issues (from date created to date resolved)"
     type: average
     sql: ${hours_to_resolve_issue} ;;
+    drill_fields: [hours_to_resolve_issue, count]
     value_format_name: decimal_0
   }
 
@@ -1040,6 +1048,7 @@ view: issue {
     description: "The total days required to resolve issues (from date created to date resolved)"
     type: sum
     sql: ${days_to_resolve_issue} ;;
+    drill_fields: [detail*, days_to_resolve_issue]
     value_format_name: decimal_0
   }
 
@@ -1049,6 +1058,7 @@ view: issue {
     description: "The average days required to resolve issues (from date created to date resolved)"
     type: average
     sql: ${days_to_resolve_issue} ;;
+    drill_fields: [days_to_resolve_issue, count]
     value_format_name: decimal_0
   }
 
@@ -1056,6 +1066,7 @@ view: issue {
     label: "Time Spent in Seconds"
     type: sum
     sql: ${_time_spent} ;;
+    drill_fields: [detail*, _time_spent]
   }
 
   measure: total_hours_spent {
@@ -1063,20 +1074,23 @@ view: issue {
     type: sum
     value_format_name: decimal_0
     sql: ${_time_spent} / 3600 ;;
+    drill_fields: [detail*, _time_spent]
   }
 
   measure: total_story_points {
     type: sum
     sql: ${story_points} ;;
+    drill_fields: [detail*, story_points]
   }
 
   measure: total_story_points_closed_within_sprint {
     type: sum
-    sql:
-      CASE WHEN ${resolved_date} >= ${sprint.start_date} AND ${resolved_date} <= ${sprint.complete_date}
-      THEN ${story_points}
-      ELSE NULL
-      END;;
+    sql: ${story_points} ;;
+    filters: {
+      field: resolved_within_sprint
+      value: "Yes"
+    }
+    drill_fields: [detail*, story_points]
   }
 
   measure: count {
