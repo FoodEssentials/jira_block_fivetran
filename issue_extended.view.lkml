@@ -1235,11 +1235,6 @@ view: issue_extended {
     sql: ${TABLE}.manual_work_name ;;
   }
 
-  dimension: products {
-    type: number
-    sql: ${TABLE}.products ;;
-  }
-
   dimension: strategic_initiative {
     type: number
     sql: ${TABLE}.strategic_initiative ;;
