@@ -80,6 +80,7 @@ view: issue_extended {
               _potential_hic_name.name as potential_hic_name,
               _ongoing_hic_name.name as ongoing_hic_or_commitment_name,
               _hic_type.name as hic_or_commitment_type_name,
+              _product_name.name AS product_name,
 
                -- Include all of the values for multi-value fields associated
                -- with the issue. Each of these fields is stored in its
@@ -236,6 +237,12 @@ view: issue_extended {
 
         LEFT JOIN jira.field_option _hic_type
             ON issue.hic_or_commitment_type = _hic_type.id
+
+        LEFT JOIN jira.issue_product _product
+            ON issue.id = _product.issue_id
+
+        LEFT JOIN jira.field_option _product_name
+            ON _product.field_option_id = _product_name.id
 
         WHERE issue.key NOT IN ('AD-429',
               'AD-105',
@@ -574,7 +581,7 @@ view: issue_extended {
         49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,
         74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,
         102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,
-        124,125,126,127,128,129,130,131,132,133,134,135,136,137;;
+        124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140;;
 
     datagroup_trigger: fivetran_datagroup
     # indexes: ["id"]
@@ -1415,6 +1422,11 @@ view: issue_extended {
   dimension: sprint_name {
     type: string
     sql: ${TABLE}.sprint_name ;;
+  }
+
+  dimension: product_name {
+    label: "Product"
+    sql: ${TABLE}.product_name ;;
   }
 
   # ----- Added Dimensions ------
