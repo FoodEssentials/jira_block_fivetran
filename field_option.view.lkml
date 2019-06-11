@@ -45,6 +45,7 @@ view: field_option {
     {% elsif _view._name == 'potential_hic' %} Potential HIC
     {% elsif _view._name == 'ongoing_hic_or_commitment' %} Ongoing HIC or Commitment
     {% elsif _view._name == 'hic_or_commitment_type' %} HIC or Commitment Type
+    {% elsif _view._name == 'product_name' %} Product
     {% else %} The label in field_option view file needs an update
     {% endif %}"
     sql: ${TABLE}.name ;;
