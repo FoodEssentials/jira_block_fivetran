@@ -317,6 +317,18 @@ explore: issue {
     sql_on: ${issue.hic_or_commitment_type} = ${hic_or_commitment_type.id} ;;
   }
 
+  join: issue_product {
+    sql_on: ${issue.id} = ${issue_product.issue_id} ;;
+    relationship: one_to_one
+  }
+
+  join: product_name {
+    view_label: "Issue"
+    from: field_option
+    sql_on: ${issue_product.field_option_id} = ${product_name.id} ;;
+    relationship: one_to_many
+  }
+
 }
 
 explore: sprint {
