@@ -4,7 +4,7 @@ view: issue {
       SELECT
         *
       FROM jira.issue
-      WHERE issue.key NOT IN (SELECT JSON_EXTRACT_SCALAR(issue, '$.key') FROM webhooks.jira_deleted_issue) ;;
+      WHERE issue.key NOT IN (SELECT JSON_EXTRACT_SCALAR(issue, '$.key') FROM webhooks.jira_deleted_issue WHERE issue IS NOT NULL) ;;
   }
 
   set: detail {

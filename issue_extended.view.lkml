@@ -244,7 +244,7 @@ view: issue_extended {
         LEFT JOIN jira.field_option _product_name
             ON _product.field_option_id = _product_name.id
 
-        WHERE issue.key NOT IN (SELECT JSON_EXTRACT_SCALAR(issue, '$.key') FROM webhooks.jira_deleted_issue)
+        WHERE issue.key NOT IN (SELECT JSON_EXTRACT_SCALAR(issue, '$.key') FROM webhooks.jira_deleted_issue WHERE issue IS NOT NULL)
 
          -- Each non-aggregated field (not included in a LISTAGG) needs to
          -- be included in the GROUP BY clause, so that's every field in the
