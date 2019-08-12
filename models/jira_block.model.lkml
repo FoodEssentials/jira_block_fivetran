@@ -350,20 +350,20 @@ explore: sprint {
 
 # Update based on how you are associating versions to
 explore: version {
-  join: issue_fix_version {
+  join: issue_fix_version_s {
     type: left_outer
     relationship: one_to_many
-    sql_on: ${version.id} = ${issue_fix_version.version_id} ;;
+    sql_on: ${version.id} = ${issue_fix_version_s.version_id} ;;
   }
   join: issue {
     type: left_outer
     relationship: one_to_one
-    sql_on: ${issue_fix_version.issue_id} = ${issue.id} ;;
+    sql_on: ${issue_fix_version_s.issue_id} = ${issue.id} ;;
   }
   join: issue_extended {
     type: left_outer
     relationship: one_to_one
-    sql_on: ${issue_fix_version.issue_id} = ${issue_extended.id} ;;
+    sql_on: ${issue_fix_version_s.issue_id} = ${issue_extended.id} ;;
   }
   join: issue_sprint {
     type: left_outer
