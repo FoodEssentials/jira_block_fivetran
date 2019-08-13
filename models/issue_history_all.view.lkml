@@ -12,10 +12,9 @@ view: issue_history_all {
   derived_table: {
     sql:
 
-      SELECT assignee.issue_id, assignee.time, user.name AS value, 'Assignee' AS changed
-      FROM jira.issue_assignee_history assignee
-      LEFT JOIN jira.user user
-         ON assignee.user_id = user.id
+      SELECT ph.issue_id, ph.time, p.name AS value, 'Project' AS changed
+      FROM jira.issue_project_history ph
+      LEFT JOIN jira.project p ON ph.project_id = p.id
 
       {% assign single_select_fields = 'bug_cost,bug_pain,bug_priority,bug_severity,bug_spread,change_reason,change_risk,change_type,client,contractual,cs_priority,customer,epic_status,flagged,hic_or_commitment_type,impact,manual_work,manufacturer,ongoing_hic_or_commitment,platform_tool,potential_hic,product,product_type,products,purpose,reportable,response_type,sales_request,solution,strategic_initiative,value' | split:',' %}
       {% for field_name in single_select_fields %}
@@ -32,6 +31,15 @@ view: issue_history_all {
 
       SELECT {{field_name}}.issue_id, {{field_name}}.time, CAST({{field_name}}.value AS STRING), "{{ field_name | replace:'_',' ' | capitalize }}" AS changed
       FROM jira.issue_{{field_name}}_history AS {{field_name}}
+      {% endfor %}
+
+      {% assign user_fields = 'approvers,assignee,creator,cs_representative,reporter,request_participants,sales_lead,solutions_consultant' | split:',' %}
+      {% for field_name in user_fields %}
+      UNION ALL
+
+      SELECT {{field_name}}.issue_id, {{field_name}}.time, {{field_name}}_user.name, "{{ field_name | replace:'_',' ' | capitalize }}" AS changed
+      FROM jira.issue_{{field_name}}_history AS {{field_name}}
+      LEFT JOIN jira.user AS {{field_name}}_user ON {{field_name}}.user_id = {{field_name}}_user.id
       {% endfor %}
 
       UNION ALL
@@ -68,20 +76,6 @@ view: issue_history_all {
       FROM jira.issue_priority_history priority
          LEFT JOIN jira.priority pri
            ON priority.priority_id = pri.id
-
-      UNION ALL
-
-      SELECT ph.issue_id, ph.time, p.name AS value, 'Project' AS changed
-      FROM jira.issue_project_history ph
-         LEFT JOIN jira.project p
-           ON ph.project_id = p.id
-
-      UNION ALL
-
-      SELECT reporter.issue_id, reporter.time, user.name AS value, 'Reporter' AS changed
-      FROM jira.issue_reporter_history reporter
-         LEFT JOIN jira.user user
-           ON reporter.user_id = user.id
 
       UNION ALL
 
