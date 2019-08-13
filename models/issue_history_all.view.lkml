@@ -12,12 +12,12 @@ view: issue_history_all {
   derived_table: {
     sql:
 
-      {% assign single_select_fields = 'bug_cost,bug_pain,bug_priority,bug_severity,bug_spread,change_reason,change_risk,change_type,client,contractual,cs_priority,customer,epic_status,flagged,hic_or_commitment_type,impact,manual_work,manufacturer,ongoing_hic_or_commitment,platform_tool,potential_hic,product,product_type,products,purpose,reportable,response_type,sales_request,solution,strategic_initiative,value' | split:',' %}
       SELECT assignee.issue_id, assignee.time, user.name AS value, 'Assignee' AS changed
       FROM jira.issue_assignee_history assignee
       LEFT JOIN jira.user user
          ON assignee.user_id = user.id
 
+      {% assign single_select_fields = 'bug_cost,bug_pain,bug_priority,bug_severity,bug_spread,change_reason,change_risk,change_type,client,contractual,cs_priority,customer,epic_status,flagged,hic_or_commitment_type,impact,manual_work,manufacturer,ongoing_hic_or_commitment,platform_tool,potential_hic,product,product_type,products,purpose,reportable,response_type,sales_request,solution,strategic_initiative,value' | split:',' %}
       {% for field_name in single_select_fields %}
       UNION ALL
 
@@ -26,15 +26,13 @@ view: issue_history_all {
       LEFT JOIN jira.field_option AS {{field_name}}_field_option ON {{field_name}}.field_option_id = {{field_name}}_field_option.id
       {% endfor %}
 
+      {% assign text_fields = 'asana_link,brand,business_value,characteristic,current_value,description,development,end_users,environment,epic_color,epic_name,epic_theme,expected_value,freshdesk_tickets,issue_color,labels,model_type,product_description,product_id,prospect,salesforce_opportunity_link,serial_number,status_comment,summary,target,text,upc,user_email_address,zendesk_ticket_ids' | split:',' %}
+      {% for field_name in text_fields %}
       UNION ALL
 
-      SELECT issue_id, time, value, 'Asana' AS changed
-      FROM jira.issue_asana_link_history
-
-      UNION ALL
-
-      SELECT issue_id, time, value, 'Business Value' AS changed
-      FROM jira.issue_business_value_history
+      SELECT {{field_name}}.issue_id, {{field_name}}.time, {{field_name}}.value, "{{ field_name | replace:'_',' ' | capitalize }}" AS changed
+      FROM jira.issue_{{field_name}}_history AS {{field_name}}
+      {% endfor %}
 
       UNION ALL
 
@@ -45,23 +43,8 @@ view: issue_history_all {
 
       UNION ALL
 
-      SELECT issue_id, time, value, 'Description' AS changed
-      FROM jira.issue_description_history
-
-      UNION ALL
-
       SELECT issue_id, time, CAST(value AS STRING) AS value, 'Due Date' AS changed
       FROM jira.issue_duedate_history
-
-      UNION ALL
-
-      SELECT issue_id, time, value, 'Environment' AS changed
-      FROM jira.issue_environment_history
-
-      UNION ALL
-
-      SELECT issue_id, time, value, 'Epic Color' AS changed
-      FROM jira.issue_epic_color_history
 
       UNION ALL
 
@@ -72,11 +55,6 @@ view: issue_history_all {
 
       UNION ALL
 
-      SELECT issue_id, time, value, 'Epic Name' AS changed
-      FROM jira.issue_epic_name_history
-
-      UNION ALL
-
       SELECT fix_version.issue_id, fix_version.time, version.name AS value, 'Fix Version' AS changed
       FROM jira.issue_fix_version_history fix_version
          LEFT JOIN jira.version version
@@ -84,20 +62,10 @@ view: issue_history_all {
 
       UNION ALL
 
-      SELECT issue_id, time, value, 'Freshdesk Tickets' AS changed
-      FROM jira.issue_freshdesk_tickets_history
-
-      UNION ALL
-
       SELECT issuetype.issue_id, issuetype.time, issue_type.name AS value, 'Type' AS changed
       FROM jira.issue_issuetype_history issuetype
          LEFT JOIN jira.issue_type issue_type
            ON issuetype.issue_type_id = issue_type.id
-
-      UNION ALL
-
-      SELECT issue_id, time, value, 'Labels' AS changed
-      FROM jira.issue_labels_history
 
       UNION ALL
 
@@ -141,11 +109,6 @@ view: issue_history_all {
 
       UNION ALL
 
-      SELECT issue_id, time, value, 'Status Comment' AS changed
-      FROM jira.issue_status_comment_history
-
-      UNION ALL
-
       SELECT status.issue_id, status.time, s.name AS value, 'Status' AS changed
       FROM jira.issue_status_history status
          LEFT JOIN jira.status s
@@ -155,16 +118,6 @@ view: issue_history_all {
 
       SELECT issue_id, time, CAST(value AS STRING) AS value, 'Story Points' AS changed
       FROM jira.issue_story_points_history
-
-      UNION ALL
-
-      SELECT issue_id, time, value, 'Summary' AS changed
-      FROM jira.issue_summary_history
-
-      UNION ALL
-
-      SELECT issue_id, time, value, 'Target' AS changed
-      FROM jira.issue_target_history
 
       UNION ALL
 
