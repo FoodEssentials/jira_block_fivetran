@@ -2,7 +2,7 @@ connection: "bigquery"
 
 # include all the views
 include: "/bigquery/issue_fields/fields/*.view"
-include: "/bigquery/issue_fields/history/*.view"
+# include: "/bigquery/issue_fields/history/*.view"
 include: "/bigquery/*.view"
 include: "/models/*.view"
 
