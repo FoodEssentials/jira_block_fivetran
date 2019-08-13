@@ -14,7 +14,7 @@
 # that is meaningful for your users.  There can be lots of columns
 # so make them as easy to work woth as possible.
 
-include: "comment.view"
+include: "/bigquery/comment.view"
 
 explore: issue_extended {
   join: comment {
