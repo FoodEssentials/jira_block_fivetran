@@ -26,11 +26,11 @@ view: issue_history_all {
       LEFT JOIN jira.field_option AS {{field_name}}_field_option ON {{field_name}}.field_option_id = {{field_name}}_field_option.id
       {% endfor %}
 
-      {% assign text_fields = 'asana_link,brand,business_value,characteristic,current_value,description,development,end_users,environment,epic_color,epic_name,epic_theme,expected_value,freshdesk_tickets,issue_color,labels,model_type,product_description,product_id,prospect,salesforce_opportunity_link,serial_number,status_comment,summary,target,text,upc,user_email_address,zendesk_ticket_ids' | split:',' %}
+      {% assign text_fields = 'asana_link,brand,business_value,characteristic,current_value,description,development,end_users,environment,epic_color,epic_name,epic_theme,expected_value,freshdesk_tickets,issue_color,labels,model_type,product_description,product_id,prospect,salesforce_opportunity_link,serial_number,status_comment,summary,target,text,upc,user_email_address,zendesk_ticket_ids,change_completion_date,change_start_date,created,due_date,duedate,last_viewed,projected_date,resolutiondate,resolved,satisfaction_date,start_date,status_category_changed,this_week,updated,original_estimate,remaining_estimate,story_point_estimate,story_points,time_spent,timeestimate,timeoriginalestimate,timespent,work_ratio' | split:',' %}
       {% for field_name in text_fields %}
       UNION ALL
 
-      SELECT {{field_name}}.issue_id, {{field_name}}.time, {{field_name}}.value, "{{ field_name | replace:'_',' ' | capitalize }}" AS changed
+      SELECT {{field_name}}.issue_id, {{field_name}}.time, CAST({{field_name}}.value AS STRING), "{{ field_name | replace:'_',' ' | capitalize }}" AS changed
       FROM jira.issue_{{field_name}}_history AS {{field_name}}
       {% endfor %}
 
@@ -40,11 +40,6 @@ view: issue_history_all {
       FROM jira.issue_component_history component_history
          LEFT JOIN jira.component component
            ON component_history.component_id = component.id
-
-      UNION ALL
-
-      SELECT issue_id, time, CAST(value AS STRING) AS value, 'Due Date' AS changed
-      FROM jira.issue_duedate_history
 
       UNION ALL
 
@@ -104,35 +99,10 @@ view: issue_history_all {
 
       UNION ALL
 
-      SELECT issue_id, time, CAST(value AS STRING) AS value, 'Start Date' AS changed
-      FROM jira.issue_start_date_history
-
-      UNION ALL
-
       SELECT status.issue_id, status.time, s.name AS value, 'Status' AS changed
       FROM jira.issue_status_history status
          LEFT JOIN jira.status s
            ON status.status_id = s.id
-
-      UNION ALL
-
-      SELECT issue_id, time, CAST(value AS STRING) AS value, 'Story Points' AS changed
-      FROM jira.issue_story_points_history
-
-      UNION ALL
-
-      SELECT issue_id, time, CAST(value AS STRING) AS value, 'Time Estimate' AS changed
-      FROM jira.issue_timeestimate_history
-
-      UNION ALL
-
-      SELECT issue_id, time, CAST(value AS STRING) AS value, 'Time Original Estimate' AS changed
-      FROM jira.issue_timeoriginalestimate_history
-
-      UNION ALL
-
-      SELECT issue_id, time, CAST(value AS STRING) AS value, 'Time Spent' AS changed
-      FROM jira.issue_timespent_history
 ;;
 
     # datagroup_trigger: fivetran_datagroup
