@@ -1,11 +1,5 @@
 view: issue {
-  derived_table: {
-    sql:
-      SELECT
-        *
-      FROM jira.issue
-      WHERE issue.key NOT IN (SELECT JSON_EXTRACT_SCALAR(issue, '$.key') FROM webhooks.jira_deleted_issue WHERE issue IS NOT NULL) ;;
-  }
+  sql_table_name: jira.issue ;;
 
   set: detail {
     fields: [
@@ -17,6 +11,12 @@ view: issue {
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
+    hidden: yes
+  }
+
+  dimension: _fivetran_deleted {
+    type: yesno
+    sql: ${TABLE}._fivetran_deleted ;;
     hidden: yes
   }
 
