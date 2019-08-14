@@ -16,6 +16,8 @@ datagroup: fivetran_datagroup {
 persist_with: fivetran_datagroup
 
 explore: issue {
+  sql_always_where: NOT ${_fivetran_deleted} ;;
+
   join: assignee {
     from: user
     type: left_outer
@@ -342,7 +344,8 @@ explore: sprint {
   }
   join: issue {
     type:  left_outer
-    sql_on: ${issue_sprint.issue_id} = ${issue.id} ;;
+    sql_on: ${issue_sprint.issue_id} = ${issue.id}
+      AND NOT ${issue._fivetran_deleted} ;;
     relationship: one_to_many
   }
 
@@ -358,7 +361,8 @@ explore: version {
   join: issue {
     type: left_outer
     relationship: one_to_one
-    sql_on: ${issue_fix_version_s.issue_id} = ${issue.id} ;;
+    sql_on: ${issue_fix_version_s.issue_id} = ${issue.id}
+      AND NOT ${issue._fivetran_deleted} ;;
   }
   join: issue_extended {
     type: left_outer
@@ -383,6 +387,7 @@ explore: issue_history_2 {
   label: "Issue History"
 #  fields: [ALL_FIELDS*, -issue.total_open_story_points,-issue.total_closed_story_points]
   view_name: issue
+  sql_always_where: NOT ${issue._fivetran_deleted} ;;
 
   join: issue_history_all {
     type:  left_outer
@@ -410,7 +415,8 @@ explore: issue_history_2 {
 explore: project {
   join: issue {
     type:  left_outer
-    sql_on: ${project.id} = ${issue.project} ;;
+    sql_on: ${project.id} = ${issue.project}
+      AND NOT ${issue._fivetran_deleted} ;;
     relationship: many_to_one
   }
   join:  issue_type {
@@ -471,7 +477,8 @@ explore: sprint_by_date {
   join: issue {
     view_label: "Issue"
     type: left_outer
-    sql_on: ${sprint_by_date.issue_id} = ${issue.id} ;;
+    sql_on: ${sprint_by_date.issue_id} = ${issue.id}
+      AND NOT ${issue._fivetran_deleted} ;;
     relationship: many_to_one
   }
 
@@ -521,6 +528,7 @@ explore: sprint_by_date {
 
 explore: sprint_burndown {
   view_name: issue
+  sql_always_where: NOT ${issue._fivetran_deleted} ;;
 
   join: issue_sprint {
     type: left_outer
