@@ -35,6 +35,171 @@ view: issue {
     hidden: yes
   }
 
+  dimension: asana_link {
+    type: string
+    sql: ${TABLE}.asana_link ;;
+  }
+
+  dimension: business_value {
+    type: string
+    sql: ${TABLE}.business_value ;;
+  }
+
+  dimension_group: created {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.created ;;
+  }
+
+  dimension: description {
+    type: string
+    sql: ${TABLE}.description ;;
+  }
+
+  dimension: end_users {
+    type: string
+    sql: ${TABLE}.end_users ;;
+  }
+
+  dimension: environment {
+    type: string
+    sql: ${TABLE}.environment ;;
+  }
+
+  dimension: epic_color {
+    type: string
+    sql: ${TABLE}.epic_color ;;
+  }
+
+  dimension: epic_name {
+    type: string
+    sql: ${TABLE}.epic_name ;;
+  }
+
+  dimension: key {
+    type: string
+    sql: ${TABLE}.key ;;
+    link: {
+      label: "See in Jira"
+      url: "https://labelinsight.atlassian.net/browse/{{value}}"
+    }
+  }
+
+  dimension_group: resolved {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.resolved ;;
+  }
+
+  dimension: status_comment {
+    type: string
+    sql: ${TABLE}.status_comment ;;
+  }
+
+  dimension: story_points {
+    type: number
+    sql: ${TABLE}.story_points ;;
+  }
+
+  dimension_group: updated {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.updated ;;
+  }
+
+  dimension_group: due {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.due_date ;;
+  }
+
+  dimension_group: start {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.start_date ;;
+  }
+
+  dimension: prospect {
+    type: string
+    sql: ${TABLE}.prospect ;;
+  }
+
+  dimension: salesforce_opportunity_link {
+    type: string
+    sql: ${TABLE}.salesforce_opportunity_link ;;
+  }
+
+  dimension: development {
+    type: string
+    sql: ${TABLE}.development ;;
+    hidden: yes
+  }
+
+  dimension_group: projected_date {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.projected_date ;;
+  }
+
+  dimension: zendesk_ticket_ids {
+    type: string
+    sql: ${TABLE}.zendesk_ticket_ids ;;
+  }
+
+  dimension: issue_color {
+    type: string
+    sql: ${TABLE}.issue_color ;;
+  }
+
+  # Time Tracking
   dimension: _original_estimate {
     type: number
     sql: ${TABLE}._original_estimate ;;
@@ -51,17 +216,29 @@ view: issue {
     sql: ${TABLE}._time_spent ;;
   }
 
-  dimension: asana_link {
-    type: string
-    sql: ${TABLE}.asana_link ;;
+  dimension: original_estimate {
+    type: number
+    sql: ${TABLE}.original_estimate ;;
   }
 
-  dimension: assignee {
-    type: string
-    sql: ${TABLE}.assignee ;;
+  dimension: remaining_estimate {
+    type: number
+    sql: ${TABLE}.remaining_estimate ;;
+  }
+
+  dimension: time_spent {
+    type: number
+    sql: ${TABLE}.time_spent ;;
     hidden: yes
   }
 
+  dimension: work_ratio {
+    type: number
+    sql: ${TABLE}.work_ratio ;;
+  }
+
+  # Foreign Keys {
+  # -> field_option
   dimension: bug_cost {
     type: number
     sql: ${TABLE}.bug_cost ;;
@@ -80,11 +257,140 @@ view: issue {
     hidden: yes
   }
 
-  dimension: business_value {
-    type: string
-    sql: ${TABLE}.business_value ;;
+  dimension: client {
+    type: number
+    sql: ${TABLE}.client ;;
+    hidden: yes
   }
 
+  dimension: cs_priority {
+    type: number
+    sql: ${TABLE}.cs_priority ;;
+    hidden: yes
+  }
+
+  dimension: epic_status {
+    type: number
+    sql: ${TABLE}.epic_status ;;
+    hidden: yes
+  }
+
+  dimension: summary {
+    type: string
+    sql: ${TABLE}.summary ;;
+  }
+
+  dimension: bug_priority {
+    type: number
+    sql: ${TABLE}.bug_priority ;;
+    hidden: yes
+  }
+
+  dimension: bug_severity {
+    type: number
+    sql: ${TABLE}.bug_severity ;;
+    hidden: yes
+  }
+
+  dimension: strategic_initiative { # mostly null, consider deprecating
+    type: number
+    sql: ${TABLE}.strategic_initiative ;;
+    hidden: yes
+  }
+
+  dimension: purpose {
+    type: number
+    sql: ${TABLE}.purpose ;;
+    hidden: yes
+  }
+
+  dimension: hic_or_commitment_type {
+    type: number
+    sql: ${TABLE}.hic_or_commitment_type ;;
+    hidden: yes
+  }
+
+  # -> user
+  dimension: assignee {
+    type: string
+    sql: ${TABLE}.assignee ;;
+    hidden: yes
+  }
+
+  dimension: creator {
+    type: string
+    sql: ${TABLE}.creator ;;
+    hidden: yes
+  }
+
+  dimension: reporter {
+    type: string
+    sql: ${TABLE}.reporter ;;
+    hidden: yes
+  }
+
+  dimension: sales_lead {
+    type: string
+    sql: ${TABLE}.sales_lead ;;
+    hidden: yes
+  }
+
+  dimension: solutions_consultant {
+    type: string
+    sql: ${TABLE}.solutions_consultant ;;
+  }
+
+  # -> issue
+  dimension: epic_link {
+    type: number
+    sql: ${TABLE}.epic_link ;;
+    hidden: yes
+  }
+
+  dimension: parent_id {
+    type: number
+    sql: ${TABLE}.parent_id ;;
+  }
+
+  # -> issue_type
+  dimension: issue_type {
+    type: number
+    sql: ${TABLE}.issue_type ;;
+    hidden: yes
+  }
+
+  # -> priority
+  dimension: priority {
+    type: number
+    sql: ${TABLE}.priority ;;
+    hidden: yes
+  }
+
+  # -> project
+  dimension: project {
+    type: number
+    sql: ${TABLE}.project ;;
+    hidden: yes
+  }
+
+  # -> resolution
+  dimension: resolution {
+    type: number
+    sql: ${TABLE}.resolution ;;
+    hidden: yes
+  }
+
+  # -> status
+  dimension: status {
+    type: number
+    sql: ${TABLE}.status ;;
+    hidden: yes
+  }
+
+  # }
+
+
+  # Null/Deprecated {
   dimension: change_risk {
     type: number
     sql: ${TABLE}.change_risk ;;
@@ -116,78 +422,9 @@ view: issue {
     sql: ${TABLE}.characteristic ;;
   }
 
-  dimension: client {
-    type: number
-    sql: ${TABLE}.client ;;
-    hidden: yes
-  }
-
-  dimension_group: created {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.created ;;
-  }
-
-  dimension: creator {
-    type: string
-    sql: ${TABLE}.creator ;;
-    hidden: yes
-  }
-
-  dimension: cs_priority {
-    type: number
-    sql: ${TABLE}.cs_priority ;;
-    hidden: yes
-  }
-
   dimension: current_value {
     type: string
     sql: ${TABLE}.current_value ;;
-  }
-
-  dimension: description {
-    type: string
-    sql: ${TABLE}.description ;;
-  }
-
-  dimension: end_users {
-    type: string
-    sql: ${TABLE}.end_users ;;
-  }
-
-  dimension: environment {
-    type: string
-    sql: ${TABLE}.environment ;;
-  }
-
-  dimension: epic_color {
-    type: string
-    sql: ${TABLE}.epic_color ;;
-  }
-
-  dimension: epic_link {
-    type: number
-    sql: ${TABLE}.epic_link ;;
-    hidden: yes
-  }
-
-  dimension: epic_name {
-    type: string
-    sql: ${TABLE}.epic_name ;;
-  }
-
-  dimension: epic_status {
-    type: number
-    sql: ${TABLE}.epic_status ;;
-    hidden: yes
   }
 
   dimension: epic_theme {
@@ -208,12 +445,6 @@ view: issue {
   dimension: impact {
     type: number
     sql: ${TABLE}.impact ;;
-  }
-
-  dimension: issue_type {
-    type: number
-    sql: ${TABLE}.issue_type ;;
-    hidden: yes
   }
 
   dimension: jira_capture_browser {
@@ -251,15 +482,6 @@ view: issue {
     sql: ${TABLE}.jira_capture_user_agent ;;
   }
 
-  dimension: key {
-    type: string
-    sql: ${TABLE}.key ;;
-    link: {
-      label: "See in Jira"
-      url: "https://labelinsight.atlassian.net/browse/{{value}}"
-    }
-  }
-
   dimension_group: last_viewed {
     type: time
     timeframes: [
@@ -284,25 +506,9 @@ view: issue {
     sql: ${TABLE}.model_type ;;
   }
 
-  dimension: original_estimate {
-    type: number
-    sql: ${TABLE}.original_estimate ;;
-  }
-
-  dimension: parent_id {
-    type: number
-    sql: ${TABLE}.parent_id ;;
-  }
-
   dimension: parent_link {
     type: number
     sql: ${TABLE}.parent_link ;;
-  }
-
-  dimension: priority {
-    type: number
-    sql: ${TABLE}.priority ;;
-    hidden: yes
   }
 
   dimension: product_description {
@@ -315,46 +521,9 @@ view: issue {
     sql: ${TABLE}.product_id ;;
   }
 
-  dimension: project {
-    type: number
-    sql: ${TABLE}.project ;;
-    hidden: yes
-  }
-
   dimension: raised_during {
     type: string
     sql: ${TABLE}.raised_during ;;
-  }
-
-  dimension: remaining_estimate {
-    type: number
-    sql: ${TABLE}.remaining_estimate ;;
-  }
-
-  dimension: reporter {
-    type: string
-    sql: ${TABLE}.reporter ;;
-    hidden: yes
-  }
-
-  dimension: resolution {
-    type: number
-    sql: ${TABLE}.resolution ;;
-    hidden: yes
-  }
-
-  dimension_group: resolved {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.resolved ;;
   }
 
   dimension: response_type {
@@ -393,32 +562,6 @@ view: issue {
     hidden: yes
   }
 
-  dimension: status {
-    type: number
-    sql: ${TABLE}.status ;;
-    hidden: yes
-  }
-
-  dimension: status_comment {
-    type: string
-    sql: ${TABLE}.status_comment ;;
-  }
-
-  dimension: story_points {
-    type: number
-    sql: ${TABLE}.story_points ;;
-  }
-
-  dimension: story_point_is_null {
-    type: yesno
-    sql: ${story_points} IS NULL ;;
-  }
-
-  dimension: summary {
-    type: string
-    sql: ${TABLE}.summary ;;
-  }
-
   dimension: target {
     type: string
     sql: ${TABLE}.target ;;
@@ -434,80 +577,15 @@ view: issue {
     sql: ${TABLE}.testing_status ;;
   }
 
-  dimension: time_spent {
-    type: number
-    sql: ${TABLE}.time_spent ;;
-    hidden: yes
-  }
-
   dimension: upc {
     label: "UPC"
     type: string
     sql: ${TABLE}.upc ;;
   }
 
-  dimension_group: updated {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.updated ;;
-  }
-
   dimension: user_email_address {
     type: string
     sql: ${TABLE}.user_email_address ;;
-  }
-
-  dimension: work_ratio {
-    type: number
-    sql: ${TABLE}.work_ratio ;;
-  }
-
-  dimension: bug_priority {
-    type: number
-    sql: ${TABLE}.bug_priority ;;
-    hidden: yes
-  }
-
-  dimension: bug_severity {
-    type: number
-    sql: ${TABLE}.bug_severity ;;
-    hidden: yes
-  }
-
-  dimension_group: due {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.due_date ;;
-  }
-
-  dimension_group: start {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.start_date ;;
   }
 
   dimension: customer {
@@ -538,72 +616,9 @@ view: issue {
     sql: ${TABLE}.products ;;
   }
 
-  dimension: strategic_initiative {
-    type: number
-    sql: ${TABLE}.strategic_initiative ;;
-    hidden: yes
-  }
-
-  dimension: purpose {
-    type: number
-    sql: ${TABLE}.purpose ;;
-    hidden: yes
-  }
-
-  dimension: prospect {
-    type: string
-    sql: ${TABLE}.prospect ;;
-  }
-
-  dimension: sales_lead {
-    type: string
-    sql: ${TABLE}.sales_lead ;;
-    hidden: yes
-  }
-
-  dimension: salesforce_opportunity_link {
-    type: string
-    sql: ${TABLE}.salesforce_opportunity_link ;;
-  }
-
   dimension: story_point_estimate {
     type: number
     sql: ${TABLE}.story_point_estimate ;;
-  }
-
-  dimension: development {
-    type: string
-    sql: ${TABLE}.development ;;
-    hidden: yes
-  }
-
-  dimension_group: projected_date {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.projected_date ;;
-  }
-
-  dimension: zendesk_ticket_ids {
-    type: string
-    sql: ${TABLE}.zendesk_ticket_ids ;;
-  }
-
-  dimension: solutions_consultant {
-    type: string
-    sql: ${TABLE}.solutions_consultant ;;
-  }
-
-  dimension: issue_color {
-    type: string
-    sql: ${TABLE}.issue_color ;;
   }
 
   dimension: product_type {
@@ -629,12 +644,8 @@ view: issue {
     sql: ${TABLE}.ongoing_hic_or_commitment ;;
     hidden: yes
   }
+  #}
 
-  dimension: hic_or_commitment_type {
-    type: number
-    sql: ${TABLE}.hic_or_commitment_type ;;
-    hidden: yes
-  }
 
 # ----- Added Dimension ------
   dimension: is_issue_resolved {
@@ -686,6 +697,11 @@ view: issue {
         label: ">60 days"
       }
     }
+  }
+
+  dimension: story_point_is_null {
+    type: yesno
+    sql: ${story_points} IS NULL ;;
   }
 
   # ----- Measures ------
