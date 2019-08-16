@@ -116,22 +116,6 @@ explore: issue {
     sql_on: ${issue.resolution} = ${resolution.id} ;;
   }
 
-  join: sales_request {
-    view_label: "Issue"
-    from: field_option
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${issue.sales_request} = ${sales_request.id} ;;
-  }
-
-  join: severity {
-    view_label: "Issue"
-    from: field_option
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${issue.severity} = ${severity.id} ;;
-  }
-
   join: status {
     type: left_outer
     relationship: many_to_one
@@ -152,22 +136,6 @@ explore: issue {
     type: left_outer
     relationship: many_to_one
     sql_on: ${issue.bug_severity} = ${bug_severity.id} ;;
-  }
-
-  join: initiative {
-    view_label: "Issue"
-    from: field_option
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${issue.initiative} = ${initiative.id} ;;
-  }
-
-  join: manual_work {
-    view_label: "Issue"
-    from: field_option
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${issue.manual_work} = ${manual_work.id} ;;
   }
 
   join: strategic_initiative {

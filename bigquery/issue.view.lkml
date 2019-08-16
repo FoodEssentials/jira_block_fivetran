@@ -389,264 +389,6 @@ view: issue {
 
   # }
 
-
-  # Null/Deprecated {
-  dimension: change_risk {
-    type: number
-    sql: ${TABLE}.change_risk ;;
-  }
-
-  dimension_group: change_start {
-    group_label: "Change"
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.change_start_date ;;
-  }
-
-  dimension: change_type {
-    group_label: "Change"
-    type: number
-    sql: ${TABLE}.change_type ;;
-  }
-
-  dimension: characteristic {
-    type: string
-    sql: ${TABLE}.characteristic ;;
-  }
-
-  dimension: current_value {
-    type: string
-    sql: ${TABLE}.current_value ;;
-  }
-
-  dimension: epic_theme {
-    type: string
-    sql: ${TABLE}.epic_theme ;;
-  }
-
-  dimension: flagged {
-    type: number
-    sql: ${TABLE}.flagged ;;
-  }
-
-  dimension: freshdesk_tickets {
-    type: string
-    sql: ${TABLE}.freshdesk_tickets ;;
-  }
-
-  dimension: impact {
-    type: number
-    sql: ${TABLE}.impact ;;
-  }
-
-  dimension: jira_capture_browser {
-    type: string
-    sql: ${TABLE}.jira_capture_browser ;;
-  }
-
-  dimension: jira_capture_document_mode {
-    type: string
-    sql: ${TABLE}.jira_capture_document_mode ;;
-  }
-
-  dimension: jira_capture_j_query_version {
-    type: string
-    sql: ${TABLE}.jira_capture_j_query_version ;;
-  }
-
-  dimension: jira_capture_operating_system {
-    type: string
-    sql: ${TABLE}.jira_capture_operating_system ;;
-  }
-
-  dimension: jira_capture_screen_resolution {
-    type: string
-    sql: ${TABLE}.jira_capture_screen_resolution ;;
-  }
-
-  dimension: jira_capture_url {
-    type: string
-    sql: ${TABLE}.jira_capture_url ;;
-  }
-
-  dimension: jira_capture_user_agent {
-    type: string
-    sql: ${TABLE}.jira_capture_user_agent ;;
-  }
-
-  dimension_group: last_viewed {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.last_viewed ;;
-  }
-
-  dimension: manufacturer {
-    type: number
-    sql: ${TABLE}.manufacturer ;;
-  }
-
-  dimension: model_type {
-    type: string
-    sql: ${TABLE}.model_type ;;
-  }
-
-  dimension: parent_link {
-    type: number
-    sql: ${TABLE}.parent_link ;;
-  }
-
-  dimension: product_description {
-    type: string
-    sql: ${TABLE}.product_description ;;
-  }
-
-  dimension: product_id {
-    type: string
-    sql: ${TABLE}.product_id ;;
-  }
-
-  dimension: raised_during {
-    type: string
-    sql: ${TABLE}.raised_during ;;
-  }
-
-  dimension: response_type {
-    type: number
-    sql: ${TABLE}.response_type ;;
-  }
-
-  dimension: sales_request {
-    type: number
-    sql: ${TABLE}.sales_request ;;
-    hidden: yes
-  }
-
-  dimension_group: satisfaction {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.satisfaction_date ;;
-  }
-
-  dimension: serial_number {
-    type: string
-    sql: ${TABLE}.serial_number ;;
-  }
-
-  dimension: severity {
-    type: number
-    sql: ${TABLE}.severity ;;
-    hidden: yes
-  }
-
-  dimension: target {
-    type: string
-    sql: ${TABLE}.target ;;
-  }
-
-  dimension: test_sessions {
-    type: string
-    sql: ${TABLE}.test_sessions ;;
-  }
-
-  dimension: testing_status {
-    type: string
-    sql: ${TABLE}.testing_status ;;
-  }
-
-  dimension: upc {
-    label: "UPC"
-    type: string
-    sql: ${TABLE}.upc ;;
-  }
-
-  dimension: user_email_address {
-    type: string
-    sql: ${TABLE}.user_email_address ;;
-  }
-
-  dimension: customer {
-    type: number
-    sql: ${TABLE}.customer ;;
-    hidden: yes
-  }
-
-  dimension: initiative {
-    type: number
-    sql: ${TABLE}.initiative ;;
-    hidden: yes
-  }
-
-  dimension: value {
-    type: number
-    sql: ${TABLE}.value ;;
-  }
-
-  dimension: manual_work {
-    type: number
-    sql: ${TABLE}.manual_work ;;
-    hidden: yes
-  }
-
-  dimension: products {
-    type: number
-    sql: ${TABLE}.products ;;
-  }
-
-  dimension: story_point_estimate {
-    type: number
-    sql: ${TABLE}.story_point_estimate ;;
-  }
-
-  dimension: product_type {
-    type: number
-    sql: ${TABLE}.product_type ;;
-    hidden: yes
-  }
-
-  dimension: solution {
-    type: number
-    sql: ${TABLE}.solution ;;
-    hidden: yes
-  }
-
-  dimension: potential_hic {
-    type: number
-    sql: ${TABLE}.potential_hic ;;
-    hidden: yes
-  }
-
-  dimension: ongoing_hic_or_commitment {
-    type: number
-    sql: ${TABLE}.ongoing_hic_or_commitment ;;
-    hidden: yes
-  }
-  #}
-
-
 # ----- Added Dimension ------
   dimension: is_issue_resolved {
     group_label: "Resolution"
@@ -773,4 +515,260 @@ view: issue {
     sql: ${key} ;;
     drill_fields: [detail*]
   }
+
+  # Null/Deprecated {
+#   dimension: change_risk {
+#     type: number
+#     sql: ${TABLE}.change_risk ;;
+#   }
+#
+#   dimension_group: change_start {
+#     group_label: "Change"
+#     type: time
+#     timeframes: [
+#       raw,
+#       time,
+#       date,
+#       week,
+#       month,
+#       quarter,
+#       year
+#     ]
+#     sql: ${TABLE}.change_start_date ;;
+#   }
+#
+#   dimension: change_type {
+#     group_label: "Change"
+#     type: number
+#     sql: ${TABLE}.change_type ;;
+#   }
+#
+#   dimension: characteristic {
+#     type: string
+#     sql: ${TABLE}.characteristic ;;
+#   }
+#
+#   dimension: current_value {
+#     type: string
+#     sql: ${TABLE}.current_value ;;
+#   }
+#
+#   dimension: epic_theme {
+#     type: string
+#     sql: ${TABLE}.epic_theme ;;
+#   }
+#
+#   dimension: flagged {
+#     type: number
+#     sql: ${TABLE}.flagged ;;
+#   }
+#
+#   dimension: freshdesk_tickets {
+#     type: string
+#     sql: ${TABLE}.freshdesk_tickets ;;
+#   }
+#
+#   dimension: impact {
+#     type: number
+#     sql: ${TABLE}.impact ;;
+#   }
+#
+#   dimension: jira_capture_browser {
+#     type: string
+#     sql: ${TABLE}.jira_capture_browser ;;
+#   }
+#
+#   dimension: jira_capture_document_mode {
+#     type: string
+#     sql: ${TABLE}.jira_capture_document_mode ;;
+#   }
+#
+#   dimension: jira_capture_j_query_version {
+#     type: string
+#     sql: ${TABLE}.jira_capture_j_query_version ;;
+#   }
+#
+#   dimension: jira_capture_operating_system {
+#     type: string
+#     sql: ${TABLE}.jira_capture_operating_system ;;
+#   }
+#
+#   dimension: jira_capture_screen_resolution {
+#     type: string
+#     sql: ${TABLE}.jira_capture_screen_resolution ;;
+#   }
+#
+#   dimension: jira_capture_url {
+#     type: string
+#     sql: ${TABLE}.jira_capture_url ;;
+#   }
+#
+#   dimension: jira_capture_user_agent {
+#     type: string
+#     sql: ${TABLE}.jira_capture_user_agent ;;
+#   }
+#
+#   dimension_group: last_viewed {
+#     type: time
+#     timeframes: [
+#       raw,
+#       time,
+#       date,
+#       week,
+#       month,
+#       quarter,
+#       year
+#     ]
+#     sql: ${TABLE}.last_viewed ;;
+#   }
+#
+#   dimension: manufacturer {
+#     type: number
+#     sql: ${TABLE}.manufacturer ;;
+#   }
+#
+#   dimension: model_type {
+#     type: string
+#     sql: ${TABLE}.model_type ;;
+#   }
+#
+#   dimension: parent_link {
+#     type: number
+#     sql: ${TABLE}.parent_link ;;
+#   }
+#
+#   dimension: product_description {
+#     type: string
+#     sql: ${TABLE}.product_description ;;
+#   }
+#
+#   dimension: product_id {
+#     type: string
+#     sql: ${TABLE}.product_id ;;
+#   }
+#
+#   dimension: raised_during {
+#     type: string
+#     sql: ${TABLE}.raised_during ;;
+#   }
+#
+#   dimension: response_type {
+#     type: number
+#     sql: ${TABLE}.response_type ;;
+#   }
+#
+#   dimension: sales_request {
+#     type: number
+#     sql: ${TABLE}.sales_request ;;
+#     hidden: yes
+#   }
+#
+#   dimension_group: satisfaction {
+#     type: time
+#     timeframes: [
+#       raw,
+#       time,
+#       date,
+#       week,
+#       month,
+#       quarter,
+#       year
+#     ]
+#     sql: ${TABLE}.satisfaction_date ;;
+#   }
+#
+#   dimension: serial_number {
+#     type: string
+#     sql: ${TABLE}.serial_number ;;
+#   }
+#
+#   dimension: severity {
+#     type: number
+#     sql: ${TABLE}.severity ;;
+#     hidden: yes
+#   }
+#
+#   dimension: target {
+#     type: string
+#     sql: ${TABLE}.target ;;
+#   }
+#
+#   dimension: test_sessions {
+#     type: string
+#     sql: ${TABLE}.test_sessions ;;
+#   }
+#
+#   dimension: testing_status {
+#     type: string
+#     sql: ${TABLE}.testing_status ;;
+#   }
+#
+#   dimension: upc {
+#     label: "UPC"
+#     type: string
+#     sql: ${TABLE}.upc ;;
+#   }
+#
+#   dimension: user_email_address {
+#     type: string
+#     sql: ${TABLE}.user_email_address ;;
+#   }
+#
+#   dimension: customer {
+#     type: number
+#     sql: ${TABLE}.customer ;;
+#     hidden: yes
+#   }
+#
+#   dimension: initiative {
+#     type: number
+#     sql: ${TABLE}.initiative ;;
+#     hidden: yes
+#   }
+#
+#   dimension: value {
+#     type: number
+#     sql: ${TABLE}.value ;;
+#   }
+#
+#   dimension: manual_work {
+#     type: number
+#     sql: ${TABLE}.manual_work ;;
+#     hidden: yes
+#   }
+#
+#   dimension: products {
+#     type: number
+#     sql: ${TABLE}.products ;;
+#   }
+#
+#   dimension: story_point_estimate {
+#     type: number
+#     sql: ${TABLE}.story_point_estimate ;;
+#   }
+#
+#   dimension: product_type {
+#     type: number
+#     sql: ${TABLE}.product_type ;;
+#     hidden: yes
+#   }
+#
+#   dimension: solution {
+#     type: number
+#     sql: ${TABLE}.solution ;;
+#     hidden: yes
+#   }
+#
+#   dimension: potential_hic {
+#     type: number
+#     sql: ${TABLE}.potential_hic ;;
+#     hidden: yes
+#   }
+#
+#   dimension: ongoing_hic_or_commitment {
+#     type: number
+#     sql: ${TABLE}.ongoing_hic_or_commitment ;;
+#     hidden: yes
+#   }
+  #}
 }
