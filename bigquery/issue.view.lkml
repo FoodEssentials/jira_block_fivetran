@@ -636,6 +636,12 @@ view: issue {
     hidden: yes
   }
 
+  dimension: commitment_category {
+    type: number
+    sql: ${TABLE}.commitment_category ;;
+    hidden: yes
+  }
+
 # ----- Added Dimension ------
   dimension: is_issue_resolved {
     group_label: "Resolution"

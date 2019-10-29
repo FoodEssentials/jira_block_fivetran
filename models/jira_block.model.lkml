@@ -361,6 +361,29 @@ explore: issue {
     type: left_outer
     relationship: many_to_one
     sql_on: ${issue_process_change.field_option_id} = ${process_change.id} ;;
+    }
+
+  join: commitment_category {
+    view_label: "Issue"
+    from: field_option
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue.commitment_category} = ${commitment_category.id} ;;
+  }
+
+  join: issue_process_effectiveness {
+    view_label: "Issue"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue.id} = ${issue_process_effectiveness.issue_id};;
+  }
+
+  join:  process_effectiveness {
+    view_label: "Issue"
+    from: field_option
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue_process_effectiveness.field_option_id} = ${process_effectiveness.id};;
   }
 }
 
