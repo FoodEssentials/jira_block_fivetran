@@ -333,6 +333,20 @@ explore: issue {
     relationship: one_to_many
   }
 
+  join: issue_error_type {
+    view_label: "Issue"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue.id} = ${issue_error_type.issue_id} ;;
+  }
+
+  join: error_type {
+    view_label: "Issue"
+    from: field_option
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue_error_type.field_option_id} = ${error_type.id} ;;
+  }
 }
 
 explore: sprint {
