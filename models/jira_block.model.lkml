@@ -347,6 +347,14 @@ explore: issue {
     relationship: many_to_one
     sql_on: ${issue_error_type.field_option_id} = ${error_type.id} ;;
   }
+
+  join: commitment_category {
+    view_label: "Issue"
+    from: field_option
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue.commitment_category} = ${commitment_category.id} ;;
+  }
 }
 
 explore: sprint {
