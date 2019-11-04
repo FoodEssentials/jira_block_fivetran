@@ -598,7 +598,8 @@ view: issue {
 
   dimension: solutions_consultant {
     type: string
-    sql: ${TABLE}.solutions_consultant ;;
+    sql: ${TABLE}.solutions_consultant;;
+    hidden: yes
   }
 
   dimension: issue_color {
