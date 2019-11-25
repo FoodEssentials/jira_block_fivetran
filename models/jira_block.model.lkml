@@ -385,6 +385,13 @@ explore: issue {
     relationship: many_to_one
     sql_on: ${issue_process_effectiveness.field_option_id} = ${process_effectiveness.id};;
   }
+
+  join: solutions_consultant {
+    view_label: "Issue"
+    relationship: many_to_one
+    type: left_outer
+    sql_on: ${issue.solutions_consultant} = ${solutions_consultant.id};;
+  }
 }
 
 explore: sprint {
