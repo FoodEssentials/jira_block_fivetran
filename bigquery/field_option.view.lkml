@@ -50,6 +50,8 @@ view: field_option {
     {% elsif _view._name == 'process_change' %} Process Change
     {% elsif _view._name == 'commitment_category' %} Commitment Category
     {% elsif _view._name == 'process_effectiveness' %} Process Effectiveness
+    {% elsif _view._name == 'root_cause_level_1' %} Root Cause Level 1
+    {% elsif _view._name == 'root_cause_level_2' %} Root Cause Level 2
     {% else %} The label in field_option view file needs an update
     {% endif %}"
     sql: ${TABLE}.name ;;
