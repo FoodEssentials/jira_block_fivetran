@@ -284,6 +284,12 @@ view: issue {
     sql: ${TABLE}.model_type ;;
   }
 
+  dimension: number_of_impacted_products {
+    description: "Defines the number of products that were impacted during an issue. Normally used for bugs."
+    type: number
+    sql: ${TABLE}.number_of_impacted_products ;;
+  }
+
   dimension: original_estimate {
     type: number
     sql: ${TABLE}.original_estimate ;;
@@ -319,6 +325,12 @@ view: issue {
     type: number
     sql: ${TABLE}.project ;;
     hidden: yes
+  }
+
+  dimension: prospect {
+    description: "An opportunity that will potentially turn into a customer, client, etc"
+    type: string
+    sql: ${TABLE}.prospect ;;
   }
 
   dimension: raised_during {
@@ -548,11 +560,6 @@ view: issue {
     type: number
     sql: ${TABLE}.purpose ;;
     hidden: yes
-  }
-
-  dimension: prospect {
-    type: string
-    sql: ${TABLE}.prospect ;;
   }
 
   dimension: sales_lead {

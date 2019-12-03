@@ -407,8 +407,37 @@ explore: sprint {
     relationship: one_to_many
   }
 
-}
+  join: issue_root_cause_level_1 {
+    view_label: "Issue"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue.id} = ${issue_root_cause_level_1.issue_id};;
+  }
 
+  join:  root_cause_level_1 {
+    view_label: "Issue"
+    from: field_option
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue_root_cause_level_1.field_option_id} = ${root_cause_level_1.id};;
+  }
+
+  join: issue_root_cause_level_2 {
+    view_label: "Issue"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue.id} = ${issue_root_cause_level_2.issue_id};;
+  }
+
+  join:  root_cause_level_2 {
+    view_label: "Issue"
+    from: field_option
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue_root_cause_level_2.field_option_id} = ${root_cause_level_2.id};;
+  }
+
+}
 # Update based on how you are associating versions to
 explore: version {
   join: issue_fix_version_s {
