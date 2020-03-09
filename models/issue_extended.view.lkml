@@ -52,6 +52,7 @@ view: issue_extended {
               _bugcost.name as bug_cost_name,
               _bugpain.name as bug_pain_name,
               _bugspread.name as bug_spread_name,
+              _okr.name as top_company_okr_name,
               _client.name as client_name,
               _creator.name as creator_name,
               _cs_priority.name as cs_priority_name,
@@ -244,6 +245,9 @@ view: issue_extended {
         LEFT JOIN jira.field_option _product_name
             ON _product.field_option_id = _product_name.id
 
+        LEFT JOIN jira.field_option _okr
+          ON issue.top_company_okr = _okr.id
+
         WHERE issue.key NOT IN (SELECT JSON_EXTRACT_SCALAR(issue, '$.key') FROM webhooks.jira_deleted_issue WHERE issue IS NOT NULL)
 
          -- Each non-aggregated field (not included in a LISTAGG) needs to
@@ -255,7 +259,27 @@ view: issue_extended {
         49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,
         74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,
         102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,
-        124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140;;
+        124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,
+157,
+158,
+159,
+160,
+161,
+162,
+163,
+164,
+165,
+166,
+167,
+168,
+169,
+170,
+171,
+172,
+173,
+174,
+175,
+176;;
 
     datagroup_trigger: fivetran_datagroup
     # indexes: ["id"]
@@ -789,6 +813,11 @@ view: issue_extended {
     type: number
     sql: ${TABLE}.time_spent ;;
     hidden: yes
+  }
+
+  dimension: top_company_okr {
+    type: string
+    sql: ${TABLE}.top_company_okr_name;;
   }
 
   dimension: upc {
