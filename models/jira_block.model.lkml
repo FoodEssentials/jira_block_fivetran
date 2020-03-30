@@ -17,11 +17,23 @@ persist_with: fivetran_datagroup
 explore: issue {
   sql_always_where: NOT ${_fivetran_deleted} ;;
 
+  join: project {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue.project} = ${project.id} ;;
+  }
+
   join: assignee {
     from: user
     type: left_outer
     relationship: many_to_one
     sql_on: ${issue.assignee} = ${assignee.id} ;;
+  }
+
+  join: point_normalization {
+    relationship: many_to_one
+    sql_on: TIMESTAMP_TRUNC(${issue.resolved_raw}, MONTH) = ${point_normalization.month}
+      AND ${project.key} = ${point_normalization.project_key} ;;
   }
 
   join: bug_cost {
@@ -95,12 +107,6 @@ explore: issue {
     type: left_outer
     relationship: many_to_one
     sql_on: ${issue.priority} = ${priority.id} ;;
-  }
-
-  join: project {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${issue.project} = ${project.id} ;;
   }
 
   join: reporter {
@@ -395,6 +401,8 @@ explore: issue {
 }
 
 explore: sprint {
+  fields: [ALL_FIELDS*, -issue.points_normalized, -issue.total_normalized_points]
+
   join: issue_sprint {
     type:  left_outer
     sql_on: ${sprint.id} = ${issue_sprint.sprint_id} ;;
@@ -440,6 +448,8 @@ explore: sprint {
 }
 # Update based on how you are associating versions to
 explore: version {
+  fields: [ALL_FIELDS*, -issue.points_normalized, -issue.total_normalized_points]
+
   join: issue_fix_version_s {
     type: left_outer
     relationship: one_to_many
@@ -471,6 +481,8 @@ explore: version {
 }
 
 explore: issue_history_2 {
+  fields: [ALL_FIELDS*, -issue.points_normalized, -issue.total_normalized_points]
+
   label: "Issue History"
 #  fields: [ALL_FIELDS*, -issue.total_open_story_points,-issue.total_closed_story_points]
   view_name: issue
@@ -500,6 +512,8 @@ explore: issue_history_2 {
 ### CURRENT OVERVIEW OF STATUS OF PROJECTS, ISSUES, AND ISSUE FACTS (E.G. # OF COMMENTS)
 
 explore: project {
+  fields: [ALL_FIELDS*, -issue.points_normalized, -issue.total_normalized_points]
+
   join: issue {
     type:  left_outer
     sql_on: ${project.id} = ${issue.project}
@@ -559,6 +573,8 @@ explore: project {
 ### HISTORICAL OVERVIEWS
 
 explore: sprint_by_date {
+
+  fields: [ALL_FIELDS*, -issue.points_normalized, -issue.total_normalized_points]
   label: "Sprint History"
 
   join: issue {
@@ -614,6 +630,8 @@ explore: sprint_by_date {
 
 
 explore: sprint_burndown {
+
+  fields: [ALL_FIELDS*, -issue.points_normalized, -issue.total_normalized_points]
   view_name: issue
   sql_always_where: NOT ${issue._fivetran_deleted} ;;
 
