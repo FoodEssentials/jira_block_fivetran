@@ -93,6 +93,101 @@ view: issue {
     }
   }
 
+  dimension_group: last_viewed {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.last_viewed ;;
+  }
+
+  dimension: manufacturer {
+    type: number
+    sql: ${TABLE}.manufacturer ;;
+  }
+
+  dimension: model_type {
+    type: string
+    sql: ${TABLE}.model_type ;;
+  }
+
+  dimension: number_of_impacted_products {
+    description: "Defines the number of products that were impacted during an issue. Normally used for bugs."
+    type: number
+    sql: ${TABLE}.number_of_impacted_products ;;
+  }
+
+  dimension: original_estimate {
+    type: number
+    sql: ${TABLE}.original_estimate ;;
+  }
+
+  dimension: parent_id {
+    type: number
+    sql: ${TABLE}.parent_id ;;
+  }
+
+  dimension: parent_link {
+    type: number
+    sql: ${TABLE}.parent_link ;;
+  }
+
+  dimension: priority {
+    type: number
+    sql: ${TABLE}.priority ;;
+    hidden: yes
+  }
+
+  dimension: product_description {
+    type: string
+    sql: ${TABLE}.product_description ;;
+  }
+
+  dimension: product_id {
+    type: string
+    sql: ${TABLE}.product_id ;;
+  }
+
+  dimension: project {
+    type: number
+    sql: ${TABLE}.project ;;
+    hidden: yes
+  }
+
+  dimension: prospect {
+    description: "An opportunity that will potentially turn into a customer, client, etc"
+    type: string
+    sql: ${TABLE}.prospect ;;
+  }
+
+  dimension: raised_during {
+    type: string
+    sql: ${TABLE}.raised_during ;;
+  }
+
+  dimension: remaining_estimate {
+    type: number
+    sql: ${TABLE}.remaining_estimate ;;
+  }
+
+  dimension: reporter {
+    type: string
+    sql: ${TABLE}.reporter ;;
+    hidden: yes
+  }
+
+  dimension: resolution {
+    type: number
+    sql: ${TABLE}.resolution ;;
+    hidden: yes
+  }
+
   dimension_group: resolved {
     type: time
     timeframes: [
@@ -159,9 +254,50 @@ view: issue {
     sql: ${TABLE}.start_date ;;
   }
 
-  dimension: prospect {
+  dimension: customer {
+    type: number
+    sql: ${TABLE}.customer ;;
+    hidden: yes
+  }
+
+  dimension: initiative {
+    type: number
+    sql: ${TABLE}.initiative ;;
+    hidden: yes
+  }
+
+  dimension: value {
+    type: number
+    sql: ${TABLE}.value ;;
+  }
+
+  dimension: manual_work {
+    type: number
+    sql: ${TABLE}.manual_work ;;
+    hidden: yes
+  }
+
+  dimension: products {
+    type: number
+    sql: ${TABLE}.products ;;
+  }
+
+  dimension: strategic_initiative {
+    type: number
+    sql: ${TABLE}.strategic_initiative ;;
+    hidden: yes
+  }
+
+  dimension: purpose {
+    type: number
+    sql: ${TABLE}.purpose ;;
+    hidden: yes
+  }
+
+  dimension: sales_lead {
     type: string
-    sql: ${TABLE}.prospect ;;
+    sql: ${TABLE}.sales_lead ;;
+    hidden: yes
   }
 
   dimension: salesforce_opportunity_link {
@@ -194,12 +330,18 @@ view: issue {
     sql: ${TABLE}.zendesk_ticket_ids ;;
   }
 
+  dimension: solutions_consultant {
+    type: string
+    sql: ${TABLE}.solutions_consultant;;
+    hidden: yes
+  }
+
   dimension: issue_color {
     type: string
     sql: ${TABLE}.issue_color ;;
   }
 
-  # Time Tracking
+  #Time Tracking
   dimension: _original_estimate {
     type: number
     sql: ${TABLE}._original_estimate ;;
@@ -214,16 +356,6 @@ view: issue {
     description: "Manually logged estimate of how many seconds were spent on the issue. Normally used for bugs and tasks."
     type: number
     sql: ${TABLE}._time_spent ;;
-  }
-
-  dimension: original_estimate {
-    type: number
-    sql: ${TABLE}.original_estimate ;;
-  }
-
-  dimension: remaining_estimate {
-    type: number
-    sql: ${TABLE}.remaining_estimate ;;
   }
 
   dimension: time_spent {
@@ -292,102 +424,17 @@ view: issue {
     hidden: yes
   }
 
-  dimension: strategic_initiative { # mostly null, consider deprecating
-    type: number
-    sql: ${TABLE}.strategic_initiative ;;
-    hidden: yes
-  }
-
-  dimension: purpose {
-    type: number
-    sql: ${TABLE}.purpose ;;
-    hidden: yes
-  }
-
   dimension: hic_or_commitment_type {
     type: number
     sql: ${TABLE}.hic_or_commitment_type ;;
     hidden: yes
   }
 
-  # -> user
-  dimension: assignee {
-    type: string
-    sql: ${TABLE}.assignee ;;
-    hidden: yes
-  }
-
-  dimension: creator {
-    type: string
-    sql: ${TABLE}.creator ;;
-    hidden: yes
-  }
-
-  dimension: reporter {
-    type: string
-    sql: ${TABLE}.reporter ;;
-    hidden: yes
-  }
-
-  dimension: sales_lead {
-    type: string
-    sql: ${TABLE}.sales_lead ;;
-    hidden: yes
-  }
-
-  dimension: solutions_consultant {
-    type: string
-    sql: ${TABLE}.solutions_consultant ;;
-  }
-
-  # -> issue
-  dimension: epic_link {
+  dimension: commitment_category {
     type: number
-    sql: ${TABLE}.epic_link ;;
+    sql: ${TABLE}.commitment_category ;;
     hidden: yes
   }
-
-  dimension: parent_id {
-    type: number
-    sql: ${TABLE}.parent_id ;;
-  }
-
-  # -> issue_type
-  dimension: issue_type {
-    type: number
-    sql: ${TABLE}.issue_type ;;
-    hidden: yes
-  }
-
-  # -> priority
-  dimension: priority {
-    type: number
-    sql: ${TABLE}.priority ;;
-    hidden: yes
-  }
-
-  # -> project
-  dimension: project {
-    type: number
-    sql: ${TABLE}.project ;;
-    hidden: yes
-  }
-
-  # -> resolution
-  dimension: resolution {
-    type: number
-    sql: ${TABLE}.resolution ;;
-    hidden: yes
-  }
-
-  # -> status
-  dimension: status {
-    type: number
-    sql: ${TABLE}.status ;;
-    hidden: yes
-  }
-
-  # }
 
 # ----- Added Dimension ------
   dimension: points_normalized {

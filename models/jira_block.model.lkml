@@ -310,6 +310,65 @@ explore: issue {
     relationship: one_to_many
   }
 
+  join: issue_error_type {
+    view_label: "Issue"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue.id} = ${issue_error_type.issue_id} ;;
+  }
+
+  join: error_type {
+    view_label: "Issue"
+    from: field_option
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue_error_type.field_option_id} = ${error_type.id} ;;
+  }
+
+  join: issue_process_change {
+    view_label: "Issue"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue.id} = ${issue_process_change.issue_id} ;;
+  }
+
+  join: process_change {
+    view_label: "Issue"
+    from: field_option
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue_process_change.field_option_id} = ${process_change.id} ;;
+    }
+
+  join: commitment_category {
+    view_label: "Issue"
+    from: field_option
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue.commitment_category} = ${commitment_category.id} ;;
+  }
+
+  join: issue_process_effectiveness {
+    view_label: "Issue"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue.id} = ${issue_process_effectiveness.issue_id};;
+  }
+
+  join:  process_effectiveness {
+    view_label: "Issue"
+    from: field_option
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue_process_effectiveness.field_option_id} = ${process_effectiveness.id};;
+  }
+
+  join: solutions_consultant {
+    view_label: "Issue"
+    relationship: many_to_one
+    type: left_outer
+    sql_on: ${issue.solutions_consultant} = ${solutions_consultant.id};;
+  }
 }
 
 explore: sprint {
@@ -326,8 +385,37 @@ explore: sprint {
     relationship: one_to_many
   }
 
-}
+  join: issue_root_cause_level_1 {
+    view_label: "Issue"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue.id} = ${issue_root_cause_level_1.issue_id};;
+  }
 
+  join:  root_cause_level_1 {
+    view_label: "Issue"
+    from: field_option
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue_root_cause_level_1.field_option_id} = ${root_cause_level_1.id};;
+  }
+
+  join: issue_root_cause_level_2 {
+    view_label: "Issue"
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue.id} = ${issue_root_cause_level_2.issue_id};;
+  }
+
+  join:  root_cause_level_2 {
+    view_label: "Issue"
+    from: field_option
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${issue_root_cause_level_2.field_option_id} = ${root_cause_level_2.id};;
+  }
+
+}
 # Update based on how you are associating versions to
 explore: version {
   fields: [ALL_FIELDS*, -issue.points_normalized]

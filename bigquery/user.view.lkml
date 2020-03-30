@@ -68,3 +68,28 @@
     ]
   }
   }
+
+
+view: solutions_consultant {
+  extends:[user]
+
+  dimension: name {
+    label: "Solutions Consultant"
+  }
+
+  dimension: email {
+    hidden: yes
+  }
+
+  dimension: locale {
+      hidden: yes
+  }
+
+  dimension: time_zone {
+    hidden: yes
+  }
+
+  dimension: username {
+    hidden: yes
+  }
+  }
