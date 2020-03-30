@@ -390,6 +390,11 @@ view: issue {
   # }
 
 # ----- Added Dimension ------
+  dimension: points_normalized {
+    description: "Story points adjusted for differences in pointing across teams."
+    sql: ${story_points} * ${point_normalization.normalization_factor} ;;
+  }
+
   dimension: is_issue_resolved {
     group_label: "Resolution"
     type: yesno
@@ -499,6 +504,11 @@ view: issue {
   measure: total_story_points {
     type: sum
     sql: ${story_points} ;;
+  }
+
+  measure: total_normalized_points {
+    type: sum
+    sql: ${points_normalized} ;;
   }
 
   measure: total_story_points_closed_within_sprint {
