@@ -651,6 +651,11 @@ view: issue {
   }
 
 # ----- Added Dimension ------
+  dimension: points_normalized {
+    description: "Story points adjusted for differences in pointing across teams."
+    sql: ${story_points} * ${point_normalization.normalization_factor} ;;
+  }
+
   dimension: is_issue_resolved {
     group_label: "Resolution"
     type: yesno
@@ -703,6 +708,11 @@ view: issue {
   }
 
   # ----- Measures ------
+  measure: total_normalized_points {
+    type: sum
+    sql: ${points_normalized} ;;
+  }
+
   measure: total_time_to_resolve_issues_hours {
     group_label: "Resolution"
     label: "Total Hours to Resolve Issues"
