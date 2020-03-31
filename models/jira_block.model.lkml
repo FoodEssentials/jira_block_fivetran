@@ -448,7 +448,7 @@ explore: sprint {
 }
 # Update based on how you are associating versions to
 explore: version {
-  fields: [ALL_FIELDS*, -issue.points_normalized, -issue.total_normalized_points]
+  fields: [ALL_FIELDS*, -issue.points_normalized, -issue.total_normalized_points, -issue_extended.points_normalized, -issue_extended.total_normalized_points]
 
   join: issue_fix_version_s {
     type: left_outer

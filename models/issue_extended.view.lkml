@@ -15,6 +15,7 @@
 # so make them as easy to work woth as possible.
 
 include: "/bigquery/comment.view"
+include: "/models/point_normalization.view"
 
 explore: issue_extended {
   join: comment {
@@ -22,6 +23,12 @@ explore: issue_extended {
     type: left_outer
     sql_on: ${issue_extended.id} = ${comment.issue_id} ;;
     relationship: many_to_many
+  }
+
+  join: point_normalization {
+    relationship: many_to_one
+    sql_on: TIMESTAMP_TRUNC(${issue_extended.resolved_raw}, MONTH) = ${point_normalization.month}
+      AND ${issue_extended.project_key} = ${point_normalization.project_key} ;;
   }
 
   join: most_recent_comment {
@@ -61,6 +68,7 @@ view: issue_extended {
               _issue_type.name as issue_type_name,
               _priority.name as priority_name,
               project.name as project_name,
+              project.key as project_key,
               _reporter.name as reporter_name,
               resolution.name as resolution_name,
               _sales_request.name as sales_request_name,
@@ -279,7 +287,8 @@ view: issue_extended {
 173,
 174,
 175,
-176;;
+176,
+177 ;;
 
     datagroup_trigger: fivetran_datagroup
     # indexes: ["id"]
@@ -660,6 +669,12 @@ view: issue_extended {
     hidden: yes
   }
 
+  dimension: project_key{
+    type: number
+    sql: ${TABLE}.project_key ;;
+    hidden: yes
+  }
+
   #Extended dimension
   dimension: project_name {
     label: "Current Project"
@@ -787,6 +802,11 @@ view: issue_extended {
   dimension: story_points {
     type: number
     sql: ${TABLE}.story_points ;;
+  }
+
+  dimension: points_normalized {
+    description: "Story points adjusted for differences in pointing across teams."
+    sql: ${story_points} * ${point_normalization.normalization_factor} ;;
   }
 
   dimension: summary {
@@ -1258,6 +1278,11 @@ view: issue_extended {
         label: ">60 days"
       }
     }
+  }
+
+  measure: total_normalized_points {
+    type: sum
+    sql: ${points_normalized} ;;
   }
 
   # ----- Sets of fields for drilling ------
