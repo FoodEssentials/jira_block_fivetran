@@ -211,16 +211,16 @@ explore: issue {
     sql_on: ${issue_component_s.component_id} = ${component.id};;
   }
 
-  join: issue_fix_version_s {
+  join: issue_fix_versions {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${issue.id} = ${issue_fix_version_s.issue_id} ;;
+    sql_on: ${issue.id} = ${issue_fix_versions.issue_id} ;;
   }
 
   join: version {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${issue_fix_version_s.version_id} = ${version.id} ;;
+    sql_on: ${issue_fix_versions.version_id} = ${version.id} ;;
   }
 
   join: issue_link {
@@ -450,21 +450,21 @@ explore: sprint {
 explore: version {
   fields: [ALL_FIELDS*, -issue.points_normalized, -issue.total_normalized_points, -issue_extended.points_normalized, -issue_extended.total_normalized_points]
 
-  join: issue_fix_version_s {
+  join: issue_fix_versions {
     type: left_outer
     relationship: one_to_many
-    sql_on: ${version.id} = ${issue_fix_version_s.version_id} ;;
+    sql_on: ${version.id} = ${issue_fix_versions.version_id} ;;
   }
   join: issue {
     type: left_outer
     relationship: one_to_one
-    sql_on: ${issue_fix_version_s.issue_id} = ${issue.id}
+    sql_on: ${issue_fix_versions.issue_id} = ${issue.id}
       AND NOT ${issue._fivetran_deleted} ;;
   }
   join: issue_extended {
     type: left_outer
     relationship: one_to_one
-    sql_on: ${issue_fix_version_s.issue_id} = ${issue_extended.id} ;;
+    sql_on: ${issue_fix_versions.issue_id} = ${issue_extended.id} ;;
   }
   join: issue_sprint {
     type: left_outer

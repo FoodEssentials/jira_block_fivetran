@@ -196,11 +196,11 @@ view: issue_extended {
         LEFT JOIN jira.component
             ON issue_component_s.component_id = component.id
 
-        LEFT JOIN jira.issue_fix_version_s
-            ON issue.id = issue_fix_version_s.issue_id
+        LEFT JOIN jira.issue_fix_versions
+            ON issue.id = issue_fix_versions.issue_id
 
         LEFT JOIN jira.version
-            ON issue_fix_version_s.version_id = version.id
+            ON issue_fix_versions.version_id = version.id
 
         LEFT JOIN jira.issue_link
             ON issue.id = issue_link.issue_id

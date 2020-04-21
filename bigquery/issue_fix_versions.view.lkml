@@ -1,5 +1,5 @@
-view: issue_fix_version_s {
-  sql_table_name: jira.issue_fix_version_s ;;
+view: issue_fix_versions {
+  sql_table_name: jira.issue_fix_versions ;;
 
   dimension: _fivetran_id {
     type: string
