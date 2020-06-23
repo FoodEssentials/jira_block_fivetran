@@ -295,7 +295,6 @@ view: issue_extended {
   }
 
   dimension: id {
-    primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
   }
@@ -1198,43 +1197,53 @@ view: issue_extended {
     group_label: "Resolution"
     label: "Total Hours to Resolve Issues per Grouping"
     description: "The total hours required to resolve all issues in the chosen dimension grouping"
-    type: sum
+    type: sum_distinct
+    sql_distinct_key: ${key} ;;
     sql: ${hours_to_resolve_issue};;
     value_format_name: decimal_0
+    drill_fields: [points_detail*, hours_to_resolve_issue, created_time, resolved_time]
   }
 
   measure: avg_time_to_resolve_issues_hours {
     group_label: "Resolution"
     label: "Avg Hours to Resolve Issues per Grouping"
     description: "The average hours required to resolve all issues in the chosen dimension grouping"
-    type: average
+    type: average_distinct
+    sql_distinct_key: ${key} ;;
     sql: ${hours_to_resolve_issue} ;;
     value_format_name: decimal_0
+    drill_fields: [points_detail*, hours_to_resolve_issue, created_time, resolved_time]
   }
 
   measure: total_story_points {
-    type: sum
+    type: sum_distinct
+    sql_distinct_key: ${key} ;;
     sql: ${story_points} ;;
+    drill_fields: [points_detail*]
   }
 
   measure: total_open_story_points {
     description: "To Do, Backlog, Parking Lot, In Progress, Code Review, Review. Excluding Duplicate, Rejected."
-    type: sum
+    type: sum_distinct
+    sql_distinct_key: ${key} ;;
     sql: ${story_points} ;;
     filters: {
       field: status_name
       value:"To Do, Backlog, Parking Lot, In Progress, Code Review, Review"
     }
+    drill_fields: [points_detail*]
   }
 
   measure: total_closed_story_points {
     description: "Done, Sign Off. Excluding Duplicate, Rejected."
-    type: sum
+    type: sum_distinct
+    sql_distinct_key: ${key} ;;
     sql: ${story_points} ;;
     filters: {
       field: status_name
       value:"Done, Sign Off"
     }
+    drill_fields: [points_detail*]
   }
 
   measure: count {
@@ -1246,17 +1255,20 @@ view: issue_extended {
   measure: total_time_spent {
     label: "Total time spent in hour"
     description: "Estimated total seconds spent on an issue. Typically only entered for 'Bug' and 'Task' type issues."
-    type: sum
+    type: sum_distinct
+    sql_distinct_key: ${key} ;;
     sql: ${_time_spent}/3600 ;;
     value_format_name: decimal_0
-    drill_fields: [detail*]
+    drill_fields: [detail*, _time_spent]
   }
 
   measure: avg_issue_age {
     label: "Average Issue Age (Days)"
-    type: average
+    type: average_distinct
+    sql_distinct_key: ${key} ;;
     value_format: "0"
     sql: DATE_DIFF(CURRENT_DATE(), ${created_date}, DAY) ;;
+    drill_fields: [points_detail*, created_date]
   }
 
   dimension: issue_age_group {
@@ -1281,14 +1293,22 @@ view: issue_extended {
   }
 
   measure: total_normalized_points {
-    type: sum
+    type: sum_distinct
+    sql_distinct_key: ${key} ;;
     sql: ${points_normalized} ;;
+    drill_fields: [points_detail*, points_normalized]
   }
 
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
       key, summary, status_name, priority_name, bug_priority_name, bug_severity_name, customer_name, updated_date
+    ]
+  }
+
+  set: points_detail {
+    fields: [
+      key, summary, status_name, story_points
     ]
   }
 }
