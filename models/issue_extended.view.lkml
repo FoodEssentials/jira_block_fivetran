@@ -1202,6 +1202,7 @@ view: issue_extended {
     sql_distinct_key: ${key} ;;
     sql: ${hours_to_resolve_issue};;
     value_format_name: decimal_0
+    drill_fields: [points_detail*, hours_to_resolve_issue, created_time, resolved_time]
   }
 
   measure: avg_time_to_resolve_issues_hours {
@@ -1212,6 +1213,7 @@ view: issue_extended {
     sql_distinct_key: ${key} ;;
     sql: ${hours_to_resolve_issue} ;;
     value_format_name: decimal_0
+    drill_fields: [points_detail*, hours_to_resolve_issue, created_time, resolved_time]
   }
 
   measure: total_story_points {
@@ -1258,7 +1260,7 @@ view: issue_extended {
     sql_distinct_key: ${key} ;;
     sql: ${_time_spent}/3600 ;;
     value_format_name: decimal_0
-    drill_fields: [detail*]
+    drill_fields: [detail*, _time_spent]
   }
 
   measure: avg_issue_age {
@@ -1267,6 +1269,7 @@ view: issue_extended {
     sql_distinct_key: ${key} ;;
     value_format: "0"
     sql: DATE_DIFF(CURRENT_DATE(), ${created_date}, DAY) ;;
+    drill_fields: [points_detail*, created_date]
   }
 
   dimension: issue_age_group {
