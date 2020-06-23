@@ -295,7 +295,6 @@ view: issue_extended {
   }
 
   dimension: id {
-    primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
   }
