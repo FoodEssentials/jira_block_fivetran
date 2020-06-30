@@ -288,7 +288,9 @@ view: issue_extended {
 174,
 175,
 176,
-177 ;;
+177,
+178,
+179;;
 
     datagroup_trigger: fivetran_datagroup
     # indexes: ["id"]
