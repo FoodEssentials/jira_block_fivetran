@@ -11,6 +11,7 @@ view: issue {
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
+    hidden: yes
   }
 
   dimension: _fivetran_deleted {
