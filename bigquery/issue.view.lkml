@@ -710,6 +710,7 @@ view: issue {
   measure: total_normalized_points {
     type: sum
     sql: ${points_normalized} ;;
+    drill_fields: [detail*, story_points, points_normalized]
   }
 
   measure: total_time_to_resolve_issues_hours {
@@ -719,6 +720,7 @@ view: issue {
     type: sum
     sql: ${hours_to_resolve_issue} ;;
     value_format_name: decimal_0
+    drill_fields: [detail*, hours_to_resolve_issue]
   }
 
   measure: avg_time_to_resolve_issues_hours {
@@ -728,6 +730,7 @@ view: issue {
     type: average
     sql: ${hours_to_resolve_issue} ;;
     value_format_name: decimal_0
+    drill_fields: [detail*, hours_to_resolve_issue]
   }
 
   measure: total_time_to_resolve_issues_days {
@@ -737,6 +740,7 @@ view: issue {
     type: sum
     sql: ${days_to_resolve_issue} ;;
     value_format_name: decimal_0
+    drill_fields: [detail*, days_to_resolve_issue]
   }
 
   measure: avg_time_to_resolve_issues_days {
@@ -746,12 +750,14 @@ view: issue {
     type: average
     sql: ${days_to_resolve_issue} ;;
     value_format_name: decimal_0
+    drill_fields: [detail*, days_to_resolve_issue]
   }
 
   measure: total_time_spent {
     label: "Time Spent in Seconds"
     type: sum
     sql: ${_time_spent} ;;
+    drill_fields: [detail*, _time_spent]
   }
 
   measure: total_hours_spent {
@@ -759,11 +765,13 @@ view: issue {
     type: sum
     value_format_name: decimal_0
     sql: ${_time_spent} / 3600 ;;
+    drill_fields: [detail*, _time_spent]
   }
 
   measure: total_story_points {
     type: sum
     sql: ${story_points} ;;
+    drill_fields: [detail*, story_points]
   }
 
   measure: total_story_points_closed_within_sprint {
