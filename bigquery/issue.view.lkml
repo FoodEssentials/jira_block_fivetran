@@ -127,13 +127,106 @@ view: issue {
     timeframes: [
       raw,
       time,
+      hour_of_day,
+      date,
+      week,
+      day_of_week_index,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.created ;;
+  }
+
+  dimension_group: jira_created_start_of_business {
+    type: time
+    timeframes: [
+      raw,
+      day_of_week,
+      hour_of_day,
+      time,
+      date,
+      week,
+      day_of_week_index,
+      month,
+      quarter,
+      year
+    ]
+    sql:
+      CASE
+        -- M-Th after 5pm = next day 9am
+        WHEN
+          ${created_day_of_week_index} IN (0,1,2,3) AND ${created_hour_of_day} > 16
+        THEN
+          TIMESTAMP( CONCAT( SAFE_CAST( DATE_ADD( ${created_date}, INTERVAL 1 DAY) AS STRING), " 09:00:00") )
+        -- M-F before 9am = same day 9am
+        WHEN
+          ${created_day_of_week_index} IN (0,1,2,3,4) AND ${created_hour_of_day} < 9
+        THEN
+          TIMESTAMP( CONCAT( SAFE_CAST(${created_date} AS STRING), " 09:00:00") )
+        -- F after 5pm and Sat = next Monday 9am
+        WHEN
+          (${created_day_of_week_index} IN (4) AND ${created_hour_of_day} > 16) OR ${created_day_of_week_index} IN (5,6)
+        THEN
+          TIMESTAMP( CONCAT( SAFE_CAST( DATE_ADD( ${created_date}, INTERVAL 7-${created_day_of_week_index} DAY) AS STRING), " 09:00:00") )
+        ELSE
+          ${created_raw}
+      END
+    ;;
+    hidden: yes
+  }
+
+  dimension_group: jira_sla_due {
+    label: "JIRA - SLA Due"
+    group_label: "JIRA SLAs"
+    type: time
+    timeframes: [
+      raw,
+      time,
       date,
       week,
       month,
       quarter,
       year
     ]
-    sql: ${TABLE}.created ;;
+    sql:
+      CASE
+        WHEN
+          ${bug_severity} = 10800
+        THEN
+          TIMESTAMP_ADD( ${created_raw}, INTERVAL 8 HOUR)
+        WHEN
+          ${bug_severity} = 10801
+        THEN
+          CASE
+            WHEN ${jira_created_start_of_business_day_of_week_index} IN (0,1,2)
+              THEN TIMESTAMP_ADD( ${jira_created_start_of_business_raw}, INTERVAL 2 DAY)
+            ELSE
+              TIMESTAMP_ADD( ${jira_created_start_of_business_raw}, INTERVAL 7-${jira_created_start_of_business_day_of_week_index} DAY)
+          END
+        WHEN
+          ${bug_severity} = 10802
+        THEN
+          TIMESTAMP_ADD( ${jira_created_start_of_business_raw}, INTERVAL 14 DAY)
+        WHEN
+          ${bug_severity} = 10803
+        THEN
+          TIMESTAMP_ADD( ${jira_created_start_of_business_raw}, INTERVAL 28 DAY)
+        ELSE
+          NULL
+      END
+    ;;
+  }
+
+  dimension: jira_over_bug_severity_response_sla {
+    label: "JIRA - Over JIRA Bug Severity SLA?"
+    group_label: "JIRA SLAs"
+    type: yesno
+    sql:
+    (${is_issue_resolved} AND ${resolved_raw} > ${jira_sla_due_raw})
+    OR
+    (${is_issue_resolved} AND CURRENT_TIMESTAMP() > ${jira_sla_due_raw})
+    ;;
   }
 
   dimension: creator {
