@@ -225,8 +225,14 @@ view: issue {
     sql:
     (${is_issue_resolved} AND ${resolved_raw} > ${jira_sla_due_raw})
     OR
-    (${is_issue_resolved} AND CURRENT_TIMESTAMP() > ${jira_sla_due_raw})
+    (NOT ${is_issue_resolved} AND CURRENT_TIMESTAMP() > ${jira_sla_due_raw})
     ;;
+  }
+
+  dimension: is_internal_jira_bug {
+    description: "Internal JIRA Bugs are defined as if there is Bug Severity and no linked Zendesk Ticket IDs"
+    type: yesno
+    sql: ${bug_severity} IN (10800,10801,10802,10803) AND ${zendesk_ticket_ids} IS NULL ;;
   }
 
   dimension: creator {
