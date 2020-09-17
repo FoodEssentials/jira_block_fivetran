@@ -1,5 +1,14 @@
 view: issue {
-  sql_table_name: jira.issue ;;
+  derived_table: {
+    sql:
+      SELECT
+        issue.*,
+        _accountable_team.name as accountable_team_name
+      FROM jira.issue
+      LEFT JOIN jira.field_option _accountable_team
+          ON issue.accountable_team = _accountable_team.id
+      ;;
+  }
 
   set: detail {
     fields: [
@@ -804,6 +813,11 @@ view: issue {
         label: ">60 days"
       }
     }
+  }
+
+  dimension: accountable_team_name {
+    type: string
+    sql: ${TABLE}.accountable_team_name ;;
   }
 
   # ----- Measures ------

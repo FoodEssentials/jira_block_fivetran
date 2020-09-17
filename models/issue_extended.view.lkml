@@ -90,7 +90,6 @@ view: issue_extended {
               _ongoing_hic_name.name as ongoing_hic_or_commitment_name,
               _hic_type.name as hic_or_commitment_type_name,
               _product_name.name AS product_name,
-              _accountable_team.name as accountable_team_name,
 
                -- Include all of the values for multi-value fields associated
                -- with the issue. Each of these fields is stored in its
@@ -267,9 +266,6 @@ view: issue_extended {
 
         LEFT JOIN jira.field_option _okr
           ON issue.top_company_okr = _okr.id
-
-        LEFT JOIN jira.field_option _accountable_team
-          on issue.accountable_team = _accountable_team.id
 
         WHERE issue.key NOT IN (SELECT JSON_EXTRACT_SCALAR(issue, '$.key') FROM webhooks.jira_deleted_issue WHERE issue IS NOT NULL);;
 
@@ -1173,12 +1169,6 @@ view: issue_extended {
     sql: DATE_DIFF(${resolved_date}, ${created_date}, DAY) ;;
     value_format_name: decimal_0
   }
-
-  dimension: accountable_team_name {
-    type: string
-    sql: ${TABLE}.accountable_team_name ;;
-  }
-
 
   # ----- Measures ------
   measure: total_time_to_resolve_issues_hours {
