@@ -90,7 +90,7 @@ view: issue_extended {
               _ongoing_hic_name.name as ongoing_hic_or_commitment_name,
               _hic_type.name as hic_or_commitment_type_name,
               _product_name.name AS product_name,
-              _accountable_team.name as accoutable_team_name,
+              _accountable_team.name as accountable_team_name,
 
                -- Include all of the values for multi-value fields associated
                -- with the issue. Each of these fields is stored in its
@@ -918,9 +918,9 @@ view: issue_extended {
     sql: ${TABLE}.customer_name ;;
   }
 
-  dimension: accoutable_team_name {
+  dimension: accountable_team_name {
     type: string
-    sql: ${TABLE}.accoutable_team_name ;;
+    sql: ${TABLE}.accountable_team_name ;;
   }
 
   dimension: initiative {
