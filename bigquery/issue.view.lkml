@@ -216,11 +216,11 @@ view: issue {
         WHEN
           ${bug_severity} = 10802
         THEN
-          TIMESTAMP_ADD( ${jira_created_start_of_business_raw}, INTERVAL 7 DAY)
+          TIMESTAMP_ADD( ${jira_created_start_of_business_raw}, INTERVAL 14 DAY)
         WHEN
           ${bug_severity} = 10803
         THEN
-          TIMESTAMP_ADD( ${jira_created_start_of_business_raw}, INTERVAL 14 DAY)
+          TIMESTAMP_ADD( ${jira_created_start_of_business_raw}, INTERVAL 28 DAY)
         ELSE
           NULL
       END
